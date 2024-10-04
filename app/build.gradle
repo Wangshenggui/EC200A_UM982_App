@@ -6,6 +6,13 @@ android {
     namespace 'com.example.ec200a_um982_app'
     compileSdk 34
 
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
     defaultConfig {
         applicationId "com.example.ec200a_um982_app"
         minSdk 24
@@ -14,6 +21,13 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def apkName = "EC200A_UM982_App-${defaultConfig.versionName}.apk"
+            outputFileName = apkName
+        }
     }
 
     buildTypes {

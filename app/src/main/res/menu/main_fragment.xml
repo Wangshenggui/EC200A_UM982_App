@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/Bluetooth"
+        android:icon="@drawable/bluetooth"
+        android:title="蓝牙配置"/>
+    <item
+        android:id="@+id/Ntrip"
+        android:icon="@drawable/femtocell"
+        android:title="CORS连接"/>
+    <item
+        android:id="@+id/Um982"
+        android:icon="@drawable/rtknormal"
+        android:title="Web连接"/>
+</menu>

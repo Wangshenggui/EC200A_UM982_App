@@ -1,8 +1,10 @@
 package com.example.ec200a_um982_app;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +21,21 @@ import com.example.ec200a_um982_app.main_fragment.Um982Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
+    public static final Object BluetoothCon_lock = new Object();
+    public static boolean BluetoothConFlag = false;
+    public static boolean getBluetoothConFlag() {
+        synchronized (BluetoothCon_lock) {
+            return BluetoothConFlag;
+        }
+    }
+
+    public static void setBluetoothConFlag(boolean flag) {
+        synchronized (BluetoothCon_lock) {
+            BluetoothConFlag = flag;
+        }
+    }
+
+    private static Toast toast;
 
     private BottomNavigationView mNavigationView;
     private FragmentManager mFragmentManager;
@@ -103,5 +120,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+
+    public static void showToast(Context context, String message) {
+        if (toast != null) {
+            toast.cancel();
+        }
+        toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+        toast.show();
     }
 }

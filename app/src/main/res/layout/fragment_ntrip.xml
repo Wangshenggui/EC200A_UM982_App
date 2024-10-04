@@ -1,14 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".main_fragment.NtripFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:text="\n服务器连接\n"
+        android:textSize="18sp"
+        android:textColor="@color/black"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="差分基站" />
+        android:layout_height="wrap_content"/>
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+        <EditText
+            android:id="@+id/CORSip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="输入IP地址"
+            android:inputType="numberDecimal"
+            android:digits="0123456789."
+            android:layout_weight="0.6"
+            android:ems="10" />
+
+        <CheckBox
+            android:id="@+id/RememberTheServerIP"
+            android:textSize="16dp"
+            android:text="记住"
+            android:layout_weight="1.4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/CORSport"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="输入端口号"
+        android:inputType="number"
+        android:ems="10" />
+
+    <EditText
+        android:id="@+id/CORSAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="输入账号"
+        android:inputType="text"
+        android:ems="10" />
+
+    <EditText
+        android:id="@+id/CORSPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="输入密码"
+        android:inputType="text"
+        android:ems="10" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+        <Spinner
+            android:id="@+id/CORSmount"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_weight="0.6"
+            app:layout_constraintHorizontal_bias="0.018"/>
+
+        <CheckBox
+            android:id="@+id/RememberTheCORSInformation"
+            android:textSize="16dp"
+            android:text="记住"
+            android:layout_weight="1.4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</LinearLayout>

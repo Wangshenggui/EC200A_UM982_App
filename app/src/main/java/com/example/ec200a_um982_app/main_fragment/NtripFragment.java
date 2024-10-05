@@ -22,7 +22,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.ec200a_um982_app.MainActivity;
 import com.example.ec200a_um982_app.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -34,6 +38,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import android.util.Base64;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,6 +63,8 @@ public class NtripFragment extends Fragment {
     EditText CORSPassword;
     CheckBox RememberTheServerIP;
     CheckBox RememberTheCORSInformation;
+
+    Button SettingCORSInformationButton;
 
     String MountPoint=" ";
 
@@ -128,7 +135,35 @@ public class NtripFragment extends Fragment {
         RememberTheServerIP = view.findViewById(R.id.RememberTheServerIP);
         RememberTheCORSInformation = view.findViewById(R.id.RememberTheCORSInformation);
 
+        SettingCORSInformationButton = view.findViewById(R.id.SettingCORSInformationButton);
 
+
+        // 设置发送按钮的点击事件
+        SettingCORSInformationButton.setOnClickListener(v -> {
+            if (MainActivity.getBluetoothConFlag()) {
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("ip", CORSip.getText());
+                    jsonObject.put("port", CORSport.getText());
+                    jsonObject.put("mount", CORSmount.getSelectedItem());
+
+                    String originalString = CORSAccount.getText() + ":" + CORSPassword.getText();
+                    String encodedString = Base64.encodeToString(originalString.getBytes(), Base64.NO_WRAP);
+
+                    jsonObject.put("accpas", encodedString); // 假设将账号和密码组合
+
+                    String jsonString = jsonObject.toString();
+                    // 使用 jsonString
+
+                    BluetoothFragment.characteristic.setValue("AT+" + jsonString + "\r\n"); // 设置要发送的值
+                    BluetoothFragment.bluetoothGatt.writeCharacteristic(BluetoothFragment.characteristic); // 写入特征值
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                MainActivity.showToast(getActivity(), "请连接蓝牙");
+            }
+        });
 
         // 文件名
         String fileName = "RememberTheServerIPFile";

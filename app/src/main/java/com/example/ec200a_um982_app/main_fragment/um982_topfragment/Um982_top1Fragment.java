@@ -33,7 +33,29 @@ public class Um982_top1Fragment extends Fragment {
 
     private SharedViewModel viewModel;
 
-    private TextView test_text_u;
+    private TextView nmea_dtm;
+    private TextView nmea_gbs;
+    private TextView nmea_gga;
+    private TextView nmea_ggah;
+    private TextView nmea_gll;
+    private TextView nmea_gllh;
+    private TextView nmea_gns;
+    private TextView nmea_gnsh;
+    private TextView nmea_grs;
+    private TextView nmea_grsh;
+    private TextView nmea_gsa;
+    private TextView nmea_gsah;
+    private TextView nmea_gst;
+    private TextView nmea_gsth;
+    private TextView nmea_gsv;
+    private TextView nmea_gsvh;
+    private TextView nmea_ths;
+    private TextView nmea_rmc;
+    private TextView nmea_rmch;
+    private TextView nmea_rot;
+    private TextView nmea_vtg;
+    private TextView nmea_vtgh;
+    private TextView nmea_zda;
 
     public Um982_top1Fragment() {
         // Required empty public constructor
@@ -72,7 +94,29 @@ public class Um982_top1Fragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_um982_top1, container, false);
 
-        test_text_u = view.findViewById(R.id.test_text_u);
+        nmea_dtm = view.findViewById(R.id.nmea_dtm);
+        nmea_gbs = view.findViewById(R.id.nmea_gbs);
+        nmea_gga = view.findViewById(R.id.nmea_gga);
+        nmea_ggah = view.findViewById(R.id.nmea_ggah);
+        nmea_gll = view.findViewById(R.id.nmea_gll);
+        nmea_gllh = view.findViewById(R.id.nmea_gllh);
+        nmea_gns = view.findViewById(R.id.nmea_gns);
+        nmea_gnsh = view.findViewById(R.id.nmea_gnsh);
+        nmea_grs = view.findViewById(R.id.nmea_grs);
+        nmea_grsh = view.findViewById(R.id.nmea_grsh);
+        nmea_gsa = view.findViewById(R.id.nmea_gsa);
+        nmea_gsah = view.findViewById(R.id.nmea_gsah);
+        nmea_gst = view.findViewById(R.id.nmea_gst);
+        nmea_gsth = view.findViewById(R.id.nmea_gsth);
+        nmea_gsv = view.findViewById(R.id.nmea_gsv);
+        nmea_gsvh = view.findViewById(R.id.nmea_gsvh);
+        nmea_ths = view.findViewById(R.id.nmea_ths);
+        nmea_rmc = view.findViewById(R.id.nmea_rmc);
+        nmea_rmch = view.findViewById(R.id.nmea_rmch);
+        nmea_rot = view.findViewById(R.id.nmea_rot);
+        nmea_vtg = view.findViewById(R.id.nmea_vtg);
+        nmea_vtgh = view.findViewById(R.id.nmea_vtgh);
+        nmea_zda = view.findViewById(R.id.nmea_zda);
 
         return view;
     }
@@ -85,7 +129,53 @@ public class Um982_top1Fragment extends Fragment {
             @Override
             public void onChanged(String data) {
                 // 处理接收到的数据
-                test_text_u.setText(data);
+                if (data != null && data.startsWith("$GNDTM,")) {
+                    nmea_dtm.setText(data);
+                } else if (data != null && data.startsWith("$GNGBS,")) {
+                    nmea_gbs.setText(data);
+                } else if (data != null && data.startsWith("$GNGGA,")) {
+                    nmea_gga.setText(data);
+                } else if (data != null && data.startsWith("$GNGGAH,")) {
+                    nmea_ggah.setText(data);
+                } else if (data != null && data.startsWith("$GNGLL,")) {
+                    nmea_gll.setText(data);
+                } else if (data != null && data.startsWith("$GNGLLH,")) {
+                    nmea_gllh.setText(data);
+                } else if (data != null && data.startsWith("$GNGNS,")) {
+                    nmea_gns.setText(data);
+                } else if (data != null && data.startsWith("$GNGNSH,")) {
+                    nmea_gnsh.setText(data);
+                } else if (data != null && data.startsWith("$GNGRS,")) {
+                    nmea_grs.setText(data);
+                } else if (data != null && data.startsWith("$GNGRSH,")) {
+                    nmea_grsh.setText(data);
+                } else if (data != null && data.startsWith("$GNGSA,")) {
+                    nmea_gsa.setText(data);
+                } else if (data != null && data.startsWith("$GNGSAH,")) {
+                    nmea_gsah.setText(data);
+                } else if (data != null && data.startsWith("$GNGST,")) {
+                    nmea_gst.setText(data);
+                } else if (data != null && data.startsWith("$GNGSTH,")) {
+                    nmea_gsth.setText(data);
+                } else if (data != null && data.startsWith("$GNGSV,")) {
+                    nmea_gsv.setText(data);
+                } else if (data != null && data.startsWith("$GNGSVH,")) {
+                    nmea_gsvh.setText(data);
+                } else if (data != null && data.startsWith("$GNTHS,")) {
+                    nmea_ths.setText(data);
+                } else if (data != null && data.startsWith("$GNRMC,")) {
+                    nmea_rmc.setText(data);
+                } else if (data != null && data.startsWith("$GNRMCH,")) {
+                    nmea_rmch.setText(data);
+                } else if (data != null && data.startsWith("$GNROT,")) {
+                    nmea_rot.setText(data);
+                } else if (data != null && data.startsWith("$GNVTG,")) {
+                    nmea_vtg.setText(data);
+                } else if (data != null && data.startsWith("$GNVTGH,")) {
+                    nmea_vtgh.setText(data);
+                } else if (data != null && data.startsWith("$GNZDA,")) {
+                    nmea_zda.setText(data);
+                }
             }
         });
     }

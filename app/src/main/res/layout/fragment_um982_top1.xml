@@ -1,15 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".main_fragment.um982_topfragment.Um982_top1Fragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:id="@+id/test_text_u"
+        android:id="@+id/nmea_dtm"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="原始数据" />
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:text="nmea_dtm" />
+    <TextView
+        android:id="@+id/nmea_gbs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:text="nmea_gbs" />
+    <TextView
+        android:id="@+id/nmea_gga"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:text="nmea_gga" />
+    <TextView
+        android:id="@+id/nmea_ggah"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:text="nmea_ggah" />
+    <TextView
+        android:id="@+id/nmea_gll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:text="nmea_gll" />
+    <TextView
+        android:id="@+id/nmea_gllh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:text="nmea_gllh" />
+    <TextView
+        android:id="@+id/nmea_gns"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:text="nmea_gns" />
+    <TextView
+        android:id="@+id/nmea_gnsh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:text="nmea_gnsh" />
+    <TextView
+        android:id="@+id/nmea_grs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:text="nmea_grs" />
+    <TextView
+        android:id="@+id/nmea_grsh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:text="nmea_grsh" />
+    <TextView
+        android:id="@+id/nmea_gsa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:text="nmea_gsa" />
+    <TextView
+        android:id="@+id/nmea_gsah"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:text="nmea_gsah" />
+    <TextView
+        android:id="@+id/nmea_gst"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:text="nmea_gst" />
+    <TextView
+        android:id="@+id/nmea_gsth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:text="nmea_gsth" />
+    <TextView
+        android:id="@+id/nmea_gsv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:text="nmea_gsv" />
+    <TextView
+        android:id="@+id/nmea_gsvh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:text="nmea_gsvh" />
+    <TextView
+        android:id="@+id/nmea_ths"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:text="nmea_ths" />
+    <TextView
+        android:id="@+id/nmea_rmc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:text="nmea_rmc" />
+    <TextView
+        android:id="@+id/nmea_rmch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:text="nmea_rmch" />
+    <TextView
+        android:id="@+id/nmea_rot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:text="nmea_rot" />
+    <TextView
+        android:id="@+id/nmea_vtg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:text="nmea_vtg" />
+    <TextView
+        android:id="@+id/nmea_vtgh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:text="nmea_vtgh" />
+    <TextView
+        android:id="@+id/nmea_zda"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:text="nmea_zda" />
 
-</FrameLayout>
+</LinearLayout>

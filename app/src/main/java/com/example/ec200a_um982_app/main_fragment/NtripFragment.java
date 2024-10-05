@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -24,6 +26,7 @@ import android.widget.TextView;
 
 import com.example.ec200a_um982_app.MainActivity;
 import com.example.ec200a_um982_app.R;
+import com.example.ec200a_um982_app.SharedViewModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,6 +59,8 @@ public class NtripFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private SharedViewModel viewModel;
+
     EditText CORSip;
     EditText CORSport;
     Spinner CORSmount;
@@ -65,6 +70,8 @@ public class NtripFragment extends Fragment {
     CheckBox RememberTheCORSInformation;
 
     Button SettingCORSInformationButton;
+
+    boolean SettingCORSInformationFlag = false;
 
     String MountPoint=" ";
 
@@ -141,6 +148,8 @@ public class NtripFragment extends Fragment {
         // 设置发送按钮的点击事件
         SettingCORSInformationButton.setOnClickListener(v -> {
             if (MainActivity.getBluetoothConFlag()) {
+                SettingCORSInformationFlag = true;
+                SettingCORSInformationButton.setText("请稍等...");
                 JSONObject jsonObject = new JSONObject();
                 try {
                     jsonObject.put("ip", CORSip.getText());
@@ -584,4 +593,43 @@ public class NtripFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        viewModel.getData().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String data) {
+                // 处理接收到的数据
+                if (data != null && data.startsWith("OK")) {
+                    SettingCORSInformationButton.setText("设置成功");
+                    SettingCORSInformationFlag = false;
+                } else if(SettingCORSInformationFlag) {
+                    if (MainActivity.getBluetoothConFlag()) {
+                        JSONObject jsonObject = new JSONObject();
+                        try {
+                            jsonObject.put("ip", CORSip.getText());
+                            jsonObject.put("port", CORSport.getText());
+                            jsonObject.put("mount", CORSmount.getSelectedItem());
+
+                            String originalString = CORSAccount.getText() + ":" + CORSPassword.getText();
+                            String encodedString = Base64.encodeToString(originalString.getBytes(), Base64.NO_WRAP);
+
+                            jsonObject.put("accpas", encodedString); // 假设将账号和密码组合
+
+                            String jsonString = jsonObject.toString();
+                            // 使用 jsonString
+
+                            BluetoothFragment.characteristic.setValue("AT+" + jsonString + "\r\n"); // 设置要发送的值
+                            BluetoothFragment.bluetoothGatt.writeCharacteristic(BluetoothFragment.characteristic); // 写入特征值
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        MainActivity.showToast(getActivity(), "请连接蓝牙");
+                    }
+                }
+            }
+        });
+    }
 }

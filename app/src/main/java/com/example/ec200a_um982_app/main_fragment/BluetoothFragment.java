@@ -25,6 +25,7 @@ import android.os.Looper;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,6 +39,7 @@ import android.widget.Toast;
 
 import com.example.ec200a_um982_app.MainActivity;
 import com.example.ec200a_um982_app.R;
+import com.example.ec200a_um982_app.SharedViewModel;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -53,6 +55,7 @@ public class BluetoothFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private SharedViewModel viewModel;
     // 蓝牙操作相关变量
     private ListView BtList;  // 显示蓝牙设备列表的ListView
     private Button btn_Scan;  // 扫描蓝牙设备的按钮
@@ -106,6 +109,10 @@ public class BluetoothFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+
+
         // 为这个Fragment加载视图
         View view = inflater.inflate(R.layout.fragment_bluetooth, container, false);
 
@@ -369,7 +376,7 @@ public class BluetoothFragment extends Fragment {
                 if (!part.trim().isEmpty()) {
                     // 只处理第一个有效的数据片段
                     getActivity().runOnUiThread(() -> {
-                        MainActivity.showToast(getActivity(),part);
+                        viewModel.setData(part);
                     });
                     break; // 处理完第一个数据后，退出循环
                 }

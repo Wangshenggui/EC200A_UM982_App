@@ -3,12 +3,17 @@ package com.example.ec200a_um982_app.main_fragment.um982_topfragment;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.example.ec200a_um982_app.MainActivity;
 import com.example.ec200a_um982_app.R;
+import com.example.ec200a_um982_app.SharedViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +30,10 @@ public class Um982_top1Fragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private SharedViewModel viewModel;
+
+    private TextView test_text_u;
 
     public Um982_top1Fragment() {
         // Required empty public constructor
@@ -61,6 +70,23 @@ public class Um982_top1Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_um982_top1, container, false);
+        View view = inflater.inflate(R.layout.fragment_um982_top1, container, false);
+
+        test_text_u = view.findViewById(R.id.test_text_u);
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        viewModel.getData().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String data) {
+                // 处理接收到的数据
+                test_text_u.setText(data);
+            }
+        });
     }
 }

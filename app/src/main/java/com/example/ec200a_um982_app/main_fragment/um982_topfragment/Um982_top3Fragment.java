@@ -4,7 +4,10 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +17,12 @@ import android.widget.TextView;
 
 import com.example.ec200a_um982_app.MainActivity;
 import com.example.ec200a_um982_app.R;
+import com.example.ec200a_um982_app.SharedViewModel;
 import com.example.ec200a_um982_app.main_fragment.BluetoothFragment;
+
+import java.util.Objects;
+
+import kotlinx.coroutines.channels.Send;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +39,8 @@ public class Um982_top3Fragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private SharedViewModel viewModel;
 
     CheckBox DTMselectCheck;
     TextView DTMselectText;
@@ -82,6 +92,14 @@ public class Um982_top3Fragment extends Fragment {
 
     CheckBox ZDAselectCheck;
     TextView ZDAselectText;
+
+    String SendData = "";
+    boolean SendDataFlag = false;
+
+
+    private Handler handler;
+    private Runnable updateDataRunnable;
+    private static final int UPDATE_INTERVAL = 300; // 1 second
 
 
     public Um982_top3Fragment() {
@@ -178,6 +196,20 @@ public class Um982_top3Fragment extends Fragment {
         VTGHselectCheck.setOnCheckedChangeListener(CheckBoxCallbackHandler);
         ZDAselectCheck.setOnCheckedChangeListener(CheckBoxCallbackHandler);
 
+        handler = new Handler();
+        updateDataRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if (SendDataFlag) {
+                    BluetoothFragment.characteristic.setValue(SendData);
+                    BluetoothFragment.bluetoothGatt.writeCharacteristic(BluetoothFragment.characteristic);
+
+                    handler.postDelayed(this, UPDATE_INTERVAL);
+                }
+            }
+        };
+
+//        handler.post(updateDataRunnable);
 
         return view;
     }
@@ -236,16 +268,18 @@ public class Um982_top3Fragment extends Fragment {
             String result = input.split(" ")[0];
 
             if (isChecked) {
-                BluetoothFragment.characteristic.setValue("AT+UM982=" + result + " 1" + "\r\n");
-                BluetoothFragment.characteristic.setValue("11111111111111111111111111111111111111111111111111111111111111111111111111111111");
+//                BluetoothFragment.characteristic.setValue("AT+UM982=" + result + " 1" + "\r\n");
+                SendData = "AT+UM982=" + result + " 1" + "\r\n";
+                SendDataFlag = true;
             } else {
-                BluetoothFragment.characteristic.setValue("AT+UM982=" + "UNLOG " + result + "\r\n");
-                BluetoothFragment.characteristic.setValue("22222222222222222222222222222222222222222222222222222222222222222222222222222222");
+//                BluetoothFragment.characteristic.setValue("AT+UM982=" + "UNLOG " + result + "\r\n");
+                SendData = "AT+UM982=" + "UNLOG " + result + "\r\n";
+                SendDataFlag = true;
             }
 
-            MainActivity.showToast(getActivity(), result);
+//            BluetoothFragment.bluetoothGatt.writeCharacteristic(BluetoothFragment.characteristic);
 
-            BluetoothFragment.bluetoothGatt.writeCharacteristic(BluetoothFragment.characteristic);
+            handler.post(updateDataRunnable);
         }
 
         private void changeTextColor(TextView textView, boolean isChecked) {
@@ -257,5 +291,20 @@ public class Um982_top3Fragment extends Fragment {
         }
     };
 
-
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        viewModel.getData().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String data) {
+                if (data.length() >= 2 && data.charAt(0) == 'O' && data.charAt(1) == 'K'){
+                    MainActivity.showToast(getActivity(), data);
+                    SendDataFlag = false;
+                    handler.removeCallbacks(updateDataRunnable);
+                }
+//                MainActivity.showToast(getActivity(), data);
+            }
+        });
+    }
 }

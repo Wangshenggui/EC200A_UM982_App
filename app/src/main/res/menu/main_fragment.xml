@@ -11,5 +11,5 @@
     <item
         android:id="@+id/Um982"
         android:icon="@drawable/rtknormal"
-        android:title="NMEA解析"/>
+        android:title="UM982_RTK"/>
 </menu>

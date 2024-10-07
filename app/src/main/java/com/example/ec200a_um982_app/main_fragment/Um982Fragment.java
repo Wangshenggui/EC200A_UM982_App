@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import com.example.ec200a_um982_app.R;
 import com.example.ec200a_um982_app.main_fragment.um982_topfragment.Um982_top1Fragment;
 import com.example.ec200a_um982_app.main_fragment.um982_topfragment.Um982_top2Fragment;
+import com.example.ec200a_um982_app.main_fragment.um982_topfragment.Um982_top3Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 /**
@@ -96,9 +97,10 @@ public class Um982Fragment extends Fragment {
     private void initFragment() {
         Um982_top1Fragment mUm982_top1Fragment = new Um982_top1Fragment();
         Um982_top2Fragment mUm982_top2Fragment = new Um982_top2Fragment();
+        Um982_top3Fragment mUm982_top3Fragment = new Um982_top3Fragment();
 
         // Store fragments in an array
-        fragments = new Fragment[]{mUm982_top1Fragment, mUm982_top2Fragment};
+        fragments = new Fragment[]{mUm982_top1Fragment, mUm982_top2Fragment, mUm982_top3Fragment};
 
         // Get the FragmentManager
         mFragmentManager = getChildFragmentManager();
@@ -127,6 +129,12 @@ public class Um982Fragment extends Fragment {
                     if (lastFragment != 1) {
                         switchFragment(lastFragment, 1);
                         lastFragment = 1;
+                    }
+                    return true;
+                } else if (i == R.id.um982_top3) {
+                    if (lastFragment != 2) {
+                        switchFragment(lastFragment, 2);
+                        lastFragment = 2;
                     }
                     return true;
                 }

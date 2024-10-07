@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:text="NMEA格式数据输出"
+        android:textSize="24sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="#50AAFF"
+        android:layout_marginBottom="10sp"
+        android:layout_marginTop="10sp"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#d0d8d0">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <TextView
+                    android:id="@+id/DTMselectText"
+                    android:text="GPDTM 坐标信息\n"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:textSize="18sp"
+                    android:textColor="#FF333333"
+                    android:ems="18"/>
+
+                <CheckBox
+                    android:id="@+id/DTMselectCheck"
+                    android:layout_width="match_parent"
+                    android:layout_height="28sp"
+                    android:layout_weight="1.8"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <TextView
+                    android:id="@+id/GBSselectText"
+                    android:text="GPGBS 卫星故障检测\n"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:textSize="18sp"
+                    android:textColor="#FF333333"
+                    android:ems="18"/>
+
+                <CheckBox
+                    android:id="@+id/GBSselectCheck"
+                    android:layout_width="match_parent"
+                    android:layout_height="28sp"
+                    android:layout_weight="1.8"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <TextView
+                    android:id="@+id/GGAselectText"
+                    android:text="GPGGA 卫星定位信息\n"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:textSize="18sp"
+                    android:textColor="#FF333333"
+                    android:ems="18"/>
+
+                <CheckBox
+                    android:id="@+id/GGAselectCheck"
+                    android:layout_width="match_parent"
+                    android:layout_height="28sp"
+                    android:layout_weight="1.8"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <TextView
+                    android:id="@+id/GGAHselectText"
+                    android:text="GPGGAH 从天线卫星定位信息\n"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:textSize="18sp"
+                    android:textColor="#FF333333"
+                    android:ems="18"/>
+
+                <CheckBox
+                    android:id="@+id/GGAHselectCheck"
+                    android:layout_width="match_parent"
+                    android:layout_height="28sp"
+                    android:layout_weight="1.8"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <TextView
+                    android:id="@+id/GLLselectText"
+                    android:text="GPGLL 地理位置信息\n"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:textSize="18sp"
+                    android:textColor="#FF333333"
+                    android:ems="18"/>
+
+                <CheckBox
+                    android:id="@+id/GLLselectCheck"
+                    android:layout_width="match_parent"
+                    android:layout_height="28sp"
+                    android:layout_weight="1.8"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <TextView
+                    android:id="@+id/GLLHselectText"
+                    android:text="GPGLLH 从天线地理位置信息\n"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:textSize="18sp"
+                    android:textColor="#FF333333"
+                    android:ems="18"/>
+
+                <CheckBox
+                    android:id="@+id/GLLHselectCheck"
+                    android:layout_width="match_parent"
+                    android:layout_height="28sp"
+                    android:layout_weight="1.8"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <TextView
+                    android:id="@+id/GNSselectText"
+                    android:text="GPGNS 定位数据输出\n"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:textSize="18sp"
+                    android:textColor="#FF333333"
+                    android:ems="18"/>
+
+                <CheckBox
+                    android:id="@+id/GNSselectCheck"
+                    android:layout_width="match_parent"
+                    android:layout_height="28sp"
+                    android:layout_weight="1.8"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <TextView
+                    android:id="@+id/GNSHselectText"
+                    android:text="GPGNSH 从天线定位数据输出\n"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:textSize="18sp"
+                    android:textColor="#FF333333"
+                    android:ems="18"/>
+
+                <CheckBox
+                    android:id="@+id/GNSHselectCheck"
+                    android:layout_width="match_parent"
+                    android:layout_height="28sp"
+                    android:layout_weight="1.8"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <TextView
+                    android:id="@+id/GSTselectText"
+                    android:text="GPGST 伪距观测误差\n"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:textSize="18sp"
+                    android:textColor="#FF333333"
+                    android:ems="18"/>
+
+                <CheckBox
+                    android:id="@+id/GSTselectCheck"
+                    android:layout_width="match_parent"
+                    android:layout_height="28sp"
+                    android:layout_weight="1.8"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <TextView
+                    android:id="@+id/GSTHselectText"
+                    android:text="GPGSTH 从天线伪距观测误差\n"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:textSize="18sp"
+                    android:textColor="#FF333333"
+                    android:ems="18"/>
+                <CheckBox
+                    android:id="@+id/GSTHselectCheck"
+                    android:layout_width="match_parent"
+                    android:layout_height="28sp"
+                    android:layout_weight="1.8"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <TextView
+                    android:id="@+id/THSselectText"
+                    android:text="GPTHS 天线方位信息\n"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:textSize="18sp"
+                    android:textColor="#FF333333"
+                    android:ems="18"/>
+
+                <CheckBox
+                    android:id="@+id/THSselectCheck"
+                    android:layout_width="match_parent"
+                    android:layout_height="28sp"
+                    android:layout_weight="1.8"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <TextView
+                    android:id="@+id/RMCselectText"
+                    android:text="GPRMC 卫星定位信息\n"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:textSize="18sp"
+                    android:textColor="#FF333333"
+                    android:ems="18"/>
+
+                <CheckBox
+                    android:id="@+id/RMCselectCheck"
+                    android:layout_width="match_parent"
+                    android:layout_height="28sp"
+                    android:layout_weight="1.8"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <TextView
+                    android:id="@+id/RMCHselectText"
+                    android:text="GPRMCH 从天线卫星定位\n"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:textSize="18sp"
+                    android:textColor="#FF333333"
+                    android:ems="18"/>
+
+                <CheckBox
+                    android:id="@+id/RMCHselectCheck"
+                    android:layout_width="match_parent"
+                    android:layout_height="28sp"
+                    android:layout_weight="1.8"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <TextView
+                    android:id="@+id/ROTselectText"
+                    android:text="GPROT 旋转速度和方向\n"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:textSize="18sp"
+                    android:textColor="#FF333333"
+                    android:ems="18"/>
+
+                <CheckBox
+                    android:id="@+id/ROTselectCheck"
+                    android:layout_width="match_parent"
+                    android:layout_height="28sp"
+                    android:layout_weight="1.8"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <TextView
+                    android:id="@+id/VTGselectText"
+                    android:text="GPVTG 地面航向与速度\n"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:textSize="18sp"
+                    android:textColor="#FF333333"
+                    android:ems="18"/>
+
+                <CheckBox
+                    android:id="@+id/VTGselectCheck"
+                    android:layout_width="match_parent"
+                    android:layout_height="28sp"
+                    android:layout_weight="1.8"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <TextView
+                    android:id="@+id/VTGHselectText"
+                    android:text="GPVTGH 从天线地面航向与速度\n"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:textSize="18sp"
+                    android:textColor="#FF333333"
+                    android:ems="18"/>
+
+                <CheckBox
+                    android:id="@+id/VTGHselectCheck"
+                    android:layout_width="match_parent"
+                    android:layout_height="28sp"
+                    android:layout_weight="1.8"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <TextView
+                    android:id="@+id/ZDAselectText"
+                    android:text="GPZDA 日期和时间\n"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:textSize="18sp"
+                    android:textColor="#FF333333"
+                    android:ems="18"/>
+
+                <CheckBox
+                    android:id="@+id/ZDAselectCheck"
+                    android:layout_width="match_parent"
+                    android:layout_height="28sp"
+                    android:layout_weight="1.8"
+                    android:textSize="18dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="按钮 1"/>
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="按钮 2"/>
+    </LinearLayout>
+
+</LinearLayout>

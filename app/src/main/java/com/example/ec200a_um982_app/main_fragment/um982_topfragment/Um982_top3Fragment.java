@@ -1,6 +1,8 @@
 package com.example.ec200a_um982_app.main_fragment.um982_topfragment;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,6 +10,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Handler;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,9 @@ import com.example.ec200a_um982_app.MainActivity;
 import com.example.ec200a_um982_app.R;
 import com.example.ec200a_um982_app.SharedViewModel;
 import com.example.ec200a_um982_app.main_fragment.BluetoothFragment;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Objects;
 
@@ -95,6 +101,11 @@ public class Um982_top3Fragment extends Fragment {
 
     String SendData = "";
     boolean SendDataFlag = false;
+
+    int n=0;
+
+    CheckBox CheckBoxIndex;
+    TextView associatedTextView = null;
 
 
     private Handler handler;
@@ -201,8 +212,21 @@ public class Um982_top3Fragment extends Fragment {
             @Override
             public void run() {
                 if (SendDataFlag) {
-                    BluetoothFragment.characteristic.setValue(SendData);
-                    BluetoothFragment.bluetoothGatt.writeCharacteristic(BluetoothFragment.characteristic);
+                    if (MainActivity.getBluetoothConFlag()) {
+                        BluetoothFragment.characteristic.setValue(SendData);
+                        BluetoothFragment.bluetoothGatt.writeCharacteristic(BluetoothFragment.characteristic);
+                    } else {
+                        MainActivity.showToast(getActivity(), "请连接蓝牙");
+                        SendDataFlag = false;
+                        handler.removeCallbacks(updateDataRunnable);
+
+                        CheckBoxIndex.setOnCheckedChangeListener(null);  // 移除监听器
+                        CheckBoxIndex.setChecked(!CheckBoxIndex.isChecked());
+                        if (associatedTextView != null) {
+                            changeTextColor(associatedTextView, SendDataFlag);
+                        }
+                        CheckBoxIndex.setOnCheckedChangeListener(CheckBoxCallbackHandler);
+                    }
 
                     handler.postDelayed(this, UPDATE_INTERVAL);
                 }
@@ -219,41 +243,58 @@ public class Um982_top3Fragment extends Fragment {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             int id = buttonView.getId();
-            TextView associatedTextView = null;
+
 
             if (id == R.id.DTMselectCheck) {
+                CheckBoxIndex = DTMselectCheck;
                 associatedTextView = DTMselectText;
             } else if (id == R.id.GBSselectCheck) {
+                CheckBoxIndex = GBSselectCheck;
                 associatedTextView = GBSselectText;
             } else if (id == R.id.GGAselectCheck) {
+                CheckBoxIndex = GGAselectCheck;
                 associatedTextView = GGAselectText;
             } else if (id == R.id.GGAHselectCheck) {
+                CheckBoxIndex = GGAHselectCheck;
                 associatedTextView = GGAHselectText;
             } else if (id == R.id.GLLselectCheck) {
+                CheckBoxIndex = GLLselectCheck;
                 associatedTextView = GLLselectText;
             } else if (id == R.id.GLLHselectCheck) {
+                CheckBoxIndex = GLLHselectCheck;
                 associatedTextView = GLLHselectText;
             } else if (id == R.id.GNSselectCheck) {
+                CheckBoxIndex = GNSselectCheck;
                 associatedTextView = GNSselectText;
             } else if (id == R.id.GNSHselectCheck) {
+                CheckBoxIndex = GNSHselectCheck;
                 associatedTextView = GNSHselectText;
             } else if (id == R.id.GSTselectCheck) {
+                CheckBoxIndex = GSTselectCheck;
                 associatedTextView = GSTselectText;
             } else if (id == R.id.GSTHselectCheck) {
+                CheckBoxIndex = GSTHselectCheck;
                 associatedTextView = GSTHselectText;
             } else if (id == R.id.THSselectCheck) {
+                CheckBoxIndex = THSselectCheck;
                 associatedTextView = THSselectText;
             } else if (id == R.id.RMCselectCheck) {
+                CheckBoxIndex = RMCselectCheck;
                 associatedTextView = RMCselectText;
             } else if (id == R.id.RMCHselectCheck) {
+                CheckBoxIndex = RMCHselectCheck;
                 associatedTextView = RMCHselectText;
             } else if (id == R.id.ROTselectCheck) {
+                CheckBoxIndex = ROTselectCheck;
                 associatedTextView = ROTselectText;
             } else if (id == R.id.VTGselectCheck) {
+                CheckBoxIndex = VTGselectCheck;
                 associatedTextView = VTGselectText;
             } else if (id == R.id.VTGHselectCheck) {
+                CheckBoxIndex = VTGHselectCheck;
                 associatedTextView = VTGHselectText;
             } else if (id == R.id.ZDAselectCheck) {
+                CheckBoxIndex = ZDAselectCheck;
                 associatedTextView = ZDAselectText;
             }
 
@@ -262,48 +303,120 @@ public class Um982_top3Fragment extends Fragment {
                 changeTextColor(associatedTextView, isChecked);
             }
         }
-
-        private void handleBluetoothCommand(TextView textView, boolean isChecked) {
-            String input = textView.getText().toString();
-            String result = input.split(" ")[0];
-
-            if (isChecked) {
-//                BluetoothFragment.characteristic.setValue("AT+UM982=" + result + " 1" + "\r\n");
-                SendData = "AT+UM982=" + result + " 1" + "\r\n";
-                SendDataFlag = true;
-            } else {
-//                BluetoothFragment.characteristic.setValue("AT+UM982=" + "UNLOG " + result + "\r\n");
-                SendData = "AT+UM982=" + "UNLOG " + result + "\r\n";
-                SendDataFlag = true;
-            }
-
-//            BluetoothFragment.bluetoothGatt.writeCharacteristic(BluetoothFragment.characteristic);
-
-            handler.post(updateDataRunnable);
-        }
-
-        private void changeTextColor(TextView textView, boolean isChecked) {
-            if (isChecked) {
-                textView.setTextColor(0xFF00BFFF); // 深天蓝
-            } else {
-                textView.setTextColor(0xFF333333); // 深灰色
-            }
-        }
     };
+
+    private AlertDialog dialog;  // 全局引用对话框
+    private void handleBluetoothCommand(TextView textView, boolean isChecked) {
+        String input = textView.getText().toString();
+        String result = input.split(" ")[0];
+
+        if (isChecked) {
+            SendData = "AT+UM982=" + result + " 1" + "\r\n";
+            SendDataFlag = true;
+        } else {
+            SendData = "AT+UM982=" + "UNLOG " + result + "\r\n";
+            SendDataFlag = true;
+        }
+
+        handler.post(updateDataRunnable);
+
+        n=10;
+
+        // 弹出对话框
+        showConfirmationDialog(result, isChecked);
+    }
+
+    private void showConfirmationDialog(String result, boolean isChecked) {
+        // 创建对话框构建器
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("操作中");
+        String message = isChecked ? "正在启用 " + result : "正在禁用 " + result;
+        builder.setMessage(message);
+
+        // 不设置按钮，让对话框显示并手动关闭
+        dialog = builder.create();
+        dialog.show();
+    }
+
+
+    private void changeTextColor(TextView textView, boolean isChecked) {
+        if (isChecked) {
+            textView.setTextColor(0xFF00BFFF); // 深天蓝
+        } else {
+            textView.setTextColor(0xFF333333); // 深灰色
+        }
+    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         viewModel.getData().observe(getViewLifecycleOwner(), new Observer<String>() {
+
             @Override
             public void onChanged(String data) {
                 if (data.length() >= 2 && data.charAt(0) == 'O' && data.charAt(1) == 'K'){
-                    MainActivity.showToast(getActivity(), data);
+//                    MainActivity.showToast(getActivity(), SendData + data);
                     SendDataFlag = false;
                     handler.removeCallbacks(updateDataRunnable);
+
+                    if (dialog != null && dialog.isShowing()) {
+                        dialog.dismiss();  // 手动关闭对话框
+                    }
+                    n=10;
+                }
+
+                if (n>0) {
+                    n--;
+                }
+                // 处理接收到的数据
+                if (data.startsWith("$GN") && !SendDataFlag && n==0) {
+                    if (data.startsWith("$GNDTM,")) {
+                        updateCheckBoxAndText(DTMselectCheck, DTMselectText);
+                    } else if (data.startsWith("$GNGBS,")) {
+                        updateCheckBoxAndText(GBSselectCheck, GBSselectText);
+                    } else if (data.startsWith("$GNGGA,")) {
+                        updateCheckBoxAndText(GGAselectCheck, GGAselectText);
+                    } else if (data.startsWith("$GNGGAH,")) {
+                        updateCheckBoxAndText(GGAHselectCheck, GGAHselectText);
+                    } else if (data.startsWith("$GNGLL,")) {
+                        updateCheckBoxAndText(GLLselectCheck, GLLselectText);
+                    } else if (data.startsWith("$GNGLLH,")) {
+                        updateCheckBoxAndText(GLLHselectCheck, GLLHselectText);
+                    } else if (data.startsWith("$GNGNS,")) {
+                        updateCheckBoxAndText(GNSselectCheck, GNSselectText);
+                    } else if (data.startsWith("$GNGNSH,")) {
+                        updateCheckBoxAndText(GNSHselectCheck, GNSHselectText);
+                    } else if (data.startsWith("$GNGST,")) {
+                        updateCheckBoxAndText(GSTselectCheck, GSTselectText);
+                    } else if (data.startsWith("$GNGSTH,")) {
+                        updateCheckBoxAndText(GSTHselectCheck, GSTHselectText);
+                    } else if (data.startsWith("$GNTHS,")) {
+                        updateCheckBoxAndText(THSselectCheck, THSselectText);
+                    } else if (data.startsWith("$GNRMC,")) {
+                        updateCheckBoxAndText(RMCselectCheck, RMCselectText);
+                    } else if (data.startsWith("$GNRMCH,")) {
+                        updateCheckBoxAndText(RMCHselectCheck, RMCHselectText);
+                    } else if (data.startsWith("$GNROT,")) {
+                        updateCheckBoxAndText(ROTselectCheck, ROTselectText);
+                    } else if (data.startsWith("$GNVTG,")) {
+                        updateCheckBoxAndText(VTGselectCheck, VTGselectText);
+                    } else if (data.startsWith("$GNVTGH,")) {
+                        updateCheckBoxAndText(VTGHselectCheck, VTGHselectText);
+                    } else if (data.startsWith("$GNZDA,")) {
+                        updateCheckBoxAndText(ZDAselectCheck, ZDAselectText);
+                    }
                 }
 //                MainActivity.showToast(getActivity(), data);
+            }
+            // 封装重复的逻辑到一个函数
+            private void updateCheckBoxAndText(CheckBox check, TextView text) {
+                check.setOnCheckedChangeListener(null);  // 移除监听器
+                check.setChecked(true);  // 设置为选中状态
+                if (text != null) {
+                    changeTextColor(text, true);  // 修改 TextView 颜色
+                }
+                check.setOnCheckedChangeListener(CheckBoxCallbackHandler);  // 恢复监听器
             }
         });
     }

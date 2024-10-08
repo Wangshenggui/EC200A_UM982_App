@@ -41,14 +41,8 @@ public class Um982_top1Fragment extends Fragment {
     private TextView nmea_gllh;
     private TextView nmea_gns;
     private TextView nmea_gnsh;
-    private TextView nmea_grs;
-    private TextView nmea_grsh;
-    private TextView nmea_gsa;
-    private TextView nmea_gsah;
     private TextView nmea_gst;
     private TextView nmea_gsth;
-    private TextView nmea_gsv;
-    private TextView nmea_gsvh;
     private TextView nmea_ths;
     private TextView nmea_rmc;
     private TextView nmea_rmch;
@@ -102,14 +96,8 @@ public class Um982_top1Fragment extends Fragment {
         nmea_gllh = view.findViewById(R.id.nmea_gllh);
         nmea_gns = view.findViewById(R.id.nmea_gns);
         nmea_gnsh = view.findViewById(R.id.nmea_gnsh);
-        nmea_grs = view.findViewById(R.id.nmea_grs);
-        nmea_grsh = view.findViewById(R.id.nmea_grsh);
-        nmea_gsa = view.findViewById(R.id.nmea_gsa);
-        nmea_gsah = view.findViewById(R.id.nmea_gsah);
         nmea_gst = view.findViewById(R.id.nmea_gst);
         nmea_gsth = view.findViewById(R.id.nmea_gsth);
-        nmea_gsv = view.findViewById(R.id.nmea_gsv);
-        nmea_gsvh = view.findViewById(R.id.nmea_gsvh);
         nmea_ths = view.findViewById(R.id.nmea_ths);
         nmea_rmc = view.findViewById(R.id.nmea_rmc);
         nmea_rmch = view.findViewById(R.id.nmea_rmch);
@@ -146,21 +134,21 @@ public class Um982_top1Fragment extends Fragment {
                 } else if (data != null && data.startsWith("$GNGNSH,")) {
                     nmea_gnsh.setText(data);
                 } else if (data != null && data.startsWith("$GNGRS,")) {
-                    nmea_grs.setText(data);
+
                 } else if (data != null && data.startsWith("$GNGRSH,")) {
-                    nmea_grsh.setText(data);
+
                 } else if (data != null && data.startsWith("$GNGSA,")) {
-                    nmea_gsa.setText(data);
+
                 } else if (data != null && data.startsWith("$GNGSAH,")) {
-                    nmea_gsah.setText(data);
+
                 } else if (data != null && data.startsWith("$GNGST,")) {
                     nmea_gst.setText(data);
                 } else if (data != null && data.startsWith("$GNGSTH,")) {
                     nmea_gsth.setText(data);
                 } else if (data != null && data.startsWith("$GNGSV,")) {
-                    nmea_gsv.setText(data);
+
                 } else if (data != null && data.startsWith("$GNGSVH,")) {
-                    nmea_gsvh.setText(data);
+
                 } else if (data != null && data.startsWith("$GNTHS,")) {
                     nmea_ths.setText(data);
                 } else if (data != null && data.startsWith("$GNRMC,")) {

@@ -56,30 +56,6 @@
         android:textSize="10sp"
         android:text="nmea_gnsh" />
     <TextView
-        android:id="@+id/nmea_grs"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="10sp"
-        android:text="nmea_grs" />
-    <TextView
-        android:id="@+id/nmea_grsh"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="10sp"
-        android:text="nmea_grsh" />
-    <TextView
-        android:id="@+id/nmea_gsa"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="10sp"
-        android:text="nmea_gsa" />
-    <TextView
-        android:id="@+id/nmea_gsah"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="10sp"
-        android:text="nmea_gsah" />
-    <TextView
         android:id="@+id/nmea_gst"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -91,18 +67,6 @@
         android:layout_height="wrap_content"
         android:textSize="10sp"
         android:text="nmea_gsth" />
-    <TextView
-        android:id="@+id/nmea_gsv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="10sp"
-        android:text="nmea_gsv" />
-    <TextView
-        android:id="@+id/nmea_gsvh"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="10sp"
-        android:text="nmea_gsvh" />
     <TextView
         android:id="@+id/nmea_ths"
         android:layout_width="match_parent"

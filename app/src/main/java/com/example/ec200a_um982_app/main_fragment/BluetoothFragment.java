@@ -71,6 +71,8 @@ public class BluetoothFragment extends Fragment {
     public static BluetoothGatt bluetoothGatt; // 蓝牙GATT
     public static BluetoothGattCharacteristic characteristic; // 蓝牙特征
 
+    private static final int LOCATIONPERMISSION_REQUEST_CODE = 1;
+
     // BLE扫描相关变量
     private BluetoothLeScanner bluetoothLeScanner; // BLE扫描器
     private boolean isScanning = false; // 是否正在扫描
@@ -232,9 +234,16 @@ public class BluetoothFragment extends Fragment {
     private void startScan() {
         // 开始扫描BLE设备
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED ||
-                ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            // 请求权限
             ActivityCompat.requestPermissions(getActivity(),
-                    new String[]{Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT},
+                    new String[]{
+                            Manifest.permission.BLUETOOTH_SCAN,
+                            Manifest.permission.BLUETOOTH_CONNECT,
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                    },
                     1);
             return;
         }

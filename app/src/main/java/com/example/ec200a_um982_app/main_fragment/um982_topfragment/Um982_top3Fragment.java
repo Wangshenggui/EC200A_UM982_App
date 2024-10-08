@@ -327,17 +327,59 @@ public class Um982_top3Fragment extends Fragment {
     }
 
     private void showConfirmationDialog(String result, boolean isChecked) {
-        // 创建对话框构建器
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("操作中");
         String message = isChecked ? "正在启用 " + result : "正在禁用 " + result;
-        builder.setMessage(message);
 
-        // 不设置按钮，让对话框显示并手动关闭
-        dialog = builder.create();
+        // 创建对话框
+        dialog = builder.setMessage(message)
+                .setCancelable(false)
+                .setPositiveButton("关闭", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss(); // 关闭对话框
+                    }
+                })
+                .create();
+
+        // 显示对话框
         dialog.show();
-    }
 
+        // 启动计时器更新存在时间
+        final long startTime = System.currentTimeMillis();
+        final Handler handler = new Handler();
+
+        Runnable updateRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if (dialog.isShowing()) {
+                    long elapsedTime = System.currentTimeMillis() - startTime;
+                    String elapsedMessage = String.format("%s\n\t\t\t %ds",
+                            message, elapsedTime / 1000);
+                    dialog.setMessage(elapsedMessage);
+
+                    // 每秒更新一次
+                    handler.postDelayed(this, 1000);
+
+                    // 超过10秒自动关闭
+                    if (elapsedTime >= 10000) {
+                        SendDataFlag = false;
+                        handler.removeCallbacks(updateDataRunnable);
+
+                        CheckBoxIndex.setOnCheckedChangeListener(null);  // 移除监听器
+                        CheckBoxIndex.setChecked(!CheckBoxIndex.isChecked());
+                        if (associatedTextView != null) {
+                            changeTextColor(associatedTextView, SendDataFlag);
+                        }
+                        CheckBoxIndex.setOnCheckedChangeListener(CheckBoxCallbackHandler);
+                        dialog.dismiss();
+                    }
+                }
+            }
+        };
+
+        handler.post(updateRunnable); // 启动更新
+    }
 
     private void changeTextColor(TextView textView, boolean isChecked) {
         if (isChecked) {

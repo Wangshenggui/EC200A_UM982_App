@@ -7,9 +7,13 @@
     <item
         android:id="@+id/Ntrip"
         android:icon="@drawable/femtocell"
-        android:title="CORS连接"/>
+        android:title="CORS基站"/>
     <item
         android:id="@+id/Um982"
         android:icon="@drawable/rtknormal"
         android:title="UM982_RTK"/>
+    <item
+        android:id="@+id/Set"
+        android:icon="@drawable/settingicon"
+        android:title="设置"/>
 </menu>

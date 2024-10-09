@@ -24,6 +24,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,9 +40,9 @@ public class SettingFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     TextView notification_badge;
-    private static final String APK_BASE_URL = "http://47.109.46.41/app/ec200a_um982/EC200A_UM982_App-";
+    private static final String APK_BASE_URL = "http://47.109.46.41:3000/EC200A_UM982_App-";
     private static final String APK_EXTENSION = ".apk";
-    private static final String VERSION_URL = "http://47.109.46.41/app/ec200a_um982/version.txt"; // 替换为实际的版本 URL
+    private static final String VERSION_URL = "http://47.109.46.41/file_download/ec200a_um982/version.txt"; // 替换为实际的版本 URL
     private String mApkUrl; // 用于保存 APK 下载链接
 
     Intent intent;
@@ -203,6 +205,24 @@ public class SettingFragment extends Fragment {
         }).start();
     }
 
+    // 生成 SHA-256 密钥
+    private String generateKey(String filename, long timestamp, String secretKey) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            String input = filename + timestamp + secretKey;
+            byte[] hash = digest.digest(input.getBytes());
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     private void checkForUpdate() {
         new Thread(() -> {
             try {
@@ -217,6 +237,12 @@ public class SettingFragment extends Fragment {
 
                 // 保存 APK 下载链接
                 mApkUrl = APK_BASE_URL + serverVersion + APK_EXTENSION;
+
+                long currentTime = System.currentTimeMillis() / 1000;
+                String filename = "EC200A_UM982_App-" + serverVersion + APK_EXTENSION;
+                String secretKey = "123456";
+                String key = generateKey(filename, currentTime, secretKey);
+                mApkUrl = "http://47.109.46.41:3000/" + "ec200a_um982/" + filename + "?time=" + currentTime + "&key=" + key;
 
                 // 获取当前应用的版本号
                 String currentVersion = getCurrentAppVersion();

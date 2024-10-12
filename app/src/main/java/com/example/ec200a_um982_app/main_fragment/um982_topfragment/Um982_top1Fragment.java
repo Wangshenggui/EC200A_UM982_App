@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.example.ec200a_um982_app.MainActivity;
 import com.example.ec200a_um982_app.R;
 import com.example.ec200a_um982_app.SharedViewModel;
+import com.example.ec200a_um982_app.SocketService;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -123,6 +124,7 @@ public class Um982_top1Fragment extends Fragment {
                     nmea_gbs.setText(data);
                 } else if (data != null && data.startsWith("$GNGGA,")) {
                     nmea_gga.setText(data);
+                    SocketService.CORSSSGString = data;
                 } else if (data != null && data.startsWith("$GNGGAH,")) {
                     nmea_ggah.setText(data);
                 } else if (data != null && data.startsWith("$GNGLL,")) {

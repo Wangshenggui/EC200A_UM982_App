@@ -31,6 +31,7 @@ import com.example.ec200a_um982_app.SocketService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONStringer;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -40,7 +41,9 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import android.util.Base64;
 
@@ -56,11 +59,14 @@ public class NtripFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private SharedViewModel viewModel;
+
+    public static byte[] RTCMString;
 
     EditText CORSip;
     EditText CORSport;
@@ -80,7 +86,7 @@ public class NtripFragment extends Fragment {
     // Timer variables
     private Handler handler;
     private Runnable timerRunnable;
-    private static final int TIMER_INTERVAL = 1000; // 1 seconds
+    private static final int TIMER_INTERVAL = 100; // 1 seconds
 
     public NtripFragment() {
         // Required empty public constructor
@@ -115,17 +121,75 @@ public class NtripFragment extends Fragment {
         // Initialize Handler
         handler = new Handler(Looper.getMainLooper());
 
+
         // Define the task to be run periodically
         timerRunnable = new Runnable() {
+            int i = 0;
             @SuppressLint("SetTextI18n")
             @Override
             public void run() {
 
 
+//                RTCMString
+
+                if (RTCMString != null) {
+                    int groupSize = 220;
+                    int length = RTCMString.length;
+                    int numGroups = (length + groupSize - 1) / groupSize; // 计算分组数量
+
+                    byte[][] groupedRTCM = new byte[numGroups][]; // 创建二维数组
+
+                    for (int i = 0; i < numGroups; i++) {
+                        int start = i * groupSize;
+                        int size = Math.min(groupSize, length - start); // 计算当前组的大小
+
+                        // 确保结束索引不超出数组的长度
+                        groupedRTCM[i] = Arrays.copyOfRange(RTCMString, start, start + size);
+                    }
+
+                    // 计算最后一组的字节数
+                    int lastGroupSize = length % groupSize == 0 ? groupSize : length % groupSize;
+
+                    // 可以在这里打印分组信息以验证
+                    for (int i = 0; i < numGroups; i++) {
+                        System.out.println("Group " + i + " size: " + groupedRTCM[i].length);
+                    }
+
+                    // 显示 Toast，包含总长、组数和最后一组的字节数
+                    MainActivity.showToast(getActivity(), "总长: " + length + " 组数: " + numGroups + " 最后一组字节数: " + lastGroupSize);
+
+
+                    BluetoothFragment.characteristic.setValue("{{{{{"); // 设置要发送的值
+                    BluetoothFragment.bluetoothGatt.writeCharacteristic(BluetoothFragment.characteristic); // 写入特征值
+                    try {
+                        Thread.sleep(5); // 例如，等待 100 毫秒
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    for (int i = 0; i < numGroups; i++) {
+                        BluetoothFragment.characteristic.setValue(groupedRTCM[i]); // 设置要发送的值
+                        BluetoothFragment.bluetoothGatt.writeCharacteristic(BluetoothFragment.characteristic); // 写入特征值
+
+                        // 可选：在每次发送后等待一段时间，以确保数据能顺利传输
+                        try {
+                            Thread.sleep(5); // 例如，等待 100 毫秒
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    try {
+                        Thread.sleep(5); // 例如，等待 100 毫秒
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    BluetoothFragment.characteristic.setValue("}}}}}"); // 设置要发送的值
+                    BluetoothFragment.bluetoothGatt.writeCharacteristic(BluetoothFragment.characteristic); // 写入特征值
+                }
                 // Repeat the task every TIMER_INTERVAL milliseconds
-                handler.postDelayed(this, TIMER_INTERVAL);
+                handler.postDelayed(this, TIMER_INTERVAL*10);
             }
         };
+        handler.post(timerRunnable); // 启动更新
     }
 
     @SuppressLint("MissingInflatedId")

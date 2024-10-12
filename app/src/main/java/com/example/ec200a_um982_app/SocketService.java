@@ -34,6 +34,8 @@ public class SocketService extends Service {
 
     private static final String TAG = "SocketService";
 
+    public static String CORSSSGString = "";
+
     String originalInput;
     String CORSAccountText;
     String CORSPasswordText;
@@ -218,13 +220,15 @@ public class SocketService extends Service {
                         // 将字节数组转换为字符串
                         String receivedMessage = new String(rawMessage, StandardCharsets.UTF_8);
 
+                        NtripFragment.RTCMString = rawMessage;
+
                         // 同步发送数据到其他地方 (比如蓝牙设备)
 //                        MainActivity.outputStream.write(rawMessage);
 //                        MainActivity.outputStream.flush();
 
                         // 显示接收的消息长度
-//                        showToast("Received data, length: " + rawMessage.length);
-                        showToast(receivedMessage);
+//                        showToast("Received length: " + rawMessage.length + NtripFragment.RTCMString.length);
+//                        showToast(receivedMessage);
 
                         // 定义预期的消息字符串
                         String expectedMessageOK = "ICY 200 OK\r\n";
@@ -242,7 +246,10 @@ public class SocketService extends Service {
 //                                MainActivity.socketService.sendMessage(message);
 //                            }
 
-                            MainActivity.socketService.sendMessage("$GNGGA,010753.00,2623.01254712,N,10636.51506777,E,5,17,1.2,1205.5225,M,-29.1519,M,2.0,451*72\r\n");
+                            if(CORSSSGString.length() > 50){
+                                MainActivity.socketService.sendMessage(CORSSSGString + "\r\n");
+                            }
+
 
 //                            Ntrip_top1Fragment.NtripStartFlag=!Ntrip_top1Fragment.NtripStartFlag;
                         } else if (receivedMessage.equals(expectedMessageERROR)){

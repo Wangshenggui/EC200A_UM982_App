@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.example.ec200a_um982_app.MainActivity;
 import com.example.ec200a_um982_app.R;
 import com.example.ec200a_um982_app.SharedViewModel;
+import com.example.ec200a_um982_app.SocketService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -70,6 +71,7 @@ public class NtripFragment extends Fragment {
     CheckBox RememberTheCORSInformation;
 
     Button SettingCORSInformationButton;
+    Button ConnectCORSserverButton;
 
     boolean SettingCORSInformationFlag = false;
 
@@ -143,6 +145,8 @@ public class NtripFragment extends Fragment {
         RememberTheCORSInformation = view.findViewById(R.id.RememberTheCORSInformation);
 
         SettingCORSInformationButton = view.findViewById(R.id.SettingCORSInformationButton);
+
+        ConnectCORSserverButton = view.findViewById(R.id.ConnectCORSserverButton);
 
 
         // 设置发送按钮的点击事件
@@ -424,6 +428,58 @@ public class NtripFragment extends Fragment {
                             e.printStackTrace();
                         }
                     }
+                }
+            }
+        });
+
+
+        ConnectCORSserverButton.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onClick(View v) {
+                if (MainActivity.getBluetoothConFlag()) {
+                    // 创建 Intent 对象
+                    Intent intent = new Intent(getActivity(), SocketService.class);
+
+                    String expectedMessage = "打开CORS连接";
+                    String text = ConnectCORSserverButton.getText().toString();
+                    if (text.equals(expectedMessage)) {
+                        //进行连接操作
+                        ConnectCORSserverButton.setText("关闭Socket连接");
+                        String ipAddress = CORSip.getText().toString();
+                        String portString = CORSport.getText().toString();
+                        if (ipAddress.isEmpty() || portString.isEmpty()) {
+                            MainActivity.showToast(getActivity(), "请输入IP地址");
+                        } else {
+                            int portNumber = Integer.parseInt(portString);
+                            if (MainActivity.isBound) {
+                                MainActivity.socketService.connectToServer(ipAddress, portNumber);
+                            }
+                        }
+
+                        String corsAccount = CORSAccount.getText().toString();
+                        String corsPassword = CORSPassword.getText().toString();
+                        String mountPoint = MountPoint;
+
+                        // 将两个字符串放入 Intent
+                        intent.putExtra("CORSAccount", corsAccount);
+                        intent.putExtra("CORSPassword", corsPassword);
+                        intent.putExtra("MountPoint", mountPoint);
+
+                        // 启动 Service
+                        Context context = getActivity(); // 或者 getContext()
+                        context.startService(intent);
+                    } else {
+                        ConnectCORSserverButton.setText("打开CORS连接");
+
+                        intent.putExtra("SocketClose", "SocketClose");
+
+                        // 启动 Service
+                        Context context = getActivity(); // 或者 getContext()
+                        context.startService(intent);
+                    }
+                } else {
+                    MainActivity.showToast(getActivity(), "请连接蓝牙");
                 }
             }
         });

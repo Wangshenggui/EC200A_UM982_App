@@ -1,15 +1,18 @@
 package com.example.ec200a_um982_app;
 
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+import android.content.ServiceConnection;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -54,10 +57,32 @@ public class MainActivity extends AppCompatActivity {
     BadgeDrawable badgeDrawable;
     BottomNavigationView bottomNavigationView;
 
+    public static boolean isBound = false;
+    public static SocketService socketService;
+
+
+    private final ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            SocketService.LocalBinder binder = (SocketService.LocalBinder) service;
+            socketService = binder.getService();
+            isBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            isBound = false;
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // 启动Socket服务
+        Intent socketServiceIntent = new Intent(this, SocketService.class);
+        startService(socketServiceIntent);
 
         setupNavigationView();
         // 延迟加载其他Fragment以避免崩溃
@@ -168,6 +193,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        Intent intent = new Intent(this, SocketService.class);
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override

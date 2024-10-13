@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -18,6 +20,9 @@ import android.widget.TextView;
 
 import com.example.ec200a_um982_app.MainActivity;
 import com.example.ec200a_um982_app.R;
+import com.example.ec200a_um982_app.SharedViewModel;
+import com.example.ec200a_um982_app.SocketService;
+import com.example.ec200a_um982_app.main_fragment.um982_topfragment.Um982_top2Fragment;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,6 +31,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,6 +46,7 @@ public class SettingFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     TextView notification_badge;
+    TextView notification_badge1;
     private static final String APK_BASE_URL = "http://47.109.46.41:3000/EC200A_UM982_App-";
     private static final String APK_EXTENSION = ".apk";
     private static final String VERSION_URL = "http://47.109.46.41/file_download/ec200a_um982/version.txt"; // 替换为实际的版本 URL
@@ -52,6 +59,13 @@ public class SettingFragment extends Fragment {
 
     String DetectionCurrentVersion;
     String DetectionServerVersion;
+
+    private SharedViewModel viewModel2;
+
+    int SysUpdate = 0;
+    int Module4G = 0;
+
+    int NumUpdate = 0;
 
 
     // TODO: Rename and change types of parameters
@@ -109,6 +123,8 @@ public class SettingFragment extends Fragment {
 
         notification_badge = view.findViewById(R.id.notification_badge);
         notification_badge.setVisibility(View.GONE);
+        notification_badge1 = view.findViewById(R.id.notification_badge1);
+        notification_badge1.setVisibility(View.GONE);
 
         checkForUpdateInit();
 
@@ -146,12 +162,23 @@ public class SettingFragment extends Fragment {
                 if (DetectionCurrentVersion != null && compareVersionStrings(DetectionCurrentVersion, DetectionServerVersion) < 0) {
                     // 当前版本小于服务器版本，提示用户更新
                     notification_badge.setVisibility(View.VISIBLE);
-                    intent.putExtra("message", "true");
+
+                    SysUpdate = 1;
                 } else {
                     // 当前版本已是最新
                     notification_badge.setVisibility(View.GONE);
-                    intent.putExtra("message", "false");
+
+                    SysUpdate = 0;
                 }
+                NumUpdate = SysUpdate + Module4G;
+                if(NumUpdate == 0) {
+                    intent.putExtra("message", "false");
+                } else if (NumUpdate == 1) {
+                    intent.putExtra("message", "1");
+                } else if (NumUpdate == 2) {
+                    intent.putExtra("message", "2");
+                }
+
                 // 发送广播
                 requireContext().sendBroadcast(intent);
 
@@ -164,6 +191,38 @@ public class SettingFragment extends Fragment {
 
 
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        viewModel2 = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        viewModel2.getDataGroup2().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String data) {
+                if (data != null && data.startsWith("$UPDATE,")) {
+                    int[] indices = {2};
+                    List<String> results = Um982_top2Fragment.getSpecificSubstrings(data, indices);
+                    String outstring = removeAsteriskAndAfter(results.get(0));
+
+                    if (outstring.equals("TRUE")) {
+                        notification_badge1.setVisibility(View.VISIBLE);
+                        Module4G = 1;
+                    } else {
+                        notification_badge1.setVisibility(View.GONE);
+
+                        Module4G = 0;
+                    }
+                }
+            }
+            public String removeAsteriskAndAfter(String input) {
+                int index = input.indexOf('*');
+                if (index != -1) {
+                    return input.substring(0, index);  // 返回 * 之前的部分
+                }
+                return input;  // 如果没有 *，返回原字符串
+            }
+        });
     }
 
     private void navigateToAccountSettings() {
@@ -191,10 +250,12 @@ public class SettingFragment extends Fragment {
                     // 当前版本小于服务器版本，提示用户更新
 //                    notification_badge.setVisibility(View.VISIBLE);
                     intent.putExtra("message", "true");
+                    SysUpdate = 1;
                 } else {
                     // 当前版本已是最新
 //                    notification_badge.setVisibility(View.GONE);
                     intent.putExtra("message", "false");
+                    SysUpdate = 0;
                 }
                 // 发送广播
                 requireContext().sendBroadcast(intent);

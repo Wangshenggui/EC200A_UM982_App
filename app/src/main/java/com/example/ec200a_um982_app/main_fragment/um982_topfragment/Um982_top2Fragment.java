@@ -32,7 +32,7 @@ public class Um982_top2Fragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
 
-    private SharedViewModel viewModel;
+    private SharedViewModel viewModel1;
 
     TextView DatumCodeText;
     TextView LatOffsetText;
@@ -162,8 +162,8 @@ public class Um982_top2Fragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-        viewModel.getData().observe(getViewLifecycleOwner(), new Observer<String>() {
+        viewModel1 = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        viewModel1.getDataGroup1().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String data) {
                 // 处理接收到的数据

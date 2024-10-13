@@ -32,7 +32,8 @@ public class Um982_top1Fragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private SharedViewModel viewModel;
+    private SharedViewModel viewModel1;
+    private SharedViewModel viewModel2;
 
     private TextView nmea_dtm;
     private TextView nmea_gbs;
@@ -107,16 +108,19 @@ public class Um982_top1Fragment extends Fragment {
         nmea_vtgh = view.findViewById(R.id.nmea_vtgh);
         nmea_zda = view.findViewById(R.id.nmea_zda);
 
+        viewModel2 = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+
         return view;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-        viewModel.getData().observe(getViewLifecycleOwner(), new Observer<String>() {
+        viewModel1 = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        viewModel1.getDataGroup1().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String data) {
+                viewModel2.setDataGroup2(data);
                 // 处理接收到的数据
                 if (data != null && data.startsWith("$GNDTM,")) {
                     nmea_dtm.setText(data);

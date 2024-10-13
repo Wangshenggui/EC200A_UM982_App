@@ -46,7 +46,7 @@ public class Um982_top3Fragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private SharedViewModel viewModel;
+    private SharedViewModel viewModel1;
 
     CheckBox DTMselectCheck;
     TextView DTMselectText;
@@ -392,8 +392,8 @@ public class Um982_top3Fragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-        viewModel.getData().observe(getViewLifecycleOwner(), new Observer<String>() {
+        viewModel1 = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        viewModel1.getDataGroup1().observe(getViewLifecycleOwner(), new Observer<String>() {
 
             @Override
             public void onChanged(String data) {

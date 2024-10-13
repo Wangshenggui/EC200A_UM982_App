@@ -64,7 +64,7 @@ public class NtripFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private SharedViewModel viewModel;
+    private SharedViewModel viewModel1;
 
     public static byte[] RTCMString;
 
@@ -716,8 +716,8 @@ public class NtripFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-        viewModel.getData().observe(getViewLifecycleOwner(), new Observer<String>() {
+        viewModel1 = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        viewModel1.getDataGroup1().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String data) {
                 // 处理接收到的数据

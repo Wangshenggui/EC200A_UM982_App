@@ -164,20 +164,29 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
     }
+    public int stringToInt(String str) {
+        try {
+            return Integer.parseInt(str);
+        } catch (NumberFormatException e) {
+            // 处理可能的异常，比如字符串无法转换为数字
+            e.printStackTrace();
+            return 0; // 或者返回其他合适的值
+        }
+    }
     private final BroadcastReceiver messageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String message = intent.getStringExtra("message");
             // 处理接收到的消息
-            if(Objects.equals(message, "true")){
-                //显示
-                badgeDrawable = bottomNavigationView.getOrCreateBadge(R.id.Set);
-                badgeDrawable.setNumber(1);
-                badgeDrawable.setBackgroundColor(Color.RED);
-                badgeDrawable.setBadgeTextColor(Color.WHITE);
-            } else {
+            if(Objects.equals(message, "false")){
                 //不显示
                 bottomNavigationView.removeBadge(R.id.Set);
+            } else {
+                //显示
+                badgeDrawable = bottomNavigationView.getOrCreateBadge(R.id.Set);
+                badgeDrawable.setNumber(stringToInt(message));
+                badgeDrawable.setBackgroundColor(Color.RED);
+                badgeDrawable.setBadgeTextColor(Color.WHITE);
             }
         }
     };

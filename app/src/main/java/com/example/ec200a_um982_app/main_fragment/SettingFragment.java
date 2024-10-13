@@ -114,11 +114,15 @@ public class SettingFragment extends Fragment {
 
         // Find views
         LinearLayout accountSettingsContainer = view.findViewById(R.id.account_settings_container);
+        LinearLayout update4gcodeContainer = view.findViewById(R.id.update_4gcode_container);
 
         // Set click listeners
         accountSettingsContainer.setOnClickListener(v -> {
             // Handle account settings click
             navigateToAccountSettings();
+        });
+        update4gcodeContainer.setOnClickListener(v -> {
+            navigateTo4GUpdate();
         });
 
         notification_badge = view.findViewById(R.id.notification_badge);
@@ -229,6 +233,10 @@ public class SettingFragment extends Fragment {
         // Navigate to account settings
         checkForUpdate();
     }
+    private void navigateTo4GUpdate() {
+        // Navigate to account settings
+        checkFor4GUpdate();
+    }
 
     private void checkForUpdateInit() {
         new Thread(() -> {
@@ -323,6 +331,17 @@ public class SettingFragment extends Fragment {
             }
         }).start();
     }
+    private void checkFor4GUpdate() {
+        new Thread(() -> {
+            if (Module4G == 1) {
+                requireActivity().runOnUiThread(() -> show4GUpdateDialog());
+            } else {
+                // 当前版本已是最新
+                requireActivity().runOnUiThread(() -> MainActivity.showToast(getActivity(), "当前已是最新版本"));
+            }
+        }).start();
+    }
+
     private String getCurrentAppVersion() {
         try {
             PackageManager packageManager = requireContext().getPackageManager();
@@ -356,6 +375,15 @@ public class SettingFragment extends Fragment {
                 .setNegativeButton("取消", null)
                 .show();
     }
+    private void show4GUpdateDialog() {
+        new AlertDialog.Builder(requireContext())
+                .setTitle("更新可用")
+                .setMessage("发现新版本，是否下载更新？")
+                .setPositiveButton("下载", (dialog, which) -> start4GDownload())
+                .setNegativeButton("取消", null)
+                .show();
+    }
+
     private void startDownload() {
         if (mApkUrl != null) {
             Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -364,6 +392,12 @@ public class SettingFragment extends Fragment {
         } else {
             MainActivity.showToast(getActivity(), "下载链接无效");
         }
+    }
+    private void start4GDownload() {
+        BluetoothFragment.characteristic.setValue("AT+UPDATE=TRUE\r\n");
+        BluetoothFragment.bluetoothGatt.writeCharacteristic(BluetoothFragment.characteristic);
+
+        MainActivity.showToast(getActivity(),"发送更新指令到EC200A");
     }
 
     @Override

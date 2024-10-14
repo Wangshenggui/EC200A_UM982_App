@@ -4,27 +4,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".main_fragment.BluetoothFragment">
+    tools:context=".main_fragment.BluetoothFragment"
+    android:background="@android:color/white">
 
     <ListView
         android:id="@+id/BtList"
         android:layout_width="match_parent"
-        android:layout_height="300sp"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_Scan"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@android:color/white"
+        android:divider="@android:color/darker_gray"
+        android:padding="8dp"
         tools:ignore="MissingConstraints" />
 
+
+    <!-- 设置文本颜色以确保可见 -->
     <Button
         android:id="@+id/btn_Scan"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="搜索蓝牙"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="48sp"
+        android:layout_height="48sp"
+        android:background="@drawable/probe"
+        android:padding="16dp"
+        android:textColor="@android:color/white"
+        android:rotation="0"
+        app:layout_constraintBottom_toTopOf="@+id/btn_Send"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/BtList"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btn_Send"
@@ -33,12 +40,10 @@
         android:layout_below="@id/btn_Scan"
         android:layout_alignParentEnd="true"
         android:text="发送数据"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/DisconnectBluetoothButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_Scan"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/DisconnectBluetoothButton"
@@ -48,8 +53,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_Send"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

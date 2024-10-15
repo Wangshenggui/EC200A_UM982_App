@@ -56,8 +56,6 @@ public class BluetoothFragment extends Fragment {
     private SharedViewModel viewModel1;
     private ListView BtList;
     private Button btn_Scan;
-    private Button btn_Send;
-    private Button DisconnectBluetoothButton;
     private Intent intent;
     private BluetoothAdapter bluetoothAdapter;
     private List<String> devicesNames;
@@ -110,8 +108,6 @@ public class BluetoothFragment extends Fragment {
 
         BtList = view.findViewById(R.id.BtList);
         btn_Scan = view.findViewById(R.id.btn_Scan);
-        btn_Send = view.findViewById(R.id.btn_Send);
-        DisconnectBluetoothButton = view.findViewById(R.id.DisconnectBluetoothButton);
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         bluetoothLeScanner = bluetoothAdapter.getBluetoothLeScanner();
@@ -137,36 +133,13 @@ public class BluetoothFragment extends Fragment {
             }
         });
 
-        btn_Send.setOnClickListener(v -> {
-            if (MainActivity.getBluetoothConFlag()) {
-                characteristic.setValue("niganmaaiyo");
-                bluetoothGatt.writeCharacteristic(characteristic);
-            } else {
-                MainActivity.showToast(getActivity(), "请连接蓝牙");
-            }
-        });
-
-        DisconnectBluetoothButton.setOnClickListener(v -> {
-            if (MainActivity.getBluetoothConFlag()) {
-                if (bluetoothGatt != null) {
-                    bluetoothGatt.disconnect();
-                    bluetoothGatt.close();
-                    bluetoothGatt = null;
-                    MainActivity.setBluetoothConFlag(false);
-                    MainActivity.showToast(getActivity(), "蓝牙已断开");
-                }
-            } else {
-                MainActivity.showToast(getActivity(), "当前没有连接的蓝牙设备");
-            }
-        });
-
         BtList.setOnItemClickListener((parent, view1, position, id) -> {
             BluetoothDevice device = readyDevices.get(position);
 
             // 检查选定设备是否已连接
             if (MainActivity.getBluetoothConFlag() && bluetoothGatt != null && bluetoothGatt.getDevice().equals(device)) {
-                // 如果设备已连接，则不执行任何操作或显示消息
-                MainActivity.showToast(getActivity(), "已经连接到 " + device.getName());
+                // 如果设备已连接，则断开连接
+                disconnectCurrentDevice();
                 return;
             }
 
@@ -218,6 +191,24 @@ public class BluetoothFragment extends Fragment {
         timerHandler.post(timerRunnable);
 
         return view;
+    }
+
+    private void disconnectCurrentDevice() {
+        if (MainActivity.getBluetoothConFlag()) {
+            if (bluetoothGatt != null) {
+                bluetoothGatt.disconnect();
+                bluetoothGatt.close();
+                bluetoothGatt = null;
+                MainActivity.setBluetoothConFlag(false);
+                MainActivity.showToast(getActivity(), "蓝牙已断开");
+
+                // 更新连接状态为未连接
+                for (int i = 0; i < readyDevices.size(); i++) {
+                    ConDisDevices.set(i, false);
+                }
+                btNames.notifyDataSetChanged(); // 更新适配器
+            }
+        }
     }
 
     private void startRotating(Button button) {

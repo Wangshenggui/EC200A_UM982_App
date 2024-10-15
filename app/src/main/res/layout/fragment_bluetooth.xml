@@ -24,35 +24,14 @@
         android:id="@+id/btn_Scan"
         android:layout_width="48sp"
         android:layout_height="48sp"
+        android:layout_marginBottom="32dp"
         android:background="@drawable/probe"
         android:padding="16dp"
-        android:textColor="@android:color/white"
         android:rotation="0"
-        app:layout_constraintBottom_toTopOf="@+id/btn_Send"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/btn_Send"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btn_Scan"
-        android:layout_alignParentEnd="true"
-        android:text="发送数据"
-        app:layout_constraintBottom_toTopOf="@+id/DisconnectBluetoothButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/DisconnectBluetoothButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="断开蓝牙连接"
+        android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

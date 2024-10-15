@@ -1,0 +1,12 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:startColor="#FF1BD0FF"
+        android:endColor="#FFF3ADFC"
+        android:angle="45"/>             <!-- 渐变角度 -->
+    <corners android:radius="16dp"/> <!-- 圆角 -->
+    <padding
+        android:left="8dp"
+        android:right="8dp"
+        android:top="8dp"
+        android:bottom="8dp"/> <!-- 内边距 -->
+</shape>

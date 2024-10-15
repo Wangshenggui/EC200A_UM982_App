@@ -41,6 +41,7 @@ import com.example.ec200a_um982_app.SharedViewModel;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -61,6 +62,7 @@ public class BluetoothFragment extends Fragment {
     private BluetoothAdapter bluetoothAdapter;
     private List<String> devicesNames;
     private ArrayList<BluetoothDevice> readyDevices;
+    private ArrayList<Boolean> ConDisDevices = new ArrayList<>();
     private BluetoothListCustomAdapter btNames;
 
     public static BluetoothGatt bluetoothGatt;
@@ -117,7 +119,7 @@ public class BluetoothFragment extends Fragment {
 
         devicesNames = new ArrayList<>();
         readyDevices = new ArrayList<>();
-        btNames = new BluetoothListCustomAdapter(getActivity(), devicesNames);
+        btNames = new BluetoothListCustomAdapter(getActivity(), devicesNames,ConDisDevices);
         BtList.setAdapter(btNames);
 
         if (!bluetoothAdapter.isEnabled()) {
@@ -159,19 +161,40 @@ public class BluetoothFragment extends Fragment {
         });
 
         BtList.setOnItemClickListener((parent, view1, position, id) -> {
+            BluetoothDevice device = readyDevices.get(position);
+
+            // 检查选定设备是否已连接
+            if (MainActivity.getBluetoothConFlag() && bluetoothGatt != null && bluetoothGatt.getDevice().equals(device)) {
+                // 如果设备已连接，则不执行任何操作或显示消息
+                MainActivity.showToast(getActivity(), "已经连接到 " + device.getName());
+                return;
+            }
+
+            // 如果有设备连接，先断开连接
             if (bluetoothGatt != null) {
+                BluetoothDevice previousDevice = bluetoothGatt.getDevice();
                 bluetoothGatt.disconnect();
                 bluetoothGatt.close();
                 bluetoothGatt = null;
+
+                // 更新上一个设备的连接状态
+                if (previousDevice != null) {
+                    int previousPosition = readyDevices.indexOf(previousDevice);
+                    if (previousPosition != -1) {
+                        ConDisDevices.set(previousPosition, false);
+                        btNames.notifyDataSetChanged(); // 更新适配器
+                    }
+                }
             }
 
+            // 重置扫描状态
+            ScanTimeCount = 0;
             isScanning = false;
-//            btn_Scan.setText("搜索蓝牙");
+            stopRotating(btn_Scan); // 停止旋转
             bluetoothLeScanner.stopScan(leScanCallback);
 
-            BluetoothDevice device = readyDevices.get(position);
+            // 连接选定设备
             bluetoothGatt = device.connectGatt(getActivity(), false, gattCallback);
-
             MainActivity.showToast(getActivity(), "正在连接 " + device.getName());
         });
 
@@ -242,6 +265,12 @@ public class BluetoothFragment extends Fragment {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void startScan() {
+        devicesNames.clear();
+        readyDevices.clear();
+        deviceNamesSet.clear();
+        ConDisDevices.clear(); // 清空连接状态列表
+        btNames.notifyDataSetChanged();
+
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -305,14 +334,25 @@ public class BluetoothFragment extends Fragment {
                         break;
                 }
 
+                // 去重和更新设备列表
                 if (!deviceNamesSet.contains(deviceName)) {
                     deviceNamesSet.add(deviceName);
-                    devicesNames.add(deviceName + " (" + rssi + "dBm, " + deviceType + ")");
+                    devicesNames.add(String.format("%s (%ddBm, %s)", deviceName, rssi, deviceType));
                     readyDevices.add(device);
+
+                    // 更新连接状态（初始为未连接）
+                    ConDisDevices.add(false); // 添加到连接状态列表
+
+                    // 在 UI 线程中更新适配器
                     getActivity().runOnUiThread(() -> btNames.notifyDataSetChanged());
+
+                    // 日志记录
+                    Log.d("BluetoothScan", "Found device: " + deviceName + " with RSSI: " + rssi);
                 }
             }
         }
+
+
 
         @Override
         public void onBatchScanResults(List<ScanResult> results) {
@@ -331,18 +371,38 @@ public class BluetoothFragment extends Fragment {
     private final BluetoothGattCallback gattCallback = new BluetoothGattCallback() {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+            BluetoothDevice device = gatt.getDevice();
+            if (device == null) {
+                return; // 如果设备为 null，直接返回
+            }
+
             if (newState == BluetoothProfile.STATE_CONNECTED) {
                 getActivity().runOnUiThread(() -> {
-                    MainActivity.showToast(getActivity(), "已连接 " + gatt.getDevice().getName());
+                    MainActivity.showToast(getActivity(), "已连接 " + device.getName());
+
+                    // 更新连接状态
+                    int position = readyDevices.indexOf(device);
+                    if (position != -1) {
+                        ConDisDevices.set(position, true); // 设置为已连接状态
+                        btNames.notifyDataSetChanged(); // 更新适配器
+                    }
                 });
                 gatt.discoverServices();
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 getActivity().runOnUiThread(() -> {
                     MainActivity.showToast(getActivity(), "蓝牙已断开");
+
+                    // 更新连接状态
+                    int position = readyDevices.indexOf(device);
+                    if (position != -1) {
+                        ConDisDevices.set(position, false); // 设置为未连接状态
+                        btNames.notifyDataSetChanged(); // 更新适配器
+                    }
                 });
                 MainActivity.setBluetoothConFlag(false);
             }
         }
+
 
         @Override
         public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {

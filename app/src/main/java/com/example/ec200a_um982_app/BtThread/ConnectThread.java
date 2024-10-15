@@ -22,7 +22,7 @@ public class ConnectThread extends Thread {
     private static final UUID SERVICE_UUID = UUID.fromString("0000ffe0-0000-1000-8000-00805f9b34fb");
     private static final UUID TX_CHARACTERISTIC_UUID = UUID.fromString("0000ffe1-0000-1000-8000-00805f9b34fb");
     private static final UUID RX_CHARACTERISTIC_UUID = UUID.fromString("0000ffe1-0000-1000-8000-00805f9b34fb");
-    private static final UUID NOTIFICATION_DESCRIPTOR_UUID = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
+    private static final UUID NOTIFICATION_DESCRIPTOR_UUID = UUID.fromString("0000ffe1-0000-1000-8000-00805f9b34fb");
 
     private BluetoothDevice bluetoothDevice;
     private BluetoothGatt bluetoothGatt;

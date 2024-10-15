@@ -57,6 +57,12 @@
         android:theme="@style/Theme.EC200A_UM982_App"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
+        <service
+            android:name=".SocketService"
+            android:enabled="true"
+            android:exported="true" />
+
 <!--        <activity-->
 <!--            android:name=".main_fragment.TestActivity"-->
 <!--            android:exported="true">-->
@@ -66,11 +72,6 @@
 <!--                <category android:name="android.intent.category.LAUNCHER" />-->
 <!--            </intent-filter>-->
 <!--        </activity>-->
-
-        <service
-            android:name=".SocketService"
-            android:enabled="true"
-            android:exported="true" />
 
         <activity
             android:name=".MainActivity"
@@ -83,6 +84,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
     </application>
 
 </manifest>

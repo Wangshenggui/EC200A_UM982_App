@@ -398,12 +398,12 @@ public class BluetoothFragment extends Fragment {
         @Override
         public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
             if (status == BluetoothGatt.GATT_SUCCESS) {
-                BluetoothGattService service = gatt.getService(UUID.fromString("0000fff1-0000-1000-8000-00805f9b34fb"));
+                BluetoothGattService service = gatt.getService(UUID.fromString("0000ffe0-0000-1000-8000-00805f9b34fb"));
                 if (service != null) {
-                    characteristic = service.getCharacteristic(UUID.fromString("0000fff2-0000-1000-8000-00805f9b34fb"));
+                    characteristic = service.getCharacteristic(UUID.fromString("0000ffe1-0000-1000-8000-00805f9b34fb"));
                     if (characteristic != null) {
                         gatt.setCharacteristicNotification(characteristic, true);
-                        BluetoothGattDescriptor descriptor = characteristic.getDescriptor(UUID.fromString("0000fff3-0000-1000-8000-00805f9b34fb"));
+                        BluetoothGattDescriptor descriptor = characteristic.getDescriptor(UUID.fromString("0000ffe2-0000-1000-8000-00805f9b34fb"));
                         if (descriptor != null) {
                             descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
                             gatt.writeDescriptor(descriptor);

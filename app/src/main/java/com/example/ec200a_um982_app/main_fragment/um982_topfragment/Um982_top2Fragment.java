@@ -1,14 +1,21 @@
 package com.example.ec200a_um982_app.main_fragment.um982_topfragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 import com.example.ec200a_um982_app.MainActivity;
@@ -19,6 +26,12 @@ import com.example.ec200a_um982_app.SocketService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import android.view.View;
+import android.view.ViewGroup;
+import android.content.Context;
+import android.webkit.JavascriptInterface;
+import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,6 +78,14 @@ public class Um982_top2Fragment extends Fragment {
     TextView HeadingText;
 
     String DatumCode="";
+
+
+    private WebView webView;
+
+    // Timer variables
+    private Handler handler;
+    private Runnable timerRunnable;
+    private static final int TIMER_INTERVAL = 1000; // 1 seconds
 
 
 
@@ -139,7 +160,52 @@ public class Um982_top2Fragment extends Fragment {
         HeadingText = view.findViewById(R.id.HeadingText);
 
 
+        webView = view.findViewById(R.id.webView);
+
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);  // Enable JavaScript
+
+        // Add JavaScript interface to communicate with the WebView
+        webView.addJavascriptInterface(new WebAppInterface(), "Android");
+
+        // Ensure WebView stays inside the app instead of launching a browser
+        webView.setWebViewClient(new WebViewClient());
+
+        // Load the local HTML file
+        webView.loadUrl("file:///android_asset/Um982_top2Fragment.html");
+
+        // Initialize Handler
+        handler = new Handler(Looper.getMainLooper());
+
+        // Define the task to be run periodically
+        timerRunnable = new Runnable() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void run() {
+
+
+                // Repeat the task every TIMER_INTERVAL milliseconds
+                handler.postDelayed(this, TIMER_INTERVAL);
+            }
+        };
+
         return view;
+    }
+
+    // JavaScript Interface class to allow communication from the WebView to Android
+    public class WebAppInterface {
+        @android.webkit.JavascriptInterface
+        public void showToast(String toast) {
+            Toast.makeText(getActivity(), toast, Toast.LENGTH_SHORT).show();
+        }
+
+        @android.webkit.JavascriptInterface
+        public void sendDataToAndroid(String data) {
+            // Log the data received from WebView
+            Log.d("WebAppInterface", "Data received from WebView: " + data);
+            // Display a toast message with the received data
+            MainActivity.showToast(getActivity(),data);
+        }
     }
 
     public static List<String> getSpecificSubstrings(String input, int[] indices) {
@@ -160,7 +226,7 @@ public class Um982_top2Fragment extends Fragment {
         return result; // 返回提取的部分
     }
 
-//    private StringBuilder dataBuffer = new StringBuilder();
+    //    private StringBuilder dataBuffer = new StringBuilder();
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

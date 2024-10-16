@@ -160,7 +160,7 @@ public class Um982_top2Fragment extends Fragment {
         return result; // 返回提取的部分
     }
 
-    private StringBuilder dataBuffer = new StringBuilder();
+//    private StringBuilder dataBuffer = new StringBuilder();
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -169,127 +169,127 @@ public class Um982_top2Fragment extends Fragment {
             @Override
             public void onChanged(String data) {
                 // 将接收到的数据添加到缓冲区
-                dataBuffer.append(data);
+//                dataBuffer.append(data);
 
-                // 检查是否包含 \r\n
-                while (dataBuffer.indexOf("\r\n") != -1) {
-                    String frames = dataBuffer.toString();
-                    String[] messageArray = frames.split("::");
-                    // 遍历输出拆分后的消息
-                    for (String message : messageArray) {
-                        // 处理接收到的数据
-                        if (message != null && message.startsWith("$GNDTM,")) {
-                            int[] indices = {2, 4, 6,8,9};
-                            List<String> results = getSpecificSubstrings(message, indices);
-
-                            DatumCodeText.setText("本地坐标系代码: " + results.get(0));
-                            LatOffsetText.setText("纬度偏移量: " + results.get(1) + "′");
-                            LonOffsetText.setText("经度偏移量: " + results.get(2) + "′");
-                            AltOffsetText.setText("海拔偏移量: " + results.get(3) + " m");
-                            RfDatumCodeText.setText("参考坐标系代码: " + results.get(4).substring(0,3));
-                        } else if (message != null && message.startsWith("$GNGBS,")) {
-                            int[] indices = {2,3,4,5};
-                            List<String> results = getSpecificSubstrings(message, indices);
-
-                            UTCText.setText("UTC时间: " + results.get(0));
-                            LatExpText.setText("纬度预期误差: " + results.get(1) + " m");
-                            LonExpText.setText("经度预期误差: " + results.get(2) + " m");
-                            AltExpText.setText("海拔预期误差: " + results.get(3) + " m");
-                        } else if (message != null && message.startsWith("$GNGGA,")) {
-                            int[] indices = {3,4,5,6,7,8,9,10,11,14,15};
-                            List<String> results = getSpecificSubstrings(message, indices);
-
-                            LatText.setText("纬度: " + results.get(0));
-                            LatDirText.setText("纬度方向: " + results.get(1));
-                            LonText.setText("经度: " + results.get(2));
-                            LonDirText.setText("经度方向: " + results.get(3));
-                            if(Objects.equals(results.get(4), "0"))
-                                RtkModeText.setText("定位模式: " + "定位无效");
-                            else if(Objects.equals(results.get(4), "1"))
-                                RtkModeText.setText("定位模式: " + "单点定位");
-                            else if(Objects.equals(results.get(4), "2"))
-                                RtkModeText.setText("定位模式: " + "差分定位");
-                            else if(Objects.equals(results.get(4), "3"))
-                                RtkModeText.setText("定位模式: " + "GPS PPS 模式");
-                            else if(Objects.equals(results.get(4), "4"))
-                                RtkModeText.setText("定位模式: " + "固定RTK模式");
-                            else if(Objects.equals(results.get(4), "5"))
-                                RtkModeText.setText("定位模式: " + "浮动RTK模式");
-                            else if(Objects.equals(results.get(4), "6"))
-                                RtkModeText.setText("定位模式: " + "惯导模式");
-                            else if(Objects.equals(results.get(4), "7"))
-                                RtkModeText.setText("定位模式: " + "手动输入模式");
-                            else if(Objects.equals(results.get(4), "8"))
-                                RtkModeText.setText("定位模式: " + "模拟器模式");
-
-                            SatsText.setText("使用中的卫星数: " + results.get(5));
-                            hdopText.setText("水平精度因子: " + results.get(6));
-                            AltText.setText("海拔高度: " + results.get(7));
-                            a_unitsText.setText("海拔高度单位: " + results.get(8));
-                            DiffDataAgeText.setText("差分数据龄期: " + results.get(9));
-                            if(results.get(10).length()>3) {
-                                stnIDText.setText("差分基站ID: " + results.get(10).substring(0,3));
-                            }
-
-                        } else if (message != null && message.startsWith("$GNGGAH,")) {
-
-                        } else if (message != null && message.startsWith("$GNGLL,")) {
-
-                        } else if (message != null && message.startsWith("$GNGLLH,")) {
-
-                        } else if (message != null && message.startsWith("$GNGNS,")) {
-
-                        } else if (message != null && message.startsWith("$GNGNSH,")) {
-
-                        } else if (message != null && message.startsWith("$GNGRS,")) {
-
-                        } else if (message != null && message.startsWith("$GNGRSH,")) {
-
-                        } else if (message != null && message.startsWith("$GNGSA,")) {
-
-                        } else if (message != null && message.startsWith("$GNGSAH,")) {
-
-                        } else if (message != null && message.startsWith("$GNGST,")) {
-
-                        } else if (message != null && message.startsWith("$GNGSTH,")) {
-
-                        } else if (message != null && message.startsWith("$GNGSV,")) {
-
-                        } else if (message != null && message.startsWith("$GNGSVH,")) {
-
-                        } else if (message != null && message.startsWith("$GNTHS,")) {
-                            int[] indices = {2};
-                            List<String> results = getSpecificSubstrings(message, indices);
-
-                            HeadingText.setText("天线方向: " + results.get(0));
-                        } else if (message != null && message.startsWith("$GNRMC,")) {
-                            int[] indices = {14,8,9,10,11,12};
-                            List<String> results = getSpecificSubstrings(message, indices);
-
-                            statusText.setText("导航状态指示: " + results.get(0).substring(0,1));
-                            float speed = Float.parseFloat(results.get(1));
-                            speedText.setText("地面速率: " + speed*1.852 + "km/h\r\n\t" + speed*0.5144 + "m/s");
-                            TrackTrueText.setText("地面航向: " + results.get(2));
-                            dateText.setText("日期: " + results.get(3));
-                            magVarText.setText("磁偏角: " + results.get(4));
-                            varDirText.setText("磁偏角方向: " + results.get(5));
-                        } else if (message != null && message.startsWith("$GNRMCH,")) {
-
-                        } else if (message != null && message.startsWith("$GNROT,")) {
-                            int[] indices = {2};
-                            List<String> results = getSpecificSubstrings(message, indices);
-
-                            rateText.setText("旋转速率: " + results.get(0) + "度/分");
-                        } else if (message != null && message.startsWith("$GNVTG,")) {
-
-                        } else if (message != null && message.startsWith("$GNVTGH,")) {
-
-                        } else if (message != null && message.startsWith("$GNZDA,")) {
-
-                        }
-                    }
-                    dataBuffer.setLength(0);
-                }
+//                // 检查是否包含 \r\n
+//                while (dataBuffer.indexOf("\r\n") != -1) {
+//                    String frames = dataBuffer.toString();
+//                    String[] messageArray = frames.split("::");
+//                    // 遍历输出拆分后的消息
+//                    for (String message : messageArray) {
+//                        // 处理接收到的数据
+//                        if (message != null && message.startsWith("$GNDTM,")) {
+//                            int[] indices = {2, 4, 6,8,9};
+//                            List<String> results = getSpecificSubstrings(message, indices);
+//
+//                            DatumCodeText.setText("本地坐标系代码: " + results.get(0));
+//                            LatOffsetText.setText("纬度偏移量: " + results.get(1) + "′");
+//                            LonOffsetText.setText("经度偏移量: " + results.get(2) + "′");
+//                            AltOffsetText.setText("海拔偏移量: " + results.get(3) + " m");
+//                            RfDatumCodeText.setText("参考坐标系代码: " + results.get(4).substring(0,3));
+//                        } else if (message != null && message.startsWith("$GNGBS,")) {
+//                            int[] indices = {2,3,4,5};
+//                            List<String> results = getSpecificSubstrings(message, indices);
+//
+//                            UTCText.setText("UTC时间: " + results.get(0));
+//                            LatExpText.setText("纬度预期误差: " + results.get(1) + " m");
+//                            LonExpText.setText("经度预期误差: " + results.get(2) + " m");
+//                            AltExpText.setText("海拔预期误差: " + results.get(3) + " m");
+//                        } else if (message != null && message.startsWith("$GNGGA,")) {
+//                            int[] indices = {3,4,5,6,7,8,9,10,11,14,15};
+//                            List<String> results = getSpecificSubstrings(message, indices);
+//
+//                            LatText.setText("纬度: " + results.get(0));
+//                            LatDirText.setText("纬度方向: " + results.get(1));
+//                            LonText.setText("经度: " + results.get(2));
+//                            LonDirText.setText("经度方向: " + results.get(3));
+//                            if(Objects.equals(results.get(4), "0"))
+//                                RtkModeText.setText("定位模式: " + "定位无效");
+//                            else if(Objects.equals(results.get(4), "1"))
+//                                RtkModeText.setText("定位模式: " + "单点定位");
+//                            else if(Objects.equals(results.get(4), "2"))
+//                                RtkModeText.setText("定位模式: " + "差分定位");
+//                            else if(Objects.equals(results.get(4), "3"))
+//                                RtkModeText.setText("定位模式: " + "GPS PPS 模式");
+//                            else if(Objects.equals(results.get(4), "4"))
+//                                RtkModeText.setText("定位模式: " + "固定RTK模式");
+//                            else if(Objects.equals(results.get(4), "5"))
+//                                RtkModeText.setText("定位模式: " + "浮动RTK模式");
+//                            else if(Objects.equals(results.get(4), "6"))
+//                                RtkModeText.setText("定位模式: " + "惯导模式");
+//                            else if(Objects.equals(results.get(4), "7"))
+//                                RtkModeText.setText("定位模式: " + "手动输入模式");
+//                            else if(Objects.equals(results.get(4), "8"))
+//                                RtkModeText.setText("定位模式: " + "模拟器模式");
+//
+//                            SatsText.setText("使用中的卫星数: " + results.get(5));
+//                            hdopText.setText("水平精度因子: " + results.get(6));
+//                            AltText.setText("海拔高度: " + results.get(7));
+//                            a_unitsText.setText("海拔高度单位: " + results.get(8));
+//                            DiffDataAgeText.setText("差分数据龄期: " + results.get(9));
+//                            if(results.get(10).length()>3) {
+//                                stnIDText.setText("差分基站ID: " + results.get(10).substring(0,3));
+//                            }
+//
+//                        } else if (message != null && message.startsWith("$GNGGAH,")) {
+//
+//                        } else if (message != null && message.startsWith("$GNGLL,")) {
+//
+//                        } else if (message != null && message.startsWith("$GNGLLH,")) {
+//
+//                        } else if (message != null && message.startsWith("$GNGNS,")) {
+//
+//                        } else if (message != null && message.startsWith("$GNGNSH,")) {
+//
+//                        } else if (message != null && message.startsWith("$GNGRS,")) {
+//
+//                        } else if (message != null && message.startsWith("$GNGRSH,")) {
+//
+//                        } else if (message != null && message.startsWith("$GNGSA,")) {
+//
+//                        } else if (message != null && message.startsWith("$GNGSAH,")) {
+//
+//                        } else if (message != null && message.startsWith("$GNGST,")) {
+//
+//                        } else if (message != null && message.startsWith("$GNGSTH,")) {
+//
+//                        } else if (message != null && message.startsWith("$GNGSV,")) {
+//
+//                        } else if (message != null && message.startsWith("$GNGSVH,")) {
+//
+//                        } else if (message != null && message.startsWith("$GNTHS,")) {
+//                            int[] indices = {2};
+//                            List<String> results = getSpecificSubstrings(message, indices);
+//
+//                            HeadingText.setText("天线方向: " + results.get(0));
+//                        } else if (message != null && message.startsWith("$GNRMC,")) {
+//                            int[] indices = {14,8,9,10,11,12};
+//                            List<String> results = getSpecificSubstrings(message, indices);
+//
+//                            statusText.setText("导航状态指示: " + results.get(0).substring(0,1));
+//                            float speed = Float.parseFloat(results.get(1));
+//                            speedText.setText("地面速率: " + speed*1.852 + "km/h\r\n\t" + speed*0.5144 + "m/s");
+//                            TrackTrueText.setText("地面航向: " + results.get(2));
+//                            dateText.setText("日期: " + results.get(3));
+//                            magVarText.setText("磁偏角: " + results.get(4));
+//                            varDirText.setText("磁偏角方向: " + results.get(5));
+//                        } else if (message != null && message.startsWith("$GNRMCH,")) {
+//
+//                        } else if (message != null && message.startsWith("$GNROT,")) {
+//                            int[] indices = {2};
+//                            List<String> results = getSpecificSubstrings(message, indices);
+//
+//                            rateText.setText("旋转速率: " + results.get(0) + "度/分");
+//                        } else if (message != null && message.startsWith("$GNVTG,")) {
+//
+//                        } else if (message != null && message.startsWith("$GNVTGH,")) {
+//
+//                        } else if (message != null && message.startsWith("$GNZDA,")) {
+//
+//                        }
+//                    }
+//                    dataBuffer.setLength(0);
+//                }
             }
         });
     }

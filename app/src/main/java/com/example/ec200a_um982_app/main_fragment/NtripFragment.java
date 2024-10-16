@@ -128,9 +128,8 @@ public class NtripFragment extends Fragment {
             @SuppressLint("SetTextI18n")
             @Override
             public void run() {
-
-
-//                RTCMString
+                // Repeat the task every TIMER_INTERVAL milliseconds
+                handler.postDelayed(this, TIMER_INTERVAL*10);
 
                 if (RTCMString != null) {
                     int groupSize = 220;
@@ -156,16 +155,8 @@ public class NtripFragment extends Fragment {
                     }
 
                     // 显示 Toast，包含总长、组数和最后一组的字节数
-                    MainActivity.showToast(getActivity(), "总长: " + length + " 组数: " + numGroups + " 最后一组字节数: " + lastGroupSize);
+//                    MainActivity.showToast(getActivity(), "总长: " + length + " 组数: " + numGroups + " 最后一组字节数: " + lastGroupSize);
 
-
-                    BluetoothFragment.characteristic.setValue("{{{{{"); // 设置要发送的值
-                    BluetoothFragment.bluetoothGatt.writeCharacteristic(BluetoothFragment.characteristic); // 写入特征值
-                    try {
-                        Thread.sleep(5); // 例如，等待 100 毫秒
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                     for (int i = 0; i < numGroups; i++) {
                         BluetoothFragment.characteristic.setValue(groupedRTCM[i]); // 设置要发送的值
                         BluetoothFragment.bluetoothGatt.writeCharacteristic(BluetoothFragment.characteristic); // 写入特征值
@@ -177,16 +168,7 @@ public class NtripFragment extends Fragment {
                             e.printStackTrace();
                         }
                     }
-                    try {
-                        Thread.sleep(5); // 例如，等待 100 毫秒
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    BluetoothFragment.characteristic.setValue("}}}}}"); // 设置要发送的值
-                    BluetoothFragment.bluetoothGatt.writeCharacteristic(BluetoothFragment.characteristic); // 写入特征值
                 }
-                // Repeat the task every TIMER_INTERVAL milliseconds
-                handler.postDelayed(this, TIMER_INTERVAL*10);
             }
         };
         handler.post(timerRunnable); // 启动更新

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".main_fragment.um982_topfragment.Um982_top1Fragment">
+    tools:context=".main_fragment.um982_topfragment.Um982_top2Fragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,16 +19,16 @@
             android:layout_marginBottom="8dp"
             app:cardElevation="4dp"
             app:cardCornerRadius="8dp">
-
+            <!--    //    1.本地坐标系代码-->
             <TextView
-                android:id="@+id/nmea_dtm"
+                android:id="@+id/DatumCodeText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:textColor="@android:color/black"
-                android:background="#FFE0E0E0"
+                android:background="#55E0E0E0"
                 android:padding="10dp"
-                android:text="nmea_dtm" />
+                android:text="本地坐标系代码" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -37,16 +37,16 @@
             android:layout_marginBottom="8dp"
             app:cardElevation="4dp"
             app:cardCornerRadius="8dp">
-
+            <!--    //    2.纬度偏移量-->
             <TextView
-                android:id="@+id/nmea_gbs"
+                android:id="@+id/LatOffsetText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:textColor="@android:color/black"
-                android:background="#FFE0FFE0"
+                android:background="#55E0E0E0"
                 android:padding="10dp"
-                android:text="nmea_gbs" />
+                android:text="纬度偏移量" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -55,16 +55,16 @@
             android:layout_marginBottom="8dp"
             app:cardElevation="4dp"
             app:cardCornerRadius="8dp">
-
+            <!--    //    3.经度偏移量-->
             <TextView
-                android:id="@+id/nmea_gga"
+                android:id="@+id/LatOffsetText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:textColor="@android:color/black"
-                android:background="#FFE0E0FF"
+                android:background="#55E0E0E0"
                 android:padding="10dp"
-                android:text="nmea_gga" />
+                android:text="经度偏移量" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -73,251 +73,20 @@
             android:layout_marginBottom="8dp"
             app:cardElevation="4dp"
             app:cardCornerRadius="8dp">
-
+            <!--    //    4.海拔偏移量-->
             <TextView
-                android:id="@+id/nmea_ggah"
+                android:id="@+id/LatOffsetText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:textColor="@android:color/black"
-                android:background="#FFFFE0E0"
+                android:background="#55E0E0E0"
                 android:padding="10dp"
-                android:text="nmea_ggah" />
+                android:text="海拔偏移量" />
         </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="8dp">
-
-            <TextView
-                android:id="@+id/nmea_gll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="@android:color/black"
-                android:background="#FFE0FFFF"
-                android:padding="10dp"
-                android:text="nmea_gll" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="8dp">
-
-            <TextView
-                android:id="@+id/nmea_gllh"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="@android:color/black"
-                android:background="#FFFAE0E0"
-                android:padding="10dp"
-                android:text="nmea_gllh" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="8dp">
-
-            <TextView
-                android:id="@+id/nmea_gns"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="@android:color/black"
-                android:background="#FFFFE0FF"
-                android:padding="10dp"
-                android:text="nmea_gns" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="8dp">
-
-            <TextView
-                android:id="@+id/nmea_gnsh"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="@android:color/black"
-                android:background="#FFFAE0FF"
-                android:padding="10dp"
-                android:text="nmea_gnsh" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="8dp">
-
-            <TextView
-                android:id="@+id/nmea_gst"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="@android:color/black"
-                android:background="#FFE0E0FF"
-                android:padding="10dp"
-                android:text="nmea_gst" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="8dp">
-
-            <TextView
-                android:id="@+id/nmea_gsth"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="@android:color/black"
-                android:background="#FFF0E0FF"
-                android:padding="10dp"
-                android:text="nmea_gsth" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="8dp">
-
-            <TextView
-                android:id="@+id/nmea_ths"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="@android:color/black"
-                android:background="#FFFFE0E0"
-                android:padding="10dp"
-                android:text="nmea_ths" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="8dp">
-
-            <TextView
-                android:id="@+id/nmea_rmc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="@android:color/black"
-                android:background="#FFE0E0F0"
-                android:padding="10dp"
-                android:text="nmea_rmc" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="8dp">
-
-            <TextView
-                android:id="@+id/nmea_rmch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="@android:color/black"
-                android:background="#FFE0F0F0"
-                android:padding="10dp"
-                android:text="nmea_rmch" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="8dp">
-
-            <TextView
-                android:id="@+id/nmea_rot"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="@android:color/black"
-                android:background="#FFFFE0F0"
-                android:padding="10dp"
-                android:text="nmea_rot" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="8dp">
-
-            <TextView
-                android:id="@+id/nmea_vtg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="@android:color/black"
-                android:background="#FFE0E0FF"
-                android:padding="10dp"
-                android:text="nmea_vtg" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="8dp">
-
-            <TextView
-                android:id="@+id/nmea_vtgh"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="@android:color/black"
-                android:background="#FFF0E0FF"
-                android:padding="10dp"
-                android:text="nmea_vtgh" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="8dp">
-
-            <TextView
-                android:id="@+id/nmea_zda"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="@android:color/black"
-                android:background="#FFE0E0FF"
-                android:padding="10dp"
-                android:text="nmea_zda" />
-        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
-</ScrollView>
 
+
+</ScrollView>

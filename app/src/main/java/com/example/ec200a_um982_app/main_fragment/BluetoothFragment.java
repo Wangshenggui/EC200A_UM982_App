@@ -434,16 +434,9 @@ public class BluetoothFragment extends Fragment {
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
             byte[] data = characteristic.getValue();
             String receivedData = new String(data, StandardCharsets.UTF_8);
-            String[] parts = receivedData.split("\r\n");
-
-            for (String part : parts) {
-                if (!part.trim().isEmpty()) {
-                    getActivity().runOnUiThread(() -> {
-                        viewModel1.setDataGroup1(part);
-                    });
-                    break;
-                }
-            }
+            getActivity().runOnUiThread(() -> {
+                viewModel1.setDataGroup1(receivedData);
+            });
         }
     };
 

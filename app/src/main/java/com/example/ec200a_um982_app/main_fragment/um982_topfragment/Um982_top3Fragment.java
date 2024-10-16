@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.example.ec200a_um982_app.MainActivity;
 import com.example.ec200a_um982_app.R;
 import com.example.ec200a_um982_app.SharedViewModel;
+import com.example.ec200a_um982_app.SocketService;
 import com.example.ec200a_um982_app.main_fragment.BluetoothFragment;
 
 import org.json.JSONException;
@@ -389,6 +390,7 @@ public class Um982_top3Fragment extends Fragment {
         }
     }
 
+    private StringBuilder dataBuffer = new StringBuilder();
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -411,45 +413,57 @@ public class Um982_top3Fragment extends Fragment {
                 if (n>0) {
                     n--;
                 }
-                // 处理接收到的数据
-                if (data.startsWith("$GN") && !SendDataFlag && n==0) {
-                    if (data.startsWith("$GNDTM,")) {
-                        updateCheckBoxAndText(DTMselectCheck, DTMselectText);
-                    } else if (data.startsWith("$GNGBS,")) {
-                        updateCheckBoxAndText(GBSselectCheck, GBSselectText);
-                    } else if (data.startsWith("$GNGGA,")) {
-                        updateCheckBoxAndText(GGAselectCheck, GGAselectText);
-                    } else if (data.startsWith("$GNGGAH,")) {
-                        updateCheckBoxAndText(GGAHselectCheck, GGAHselectText);
-                    } else if (data.startsWith("$GNGLL,")) {
-                        updateCheckBoxAndText(GLLselectCheck, GLLselectText);
-                    } else if (data.startsWith("$GNGLLH,")) {
-                        updateCheckBoxAndText(GLLHselectCheck, GLLHselectText);
-                    } else if (data.startsWith("$GNGNS,")) {
-                        updateCheckBoxAndText(GNSselectCheck, GNSselectText);
-                    } else if (data.startsWith("$GNGNSH,")) {
-                        updateCheckBoxAndText(GNSHselectCheck, GNSHselectText);
-                    } else if (data.startsWith("$GNGST,")) {
-                        updateCheckBoxAndText(GSTselectCheck, GSTselectText);
-                    } else if (data.startsWith("$GNGSTH,")) {
-                        updateCheckBoxAndText(GSTHselectCheck, GSTHselectText);
-                    } else if (data.startsWith("$GNTHS,")) {
-                        updateCheckBoxAndText(THSselectCheck, THSselectText);
-                    } else if (data.startsWith("$GNRMC,")) {
-                        updateCheckBoxAndText(RMCselectCheck, RMCselectText);
-                    } else if (data.startsWith("$GNRMCH,")) {
-                        updateCheckBoxAndText(RMCHselectCheck, RMCHselectText);
-                    } else if (data.startsWith("$GNROT,")) {
-                        updateCheckBoxAndText(ROTselectCheck, ROTselectText);
-                    } else if (data.startsWith("$GNVTG,")) {
-                        updateCheckBoxAndText(VTGselectCheck, VTGselectText);
-                    } else if (data.startsWith("$GNVTGH,")) {
-                        updateCheckBoxAndText(VTGHselectCheck, VTGHselectText);
-                    } else if (data.startsWith("$GNZDA,")) {
-                        updateCheckBoxAndText(ZDAselectCheck, ZDAselectText);
+
+                // 将接收到的数据添加到缓冲区
+                dataBuffer.append(data);
+
+                // 检查是否包含 \r\n
+                while (dataBuffer.indexOf("\r\n") != -1) {
+                    String frames = dataBuffer.toString();
+                    String[] messageArray = frames.split("::");
+                    // 遍历输出拆分后的消息
+                    for (String message : messageArray) {
+                        // 处理接收到的数据
+                        if (message.startsWith("$GN") && !SendDataFlag && n==0) {
+                            if (message.startsWith("$GNDTM,")) {
+                                updateCheckBoxAndText(DTMselectCheck, DTMselectText);
+                            } else if (message.startsWith("$GNGBS,")) {
+                                updateCheckBoxAndText(GBSselectCheck, GBSselectText);
+                            } else if (message.startsWith("$GNGGA,")) {
+                                updateCheckBoxAndText(GGAselectCheck, GGAselectText);
+                            } else if (message.startsWith("$GNGGAH,")) {
+                                updateCheckBoxAndText(GGAHselectCheck, GGAHselectText);
+                            } else if (message.startsWith("$GNGLL,")) {
+                                updateCheckBoxAndText(GLLselectCheck, GLLselectText);
+                            } else if (message.startsWith("$GNGLLH,")) {
+                                updateCheckBoxAndText(GLLHselectCheck, GLLHselectText);
+                            } else if (message.startsWith("$GNGNS,")) {
+                                updateCheckBoxAndText(GNSselectCheck, GNSselectText);
+                            } else if (message.startsWith("$GNGNSH,")) {
+                                updateCheckBoxAndText(GNSHselectCheck, GNSHselectText);
+                            } else if (message.startsWith("$GNGST,")) {
+                                updateCheckBoxAndText(GSTselectCheck, GSTselectText);
+                            } else if (message.startsWith("$GNGSTH,")) {
+                                updateCheckBoxAndText(GSTHselectCheck, GSTHselectText);
+                            } else if (message.startsWith("$GNTHS,")) {
+                                updateCheckBoxAndText(THSselectCheck, THSselectText);
+                            } else if (message.startsWith("$GNRMC,")) {
+                                updateCheckBoxAndText(RMCselectCheck, RMCselectText);
+                            } else if (message.startsWith("$GNRMCH,")) {
+                                updateCheckBoxAndText(RMCHselectCheck, RMCHselectText);
+                            } else if (message.startsWith("$GNROT,")) {
+                                updateCheckBoxAndText(ROTselectCheck, ROTselectText);
+                            } else if (message.startsWith("$GNVTG,")) {
+                                updateCheckBoxAndText(VTGselectCheck, VTGselectText);
+                            } else if (message.startsWith("$GNVTGH,")) {
+                                updateCheckBoxAndText(VTGHselectCheck, VTGHselectText);
+                            } else if (message.startsWith("$GNZDA,")) {
+                                updateCheckBoxAndText(ZDAselectCheck, ZDAselectText);
+                            }
+                        }
                     }
+                    dataBuffer.setLength(0);
                 }
-//                MainActivity.showToast(getActivity(), data);
             }
             // 封装重复的逻辑到一个函数
             private void updateCheckBoxAndText(CheckBox check, TextView text) {

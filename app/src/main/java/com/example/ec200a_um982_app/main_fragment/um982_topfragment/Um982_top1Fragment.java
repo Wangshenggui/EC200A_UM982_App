@@ -113,6 +113,7 @@ public class Um982_top1Fragment extends Fragment {
         return view;
     }
 
+    private StringBuilder dataBuffer = new StringBuilder();
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -121,54 +122,55 @@ public class Um982_top1Fragment extends Fragment {
             @Override
             public void onChanged(String data) {
                 viewModel2.setDataGroup2(data);
-                // 处理接收到的数据
-                if (data != null && data.startsWith("$GNDTM,")) {
-                    nmea_dtm.setText(data);
-                } else if (data != null && data.startsWith("$GNGBS,")) {
-                    nmea_gbs.setText(data);
-                } else if (data != null && data.startsWith("$GNGGA,")) {
-                    nmea_gga.setText(data);
-                    SocketService.CORSSSGString = data;
-                } else if (data != null && data.startsWith("$GNGGAH,")) {
-                    nmea_ggah.setText(data);
-                } else if (data != null && data.startsWith("$GNGLL,")) {
-                    nmea_gll.setText(data);
-                } else if (data != null && data.startsWith("$GNGLLH,")) {
-                    nmea_gllh.setText(data);
-                } else if (data != null && data.startsWith("$GNGNS,")) {
-                    nmea_gns.setText(data);
-                } else if (data != null && data.startsWith("$GNGNSH,")) {
-                    nmea_gnsh.setText(data);
-                } else if (data != null && data.startsWith("$GNGRS,")) {
 
-                } else if (data != null && data.startsWith("$GNGRSH,")) {
+                // 将接收到的数据添加到缓冲区
+                dataBuffer.append(data);
 
-                } else if (data != null && data.startsWith("$GNGSA,")) {
-
-                } else if (data != null && data.startsWith("$GNGSAH,")) {
-
-                } else if (data != null && data.startsWith("$GNGST,")) {
-                    nmea_gst.setText(data);
-                } else if (data != null && data.startsWith("$GNGSTH,")) {
-                    nmea_gsth.setText(data);
-                } else if (data != null && data.startsWith("$GNGSV,")) {
-
-                } else if (data != null && data.startsWith("$GNGSVH,")) {
-
-                } else if (data != null && data.startsWith("$GNTHS,")) {
-                    nmea_ths.setText(data);
-                } else if (data != null && data.startsWith("$GNRMC,")) {
-                    nmea_rmc.setText(data);
-                } else if (data != null && data.startsWith("$GNRMCH,")) {
-                    nmea_rmch.setText(data);
-                } else if (data != null && data.startsWith("$GNROT,")) {
-                    nmea_rot.setText(data);
-                } else if (data != null && data.startsWith("$GNVTG,")) {
-                    nmea_vtg.setText(data);
-                } else if (data != null && data.startsWith("$GNVTGH,")) {
-                    nmea_vtgh.setText(data);
-                } else if (data != null && data.startsWith("$GNZDA,")) {
-                    nmea_zda.setText(data);
+                // 检查是否包含 \r\n
+                while (dataBuffer.indexOf("\r\n") != -1) {
+                    String frames = dataBuffer.toString();
+                    String[] messageArray = frames.split("::");
+                    // 遍历输出拆分后的消息
+                    for (String message : messageArray) {
+                        // 处理接收到的数据
+                        if (message != null && message.startsWith("$GNDTM,")) {
+                        nmea_dtm.setText(message);
+                        } else if (message != null && message.startsWith("$GNGBS,")) {
+                            nmea_gbs.setText(message);
+                        } else if (message != null && message.startsWith("$GNGGA,")) {
+                            nmea_gga.setText(message);
+                            SocketService.CORSSSGString = message;
+                        } else if (message != null && message.startsWith("$GNGGAH,")) {
+                            nmea_ggah.setText(message);
+                        } else if (message != null && message.startsWith("$GNGLL,")) {
+                            nmea_gll.setText(message);
+                        } else if (message != null && message.startsWith("$GNGLLH,")) {
+                            nmea_gllh.setText(message);
+                        } else if (message != null && message.startsWith("$GNGNS,")) {
+                            nmea_gns.setText(message);
+                        } else if (message != null && message.startsWith("$GNGNSH,")) {
+                            nmea_gnsh.setText(message);
+                        } else if (message != null && message.startsWith("$GNGST,")) {
+                            nmea_gst.setText(message);
+                        } else if (message != null && message.startsWith("$GNGSTH,")) {
+                            nmea_gsth.setText(message);
+                        } else if (message != null && message.startsWith("$GNTHS,")) {
+                            nmea_ths.setText(message);
+                        } else if (message != null && message.startsWith("$GNRMC,")) {
+                            nmea_rmc.setText(message);
+                        } else if (message != null && message.startsWith("$GNRMCH,")) {
+                            nmea_rmch.setText(message);
+                        } else if (message != null && message.startsWith("$GNROT,")) {
+                            nmea_rot.setText(message);
+                        } else if (message != null && message.startsWith("$GNVTG,")) {
+                            nmea_vtg.setText(message);
+                        } else if (message != null && message.startsWith("$GNVTGH,")) {
+                            nmea_vtgh.setText(message);
+                        } else if (message != null && message.startsWith("$GNZDA,")) {
+                            nmea_zda.setText(message);
+                        }
+                    }
+                    dataBuffer.setLength(0);
                 }
             }
         });

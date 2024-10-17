@@ -35,41 +35,139 @@
         strong {
             color: #007BFF; /* 蓝色文本 */
         }
+        button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049; /* 悬停效果 */
+        }
     </style>
+    <script>
+        function dmsToDecimal(dms) {
+            // 提取度数部分
+            let degrees = Math.floor(dms / 100);
+            // 计算分钟部分
+            let minutes = dms - (degrees * 100);
+            // 转换为十进制度数
+            let decimalDegrees = degrees + (minutes / 60.0);
+            return decimalDegrees;
+        }
+
+        // 根据RTK状态值返回对应的文本
+        function getRTKStateText(rtkState) {
+            switch (rtkState) {
+                case 0:
+                    return '无定位';
+                case 1:
+                    return '单点定位';
+                case 2:
+                    return '亚米级定位';
+                case 4:
+                    return 'RTK固定解';
+                case 5:
+                    return 'RTK浮动解';
+                default:
+                    return '未知';
+            }
+        }
+
+        function isGGAData(ggaSentence) {
+            return ggaSentence.startsWith('$GNGGA') || ggaSentence.startsWith('$GPGGA');
+        }
+        function parseGGA(ggaSentence) {
+            try {
+                // 去除 $ 符号
+                var ggaParts = ggaSentence.split('$')[1].split(',');
+
+                // 提取经纬度和方向
+                var latitude = dmsToDecimal(ggaParts[2]);
+                if (ggaParts[3] === 'S') latitude = -latitude;
+
+                var longitude = dmsToDecimal(ggaParts[4]);
+                if (ggaParts[5] === 'W') longitude = -longitude;
+
+                // 提取 RTK 状态，卫星数量，海拔高度
+                var rtkState = getRTKStateText(Number(ggaParts[6]));
+                var satelliteCount = ggaParts[7];
+                var HDOP = ggaParts[8]; // 水平精度因子
+                var altitude = ggaParts[9];
+
+                return {
+                    latitude: latitude,
+                    longitude: longitude,
+                    rtkState: rtkState,
+                    satelliteCount: satelliteCount,
+                    altitude: altitude,
+                    HDOP: HDOP
+                };
+            } catch (e) {
+                console.error("Failed to parse GGA:", e);
+                return null;
+            }
+        }
+
+        function receiveDataFromAndroid(data) {
+            if (isGGAData(data)) {
+                var ggaData = parseGGA(data);
+                if (ggaData) {
+                    // 更新 HTML 显示
+                    document.querySelector('.text-longitude').textContent = ggaData.longitude.toFixed(11);
+                    document.querySelector('.text-latitude').textContent = ggaData.latitude.toFixed(11);
+                }
+            }
+        }
+
+
+
+
+        function sendData() {
+            const data = "123456"; // 自定义数据
+            Android.sendDataToAndroid(data); // 调用 Android 方法
+        }
+    </script>
 </head>
 <body>
-<h1>NMEA 消息</h1>
 
 <div class="nmea-message">
-    <p><strong>本地坐标系代码:</strong> 代码内容</p>
-    <p><strong>纬度偏移量:</strong> 偏移量内容</p>
-    <p><strong>经度偏移量:</strong> 偏移量内容</p>
-    <p><strong>海拔偏移量:</strong> 偏移量内容</p>
-    <p><strong>参考坐标系代码:</strong> 代码内容</p>
-    <p><strong>UTC时间:</strong> 时间内容</p>
-    <p><strong>纬度预期误差:</strong> 误差内容</p>
-    <p><strong>经度预期误差:</strong> 误差内容</p>
-    <p><strong>海拔预期误差:</strong> 误差内容</p>
-    <p><strong>纬度:</strong> 纬度内容</p>
-    <p><strong>纬度方向:</strong> 方向内容</p>
-    <p><strong>经度:</strong> 经度内容</p>
-    <p><strong>经度方向:</strong> 方向内容</p>
-    <p><strong>定位模式:</strong> 模式内容</p>
-    <p><strong>使用中的卫星数:</strong> 数量内容</p>
-    <p><strong>水平精度因子:</strong> 因子内容</p>
-    <p><strong>海拔高度:</strong> 高度内容</p>
-    <p><strong>海拔高度单位:</strong> 单位内容</p>
-    <p><strong>差分数据龄期:</strong> 龄期内容</p>
-    <p><strong>差分基站ID:</strong> ID内容</p>
-    <p><strong>导航状态指示:</strong> 状态内容</p>
-    <p><strong>航向:</strong> 航向内容</p>
-    <p><strong>地面速率:</strong> 速率内容</p>
-    <p><strong>地面航向:</strong> 航向内容</p>
-    <p><strong>日期:</strong> 日期内容</p>
-    <p><strong>磁偏角:</strong> 偏角内容</p>
-    <p><strong>磁偏角方向:</strong> 方向内容</p>
-    <p><strong>旋转速率:</strong> 速率内容</p>
+    <p><strong>本地坐标系代码:</strong> <span class="local-coordinate-code">代码内容</span></p>
+    <p><strong>纬度偏移量:</strong> <span class="latitude-offset">偏移量内容</span></p>
+    <p><strong>经度偏移量:</strong> <span class="longitude-offset">偏移量内容</span></p>
+    <p><strong>海拔偏移量:</strong> <span class="altitude-offset">偏移量内容</span></p>
+    <p><strong>参考坐标系代码:</strong> <span class="reference-coordinate-code">代码内容</span></p>
+    <p><strong>UTC时间:</strong> <span class="utc-time">时间内容</span></p>
+    <p><strong>纬度预期误差:</strong> <span class="latitude-expected-error">误差内容</span></p>
+    <p><strong>经度预期误差:</strong> <span class="longitude-expected-error">误差内容</span></p>
+    <p><strong>海拔预期误差:</strong> <span class="altitude-expected-error">误差内容</span></p>
+    <p><strong>纬度:</strong> <span class="text-latitude">纬度内容</span></p>
+    <p><strong>纬度方向:</strong> <span class="latitude-direction">方向内容</span></p>
+    <p><strong>经度:</strong> <span class="text-longitude">经度内容</span></p>
+    <p><strong>经度方向:</strong> <span class="longitude-direction">方向内容</span></p>
+    <p><strong>定位模式:</strong> <span class="positioning-mode">模式内容</span></p>
+    <p><strong>使用中的卫星数:</strong> <span class="satellite-count">数量内容</span></p>
+    <p><strong>水平精度因子:</strong> <span class="horizontal-precision">因子内容</span></p>
+    <p><strong>海拔高度:</strong> <span class="altitude">高度内容</span></p>
+    <p><strong>海拔高度单位:</strong> <span class="altitude-unit">单位内容</span></p>
+    <p><strong>差分数据龄期:</strong> <span class="differential-age">龄期内容</span></p>
+    <p><strong>差分基站ID:</strong> <span class="differential-station-id">ID内容</span></p>
+    <p><strong>导航状态指示:</strong> <span class="navigation-status">状态内容</span></p>
+    <p><strong>航向:</strong> <span class="heading">航向内容</span></p>
+    <p><strong>地面速率:</strong> <span class="ground-speed">速率内容</span></p>
+    <p><strong>地面航向:</strong> <span class="ground-heading">航向内容</span></p>
+    <p><strong>日期:</strong> <span class="date">日期内容</span></p>
+    <p><strong>磁偏角:</strong> <span class="magnetic-declination">偏角内容</span></p>
+    <p><strong>磁偏角方向:</strong> <span class="magnetic-direction">方向内容</span></p>
+    <p><strong>旋转速率:</strong> <span class="rotation-rate">速率内容</span></p>
+
 </div>
+
+<!-- 添加按钮以触发 JavaScript 方法 -->
+<button onclick="sendData()">发送数据到 Android</button>
 
 </body>
 </html>

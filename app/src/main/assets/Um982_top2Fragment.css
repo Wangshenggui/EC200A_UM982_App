@@ -1,0 +1,84 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e9ecef;
+    padding: 10px;
+    max-width: 100%;
+    margin: auto;
+}
+
+h1 {
+    text-align: center;
+    color: #4CAF50;
+    font-size: 1.0em;
+    margin-bottom: 20px;
+}
+
+.nmea-message-dtm {
+    background-color: #96b79f; /* 浅绿色 */
+}
+
+.nmea-message-gga {
+    background-color: #e0f7fa; /* 浅蓝色 */
+}
+
+.nmea-message-gbs {
+    background-color: #ffe0b2; /* 浅橙色 */
+}
+
+.nmea-message-ggah {
+    background-color: #e1bee7; /* 浅紫色 */
+}
+
+.nmea-message-gll {
+    background-color: #c8e6c9; /* 浅绿色 */
+}
+
+.nmea-message-gllh {
+    background-color: #fff3e0; /* 浅米色 */
+}
+
+.nmea-message-dtm, .nmea-message-gga, 
+.nmea-message-gbs, .nmea-message-ggah, 
+.nmea-message-gll, .nmea-message-gllh {
+    border: 1px solid #ddd;
+    padding: 20px; /* 增加内边距 */
+    margin-top: 2px;
+    border-radius: 10px; /* 圆角更加明显 */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* 更强的阴影效果 */
+    transition: transform 0.2s, box-shadow 0.2s; /* 增加阴影动画效果 */
+}
+
+.nmea-message-dtm:hover, .nmea-message-gga:hover, 
+.nmea-message-gbs:hover, .nmea-message-ggah:hover, 
+.nmea-message-gll:hover, .nmea-message-gllh:hover {
+    transform: scale(1.03); /* 增加放大效果 */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* 悬停时更明显的阴影 */
+}
+
+p {
+    margin: 12px 0; /* 增加段落间距 */
+    line-height: 1.2; /* 增加行高 */
+    font-size: 1.01em; /* 增加字体大小 */
+}
+
+strong {
+    color: #007BFF;
+}
+
+button {
+    margin-top: 20px;
+    padding: 12px 18px; /* 增加按钮内边距 */
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    font-size: 1.1em; /* 增加按钮字体大小 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 添加阴影 */
+    transition: background-color 0.3s, transform 0.2s; /* 添加按钮动画 */
+}
+
+button:hover {
+    background-color: #45a049;
+    transform: translateY(-2px); /* 按钮悬停时稍微上升 */
+}

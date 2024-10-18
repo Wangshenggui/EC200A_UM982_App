@@ -157,17 +157,19 @@ public class NtripFragment extends Fragment {
                     // 显示 Toast，包含总长、组数和最后一组的字节数
 //                    MainActivity.showToast(getActivity(), "总长: " + length + " 组数: " + numGroups + " 最后一组字节数: " + lastGroupSize);
 
-                    for (int i = 0; i < numGroups; i++) {
-                        BluetoothFragment.characteristic.setValue(groupedRTCM[i]); // 设置要发送的值
-                        BluetoothFragment.bluetoothGatt.writeCharacteristic(BluetoothFragment.characteristic); // 写入特征值
+                    if (SocketService.validateNmeaChecksum(SocketService.CORSSSGString))
+                        MainActivity.showToast(getActivity(),"RTCM");
+                        for (int i = 0; i < numGroups; i++) {
+                            BluetoothFragment.characteristic.setValue(groupedRTCM[i]); // 设置要发送的值
+                            BluetoothFragment.bluetoothGatt.writeCharacteristic(BluetoothFragment.characteristic); // 写入特征值
 
-                        // 可选：在每次发送后等待一段时间，以确保数据能顺利传输
-                        try {
-                            Thread.sleep(5); // 例如，等待 100 毫秒
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                            // 可选：在每次发送后等待一段时间，以确保数据能顺利传输
+                            try {
+                                Thread.sleep(5); // 例如，等待 100 毫秒
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    }
                 }
             }
         };

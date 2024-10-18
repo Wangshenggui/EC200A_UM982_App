@@ -9,83 +9,83 @@
     <script src="Um982_top2Fragment.js" defer></script>
 <body>
 
-<div class="nmea-message-dtm">
-    <h3>DTM 数据</h3>
-    <p><strong>本地坐标系代码:</strong> <span class="dtmlocalCoordinateCode"></span></p>
-    <p><strong>纬度偏移量:</strong> <span class="dtmlatitudeOffset"></span></p>
-    <p><strong>纬度偏移方向:</strong> <span class="dtmlatitudeOffsetDir"></span></p>
-    <p><strong>经度偏移量:</strong> <span class="dtmlongitudeOffset"></span></p>
-    <p><strong>经度偏移方向:</strong> <span class="dtmlongitudeOffsetDir"></span></p>
-    <p><strong>海拔偏移量:</strong> <span class="dtmAltitudeOffset"></span></p>
-    <p><strong>参考坐标系代码:</strong> <span class="dtmRfDatumCode"></span></p>
-</div>
-
-<div class="nmea-message-gbs">
-    <h3>GBS 数据</h3>
-    <p><strong>UTC:</strong> <span class="gbsUTC"></span></p>
-    <p><strong>纬度预期误差:</strong> <span class="gbsLatExp"></span></p>
-    <p><strong>经度预期误差:</strong> <span class="gbsLonExp"></span></p>
-    <p><strong>海拔预期误差:</strong> <span class="gbsAltExp"></span></p>
-    <p><strong>故障卫星ID:</strong> <span class="gbsFaultySatelliteID"></span></p>
-</div>
-
-<div class="nmea-message-gga">
-    <h3>GGA 数据</h3>
-    <p><strong>UTC:</strong> <span class="ggaUTC"></span></p>
-    <p><strong>纬度:</strong> <span class="ggaLat"></span></p>
-    <p><strong>纬度方向:</strong> <span class="ggaLatDir"></span></p>
-    <p><strong>经度:</strong> <span class="ggaLon"></span></p>
-    <p><strong>经度方向:</strong> <span class="ggaLonDir"></span></p>
-    <p><strong>GPS状态:</strong> <span class="ggaQual"></span></p>
-    <p><strong>使用中的卫星数:</strong> <span class="ggaNumberOfSatellites"></span></p>
-    <p><strong>水平精度因子:</strong> <span class="ggaHDOP"></span></p>
-    <p><strong>海拔高度:</strong> <span class="ggaAlt"></span></p>
-    <p><strong>海拔高度单位:</strong> <span class="ggaAltUnits"></span></p>
-    <p><strong>地球椭球面相对大地水准面的高度:</strong> <span class="ggaUndulation"></span></p>
-    <p><strong>地球椭球面相对大地水准面的高度单位:</strong> <span class="ggaUndulationUnits"></span></p>
-    <p><strong>差分数据龄期:</strong> <span class="ggaAge"></span></p>
-    <p><strong>差分基站ID:</strong> <span class="ggaID"></span></p>
-</div>
-
-<div class="nmea-message-ggah">
-    <h3>GGAH 数据</h3>
-    <p><strong>UTC:</strong> <span class="ggahUTC"></span></p>
-    <p><strong>纬度:</strong> <span class="ggahLat"></span></p>
-    <p><strong>纬度方向:</strong> <span class="ggahLatDir"></span></p>
-    <p><strong>经度:</strong> <span class="ggahLon"></span></p>
-    <p><strong>经度方向:</strong> <span class="ggahLonDir"></span></p>
-    <p><strong>GPS状态:</strong> <span class="ggahQual"></span></p>
-    <p><strong>使用中的卫星数:</strong> <span class="ggahNumberOfSatellites"></span></p>
-    <p><strong>水平精度因子:</strong> <span class="ggahHDOP"></span></p>
-    <p><strong>海拔高度:</strong> <span class="ggahAlt"></span></p>
-    <p><strong>海拔高度单位:</strong> <span class="ggahAltUnits"></span></p>
-    <p><strong>地球椭球面相对大地水准面的高度:</strong> <span class="ggahUndulation"></span></p>
-    <p><strong>地球椭球面相对大地水准面的高度单位:</strong> <span class="ggahUndulationUnits"></span></p>
-    <p><strong>差分数据龄期:</strong> <span class="ggahAge"></span></p>
-    <p><strong>差分基站ID:</strong> <span class="ggahID"></span></p>
-</div>
-
-<div class="nmea-message-gll">
-    <h3>GLL 数据</h3>
-    <p><strong>纬度:</strong> <span class="gllLat"></span></p>
-    <p><strong>纬度方向:</strong> <span class="gllLatDir"></span></p>
-    <p><strong>经度:</strong> <span class="gllLon"></span></p>
-    <p><strong>经度方向:</strong> <span class="gllLonDir"></span></p>
-    <p><strong>UTC:</strong> <span class="gllUTC"></span></p>
-    <p><strong>状态:</strong> <span class="gllStatus"></span></p>
-    <p><strong>定位系统模式:</strong> <span class="gllPositioningSystemMode"></span></p>
-</div>
-
-<div class="nmea-message-gllh">
-    <h3>GLLH 数据</h3>
-    <p><strong>纬度:</strong> <span class="gllhLat"></span></p>
-    <p><strong>纬度方向:</strong> <span class="gllhLatDir"></span></p>
-    <p><strong>经度:</strong> <span class="gllhLon"></span></p>
-    <p><strong>经度方向:</strong> <span class="gllhLonDir"></span></p>
-    <p><strong>UTC:</strong> <span class="gllhUTC"></span></p>
-    <p><strong>状态:</strong> <span class="gllhStatus"></span></p>
-    <p><strong>定位系统模式:</strong> <span class="gllhPositioningSystemMode"></span></p>
-</div>
+    <div class="nmea-message-dtm" id="dtmContainer">
+        <h3>DTM 数据</h3>
+        <p><strong>本地坐标系代码:</strong> <span class="dtmlocalCoordinateCode"></span></p>
+        <p><strong>纬度偏移量:</strong> <span class="dtmlatitudeOffset"></span></p>
+        <p><strong>纬度偏移方向:</strong> <span class="dtmlatitudeOffsetDir"></span></p>
+        <p><strong>经度偏移量:</strong> <span class="dtmlongitudeOffset"></span></p>
+        <p><strong>经度偏移方向:</strong> <span class="dtmlongitudeOffsetDir"></span></p>
+        <p><strong>海拔偏移量:</strong> <span class="dtmAltitudeOffset"></span></p>
+        <p><strong>参考坐标系代码:</strong> <span class="dtmRfDatumCode"></span></p>
+    </div>
+    
+    <div class="nmea-message-gbs" id="gbsContainer">
+        <h3>GBS 数据</h3>
+        <p><strong>UTC:</strong> <span class="gbsUTC"></span></p>
+        <p><strong>纬度预期误差:</strong> <span class="gbsLatExp"></span></p>
+        <p><strong>经度预期误差:</strong> <span class="gbsLonExp"></span></p>
+        <p><strong>海拔预期误差:</strong> <span class="gbsAltExp"></span></p>
+        <p><strong>故障卫星ID:</strong> <span class="gbsFaultySatelliteID"></span></p>
+    </div>
+    
+    <div class="nmea-message-gga" id="ggaContainer">
+        <h3>GGA 数据</h3>
+        <p><strong>UTC:</strong> <span class="ggaUTC"></span></p>
+        <p><strong>纬度:</strong> <span class="ggaLat"></span></p>
+        <p><strong>纬度方向:</strong> <span class="ggaLatDir"></span></p>
+        <p><strong>经度:</strong> <span class="ggaLon"></span></p>
+        <p><strong>经度方向:</strong> <span class="ggaLonDir"></span></p>
+        <p><strong>GPS状态:</strong> <span class="ggaQual"></span></p>
+        <p><strong>使用中的卫星数:</strong> <span class="ggaNumberOfSatellites"></span></p>
+        <p><strong>水平精度因子:</strong> <span class="ggaHDOP"></span></p>
+        <p><strong>海拔高度:</strong> <span class="ggaAlt"></span></p>
+        <p><strong>海拔高度单位:</strong> <span class="ggaAltUnits"></span></p>
+        <p><strong>地球椭球面相对大地水准面的高度:</strong> <span class="ggaUndulation"></span></p>
+        <p><strong>地球椭球面相对大地水准面的高度单位:</strong> <span class="ggaUndulationUnits"></span></p>
+        <p><strong>差分数据龄期:</strong> <span class="ggaAge"></span></p>
+        <p><strong>差分基站ID:</strong> <span class="ggaID"></span></p>
+    </div>
+    
+    <div class="nmea-message-ggah" id="ggahContainer">
+        <h3>GGAH 数据</h3>
+        <p><strong>UTC:</strong> <span class="ggahUTC"></span></p>
+        <p><strong>纬度:</strong> <span class="ggahLat"></span></p>
+        <p><strong>纬度方向:</strong> <span class="ggahLatDir"></span></p>
+        <p><strong>经度:</strong> <span class="ggahLon"></span></p>
+        <p><strong>经度方向:</strong> <span class="ggahLonDir"></span></p>
+        <p><strong>GPS状态:</strong> <span class="ggahQual"></span></p>
+        <p><strong>使用中的卫星数:</strong> <span class="ggahNumberOfSatellites"></span></p>
+        <p><strong>水平精度因子:</strong> <span class="ggahHDOP"></span></p>
+        <p><strong>海拔高度:</strong> <span class="ggahAlt"></span></p>
+        <p><strong>海拔高度单位:</strong> <span class="ggahAltUnits"></span></p>
+        <p><strong>地球椭球面相对大地水准面的高度:</strong> <span class="ggahUndulation"></span></p>
+        <p><strong>地球椭球面相对大地水准面的高度单位:</strong> <span class="ggahUndulationUnits"></span></p>
+        <p><strong>差分数据龄期:</strong> <span class="ggahAge"></span></p>
+        <p><strong>差分基站ID:</strong> <span class="ggahID"></span></p>
+    </div>
+    
+    <div class="nmea-message-gll" id="gllContainer">
+        <h3>GLL 数据</h3>
+        <p><strong>纬度:</strong> <span class="gllLat"></span></p>
+        <p><strong>纬度方向:</strong> <span class="gllLatDir"></span></p>
+        <p><strong>经度:</strong> <span class="gllLon"></span></p>
+        <p><strong>经度方向:</strong> <span class="gllLonDir"></span></p>
+        <p><strong>UTC:</strong> <span class="gllUTC"></span></p>
+        <p><strong>状态:</strong> <span class="gllStatus"></span></p>
+        <p><strong>定位系统模式:</strong> <span class="gllPositioningSystemMode"></span></p>
+    </div>
+    
+    <div class="nmea-message-gllh" id="gllhContainer">
+        <h3>GLLH 数据</h3>
+        <p><strong>纬度:</strong> <span class="gllhLat"></span></p>
+        <p><strong>纬度方向:</strong> <span class="gllhLatDir"></span></p>
+        <p><strong>经度:</strong> <span class="gllhLon"></span></p>
+        <p><strong>经度方向:</strong> <span class="gllhLonDir"></span></p>
+        <p><strong>UTC:</strong> <span class="gllhUTC"></span></p>
+        <p><strong>状态:</strong> <span class="gllhStatus"></span></p>
+        <p><strong>定位系统模式:</strong> <span class="gllhPositioningSystemMode"></span></p>
+    </div>    
 
 <!-- 添加按钮以触发 JavaScript 方法 -->
 <button onclick="sendData()">发送数据到 Android</button>

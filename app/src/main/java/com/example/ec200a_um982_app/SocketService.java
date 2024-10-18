@@ -247,7 +247,9 @@ public class SocketService extends Service {
 //                            }
 
                             if(CORSSSGString.length() > 50){
-                                MainActivity.socketService.sendMessage(CORSSSGString + "\r\n");
+                                if (validateNmeaChecksum(CORSSSGString)) {
+                                    MainActivity.socketService.sendMessage(CORSSSGString + "\r\n");
+                                }
                             }
 
 
@@ -266,6 +268,25 @@ public class SocketService extends Service {
             readlock.unlock();  // 释放读取锁
         }
     }
+
+    public static boolean validateNmeaChecksum(String nmea) {
+        // 分割 NMEA 语句，获取校验和部分
+        String[] parts = nmea.split("\\*");
+        if (parts.length != 2) return false; // 格式不正确，返回 false
+
+        String sentence = parts[0].substring(1); // 去掉开头的 '$'
+        String checksum = parts[1]; // 提取校验和
+
+        int calculatedChecksum = 0; // 初始化计算的校验和
+        // 计算校验和
+        for (char c : sentence.toCharArray()) {
+            calculatedChecksum ^= c; // 使用异或操作计算校验和
+        }
+
+        // 比较计算的校验和与提供的校验和
+        return String.format("%02X", calculatedChecksum).equalsIgnoreCase(checksum);
+    }
+
 
     private void showToast(final String message) {
         mainHandler.post(() -> {

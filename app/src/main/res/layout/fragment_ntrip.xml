@@ -124,7 +124,7 @@
         android:id="@+id/ConnectCORSserverButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="连接CORS"
+        android:text="打开CORS连接"
         android:layout_marginLeft="10sp"
         android:layout_marginRight="10sp"
         style="@style/CustomMaterialButton"

@@ -399,8 +399,10 @@ public class Um982_top3Fragment extends Fragment {
 
             @Override
             public void onChanged(String data) {
-                if (data.length() >= 2 && data.charAt(0) == 'O' && data.charAt(1) == 'K'){
-//                    MainActivity.showToast(getActivity(), SendData + data);
+                if (data.contains("OK"))
+//                if (index != -1 && index < data.length() - 1 && data.charAt(index + 1) == 'K')
+                {
+//                    MainActivity.showToast(getActivity(),"data");
                     SendDataFlag = false;
                     handler.removeCallbacks(updateDataRunnable);
 

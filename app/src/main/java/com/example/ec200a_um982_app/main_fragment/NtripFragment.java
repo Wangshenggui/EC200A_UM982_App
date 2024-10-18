@@ -697,6 +697,7 @@ public class NtripFragment extends Fragment {
         }
     }
 
+    int json_num = 0;
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -705,7 +706,7 @@ public class NtripFragment extends Fragment {
             @Override
             public void onChanged(String data) {
                 // 处理接收到的数据
-                if (data != null && data.startsWith("OK")) {
+                if (data != null && data.contains("OK")) {
                     SettingCORSInformationButton.setText("设置成功");
                     SettingCORSInformationFlag = false;
                 } else if(SettingCORSInformationFlag) {
@@ -723,6 +724,12 @@ public class NtripFragment extends Fragment {
 
                             String jsonString = jsonObject.toString();
                             // 使用 jsonString
+
+                            json_num ++;
+                            if(json_num>5) {
+                                json_num = 0;
+                                SettingCORSInformationFlag = false;
+                            }
 
                             BluetoothFragment.characteristic.setValue("AT+" + jsonString + "\r\n"); // 设置要发送的值
                             BluetoothFragment.bluetoothGatt.writeCharacteristic(BluetoothFragment.characteristic); // 写入特征值

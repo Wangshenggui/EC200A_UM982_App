@@ -158,7 +158,6 @@ public class SettingFragment extends Fragment {
 
                     } catch (IOException e) {
                         e.printStackTrace();
-                        requireActivity().runOnUiThread(() -> MainActivity.showToast(getActivity(), "检查更新失败"));
                     }
                 }).start();
 
@@ -292,6 +291,7 @@ public class SettingFragment extends Fragment {
             return null;
         }
     }
+
     private void checkForUpdate() {
         new Thread(() -> {
             try {
@@ -305,10 +305,8 @@ public class SettingFragment extends Fragment {
                 reader.close();
 
                 // 保存 APK 下载链接
-                mApkUrl = APK_BASE_URL + serverVersion + APK_EXTENSION;
-
-                long currentTime = System.currentTimeMillis() / 1000;
                 String filename = "EC200A_UM982_App-" + serverVersion + APK_EXTENSION;
+                long currentTime = System.currentTimeMillis() / 1000;
                 String secretKey = "123456";
                 String key = generateKey(filename, currentTime, secretKey);
                 mApkUrl = "http://47.109.46.41:3000/" + "ec200a_um982/" + filename + "?time=" + currentTime + "&key=" + key;
@@ -331,6 +329,7 @@ public class SettingFragment extends Fragment {
             }
         }).start();
     }
+
     private void checkFor4GUpdate() {
         new Thread(() -> {
             if (Module4G == 1) {

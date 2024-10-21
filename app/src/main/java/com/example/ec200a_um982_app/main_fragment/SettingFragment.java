@@ -32,6 +32,7 @@ import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -196,6 +197,7 @@ public class SettingFragment extends Fragment {
         return view;
     }
 
+    private StringBuilder dataBuffer = new StringBuilder();
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -203,27 +205,43 @@ public class SettingFragment extends Fragment {
         viewModel2.getDataGroup2().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String data) {
-                if (data != null && data.startsWith("$UPDATE,")) {
-                    int[] indices = {2};
-                    List<String> results = Um982_top2Fragment.getSpecificSubstrings(data, indices);
-                    String outstring = removeAsteriskAndAfter(results.get(0));
+                // 将接收到的数据添加到缓冲区
+                dataBuffer.append(data);
 
-                    if (outstring.equals("TRUE")) {
-                        notification_badge1.setVisibility(View.VISIBLE);
-                        Module4G = 1;
+                // 检查是否包含 \r\n
+                while (dataBuffer.indexOf("\r\n") != -1) {
+                    String temp_data = dataBuffer.toString();
+
+                    if (temp_data.contains("$UPDATE")) {
+                        int startIndex = temp_data.indexOf("$UPDATE") + "$UPDATE".length();
+                        int endIndex = temp_data.indexOf("\r\n", startIndex);
+
+                        if (endIndex != -1) {
+                            String extracted = temp_data.substring(startIndex, endIndex).trim();
+                            String temp = extractValue(extracted);
+                            if (Objects.equals(temp, "TRUE")) {
+                                notification_badge1.setVisibility(View.VISIBLE);
+                                Module4G = 1;
+                            } else {
+                                notification_badge1.setVisibility(View.GONE);
+                                Module4G = 0;
+                            }
+                        } else {
+                            System.out.println("$UPDATE found but no \\r\\n found after it.");
+                        }
                     } else {
-                        notification_badge1.setVisibility(View.GONE);
-
-                        Module4G = 0;
+                        System.out.println("$UPDATE not found.");
                     }
+                    dataBuffer.setLength(0);
                 }
             }
-            public String removeAsteriskAndAfter(String input) {
-                int index = input.indexOf('*');
-                if (index != -1) {
-                    return input.substring(0, index);  // 返回 * 之前的部分
+            public String extractValue(String data) {
+                int asteriskIndex = data.indexOf('*');
+                if (asteriskIndex != -1) {
+                    // 从逗号后开始提取到 * 之前
+                    return data.substring(data.indexOf(',') + 1, asteriskIndex).trim();
                 }
-                return input;  // 如果没有 *，返回原字符串
+                return null; // 或者返回 ""，根据需要选择
             }
         });
     }

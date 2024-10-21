@@ -47,7 +47,7 @@ public class SettingFragment extends Fragment {
 
     TextView notification_badge;
     TextView notification_badge1;
-    private static final String APK_BASE_URL = "http://47.109.46.41:3000/EC200A_UM982_App-";
+    private static final String APK_BASE_URL = "http://47.109.46.41:3000/RTK_Positioning-";
     private static final String APK_EXTENSION = ".apk";
     private static final String VERSION_URL = "http://47.109.46.41/file_download/ec200a_um982/version.txt"; // 替换为实际的版本 URL
     private String mApkUrl; // 用于保存 APK 下载链接
@@ -305,7 +305,7 @@ public class SettingFragment extends Fragment {
                 reader.close();
 
                 // 保存 APK 下载链接
-                String filename = "EC200A_UM982_App-" + serverVersion + APK_EXTENSION;
+                String filename = "RTK_Positioning-" + serverVersion + APK_EXTENSION;
                 long currentTime = System.currentTimeMillis() / 1000;
                 String secretKey = "123456";
                 String key = generateKey(filename, currentTime, secretKey);

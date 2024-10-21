@@ -25,7 +25,7 @@ android {
 
     applicationVariants.all { variant ->
         variant.outputs.all {
-            def apkName = "EC200A_UM982_App-${defaultConfig.versionName}.apk"
+            def apkName = "RTK_Positioning-${defaultConfig.versionName}.apk"
             outputFileName = apkName
         }
     }

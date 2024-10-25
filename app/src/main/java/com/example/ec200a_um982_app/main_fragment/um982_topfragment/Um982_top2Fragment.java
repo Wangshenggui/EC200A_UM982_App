@@ -128,7 +128,6 @@ public class Um982_top2Fragment extends Fragment {
                             sendDataToWebView(message);
                         } else if (message != null && message.startsWith("$GNGGA,")) {
                             sendDataToWebView(message);
-                            SocketService.CORSSSGString = message;
                         } else if (message != null && message.startsWith("$GNGGAH,")) {
                             sendDataToWebView(message);
                         } else if (message != null && message.startsWith("$GNGLL,")) {

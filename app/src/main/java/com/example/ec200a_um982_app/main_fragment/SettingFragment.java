@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -351,12 +352,21 @@ public class SettingFragment extends Fragment {
 
     private void checkFor4GUpdate() {
         new Thread(() -> {
-            if (Module4G == 1) {
-                requireActivity().runOnUiThread(() -> show4GUpdateDialog());
-            } else {
-                // 当前版本已是最新
-                requireActivity().runOnUiThread(() -> MainActivity.showToast(getActivity(), "当前已是最新版本"));
+            if (MainActivity.getBluetoothConFlag()) {
+                // 获取更新状态
+                Bluetooth_top1Fragment.characteristic.setValue("AT+GetUpdate4G\r\n");
+                Bluetooth_top1Fragment.bluetoothGatt.writeCharacteristic(Bluetooth_top1Fragment.characteristic);
             }
+            // 创建 Handler 并设置延迟
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                // 检查 Module4G 状态
+                if (Module4G == 1) {
+                    show4GUpdateDialog();
+                } else {
+                    // 当前版本是最新的
+                    MainActivity.showToast(getActivity(), "当前已是最新版本");
+                }
+            }, 500); // 1 秒延迟
         }).start();
     }
 

@@ -132,46 +132,7 @@ public class NtripFragment extends Fragment {
                 // Repeat the task every TIMER_INTERVAL milliseconds
                 handler.postDelayed(this, TIMER_INTERVAL*10);
 
-                if (RTCMString != null) {
-                    int groupSize = 220;
-                    int length = RTCMString.length;
-                    int numGroups = (length + groupSize - 1) / groupSize; // 计算分组数量
 
-                    byte[][] groupedRTCM = new byte[numGroups][]; // 创建二维数组
-
-                    for (int i = 0; i < numGroups; i++) {
-                        int start = i * groupSize;
-                        int size = Math.min(groupSize, length - start); // 计算当前组的大小
-
-                        // 确保结束索引不超出数组的长度
-                        groupedRTCM[i] = Arrays.copyOfRange(RTCMString, start, start + size);
-                    }
-
-                    // 计算最后一组的字节数
-                    int lastGroupSize = length % groupSize == 0 ? groupSize : length % groupSize;
-
-                    // 可以在这里打印分组信息以验证
-                    for (int i = 0; i < numGroups; i++) {
-                        System.out.println("Group " + i + " size: " + groupedRTCM[i].length);
-                    }
-
-                    // 显示 Toast，包含总长、组数和最后一组的字节数
-//                    MainActivity.showToast(getActivity(), "总长: " + length + " 组数: " + numGroups + " 最后一组字节数: " + lastGroupSize);
-
-                    if (SocketService.validateNmeaChecksum(SocketService.CORSSSGString))
-                        MainActivity.showToast(getActivity(),"RTCM");
-                        for (int i = 0; i < numGroups; i++) {
-                            Bluetooth_top1Fragment.characteristic.setValue(groupedRTCM[i]); // 设置要发送的值
-                            Bluetooth_top1Fragment.bluetoothGatt.writeCharacteristic(Bluetooth_top1Fragment.characteristic); // 写入特征值
-
-                            // 可选：在每次发送后等待一段时间，以确保数据能顺利传输
-                            try {
-                                Thread.sleep(5); // 例如，等待 100 毫秒
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                }
             }
         };
         handler.post(timerRunnable); // 启动更新
@@ -526,6 +487,10 @@ public class NtripFragment extends Fragment {
                         // 启动 Service
                         Context context = getActivity(); // 或者 getContext()
                         context.startService(intent);
+
+                        // 停止 Socket 服务
+                        Intent socketServiceIntent = new Intent(getActivity(), SocketService.class);
+                        getActivity().stopService(socketServiceIntent);
                     }
                 } else {
                     MainActivity.showToast(getActivity(), "请连接蓝牙");

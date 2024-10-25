@@ -18,6 +18,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.ec200a_um982_app.main_fragment.NtripFragment;
+import com.example.ec200a_um982_app.main_fragment.bluetooth_topfragment.Bluetooth_top1Fragment;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -222,13 +223,46 @@ public class SocketService extends Service {
 
                         NtripFragment.RTCMString = rawMessage;
 
-                        // 同步发送数据到其他地方 (比如蓝牙设备)
-//                        MainActivity.outputStream.write(rawMessage);
-//                        MainActivity.outputStream.flush();
+                        if(CORSSSGString.length() > 50){
+                            if (validateNmeaChecksum(CORSSSGString)) {
+                                MainActivity.socketService.sendMessage(CORSSSGString + "\r\n");
+                            }
+                        }
 
-                        // 显示接收的消息长度
-//                        showToast("Received length: " + rawMessage.length + NtripFragment.RTCMString.length);
-//                        showToast(receivedMessage);
+                        if (NtripFragment.RTCMString != null) {
+                            int groupSize = 220;
+                            int length = NtripFragment.RTCMString.length;
+                            int numGroups = (length + groupSize - 1) / groupSize; // 计算分组数量
+
+                            byte[][] groupedRTCM = new byte[numGroups][]; // 创建二维数组
+
+                            for (int i = 0; i < numGroups; i++) {
+                                int start = i * groupSize;
+                                int size = Math.min(groupSize, length - start); // 计算当前组的大小
+
+                                // 确保结束索引不超出数组的长度
+                                groupedRTCM[i] = Arrays.copyOfRange(NtripFragment.RTCMString, start, start + size);
+                            }
+
+                            // 可以在这里打印分组信息以验证
+                            for (int i = 0; i < numGroups; i++) {
+                                System.out.println("Group " + i + " size: " + groupedRTCM[i].length);
+                            }
+
+//                            if (validateNmeaChecksum(CORSSSGString)) {
+                                for (int i = 0; i < numGroups; i++) {
+                                    Bluetooth_top1Fragment.characteristic.setValue(groupedRTCM[i]); // 设置要发送的值
+                                    Bluetooth_top1Fragment.bluetoothGatt.writeCharacteristic(Bluetooth_top1Fragment.characteristic); // 写入特征值
+
+                                    // 可选：在每次发送后等待一段时间，以确保数据能顺利传输
+                                    try {
+                                        Thread.sleep(5); // 例如，等待 100 毫秒
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+//                                }
+                            }
+                        }
 
                         // 定义预期的消息字符串
                         String expectedMessageOK = "ICY 200 OK\r\n";
@@ -239,21 +273,11 @@ public class SocketService extends Service {
                             MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.cors_request_succeeded_rocedure);
                             mediaPlayer.start();
 
-                            //自动发送数据
-//                            String message = MainActivity.getReadGGAString() + "\r\n";
-
-//                            if (MainActivity.isBound) {
-//                                MainActivity.socketService.sendMessage(message);
-//                            }
-
                             if(CORSSSGString.length() > 50){
                                 if (validateNmeaChecksum(CORSSSGString)) {
                                     MainActivity.socketService.sendMessage(CORSSSGString + "\r\n");
                                 }
                             }
-
-
-//                            Ntrip_top1Fragment.NtripStartFlag=!Ntrip_top1Fragment.NtripStartFlag;
                         } else if (receivedMessage.equals(expectedMessageERROR)){
                             MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.account_or_password_incorrec);
                             mediaPlayer.start();

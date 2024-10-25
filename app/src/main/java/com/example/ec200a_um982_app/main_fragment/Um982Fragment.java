@@ -108,7 +108,7 @@ public class Um982Fragment extends Fragment {
         // Show the first fragment by default
         lastFragment = 0;
         mFragmentManager.beginTransaction()
-                .replace(R.id.main_web_top_page_controller, mUm982_top1Fragment)
+                .replace(R.id.main_um982_top_page_controller, mUm982_top1Fragment)
                 .show(mUm982_top1Fragment)
                 .commit();
     }
@@ -148,7 +148,7 @@ public class Um982Fragment extends Fragment {
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
         transaction.hide(fragments[lastFragment]);
         if (!fragments[index].isAdded()) {
-            transaction.add(R.id.main_web_top_page_controller, fragments[index]);
+            transaction.add(R.id.main_um982_top_page_controller, fragments[index]);
         }
         transaction.show(fragments[index]).commitAllowingStateLoss();
     }
@@ -158,7 +158,7 @@ public class Um982Fragment extends Fragment {
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
         for (int i = 1; i < fragments.length; i++) {
             if (!fragments[i].isAdded()) {
-                transaction.add(R.id.main_web_top_page_controller, fragments[i]);
+                transaction.add(R.id.main_um982_top_page_controller, fragments[i]);
                 transaction.hide(fragments[i]);
             }
         }

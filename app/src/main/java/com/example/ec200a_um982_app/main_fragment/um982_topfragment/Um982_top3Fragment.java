@@ -23,6 +23,7 @@ import com.example.ec200a_um982_app.R;
 import com.example.ec200a_um982_app.SharedViewModel;
 import com.example.ec200a_um982_app.SocketService;
 import com.example.ec200a_um982_app.main_fragment.BluetoothFragment;
+import com.example.ec200a_um982_app.main_fragment.bluetooth_topfragment.Bluetooth_top1Fragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -214,8 +215,8 @@ public class Um982_top3Fragment extends Fragment {
             public void run() {
                 if (SendDataFlag) {
                     if (MainActivity.getBluetoothConFlag()) {
-                        BluetoothFragment.characteristic.setValue(SendData);
-                        BluetoothFragment.bluetoothGatt.writeCharacteristic(BluetoothFragment.characteristic);
+                        Bluetooth_top1Fragment.characteristic.setValue(SendData);
+                        Bluetooth_top1Fragment.bluetoothGatt.writeCharacteristic(Bluetooth_top1Fragment.characteristic);
                     } else {
                         MainActivity.showToast(getActivity(), "请连接蓝牙");
                         SendDataFlag = false;

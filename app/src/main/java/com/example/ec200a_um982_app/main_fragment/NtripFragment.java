@@ -28,6 +28,7 @@ import com.example.ec200a_um982_app.MainActivity;
 import com.example.ec200a_um982_app.R;
 import com.example.ec200a_um982_app.SharedViewModel;
 import com.example.ec200a_um982_app.SocketService;
+import com.example.ec200a_um982_app.main_fragment.bluetooth_topfragment.Bluetooth_top1Fragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -160,8 +161,8 @@ public class NtripFragment extends Fragment {
                     if (SocketService.validateNmeaChecksum(SocketService.CORSSSGString))
                         MainActivity.showToast(getActivity(),"RTCM");
                         for (int i = 0; i < numGroups; i++) {
-                            BluetoothFragment.characteristic.setValue(groupedRTCM[i]); // 设置要发送的值
-                            BluetoothFragment.bluetoothGatt.writeCharacteristic(BluetoothFragment.characteristic); // 写入特征值
+                            Bluetooth_top1Fragment.characteristic.setValue(groupedRTCM[i]); // 设置要发送的值
+                            Bluetooth_top1Fragment.bluetoothGatt.writeCharacteristic(Bluetooth_top1Fragment.characteristic); // 写入特征值
 
                             // 可选：在每次发送后等待一段时间，以确保数据能顺利传输
                             try {
@@ -216,8 +217,8 @@ public class NtripFragment extends Fragment {
                     String jsonString = jsonObject.toString();
                     // 使用 jsonString
 
-                    BluetoothFragment.characteristic.setValue("AT+" + jsonString + "\r\n"); // 设置要发送的值
-                    BluetoothFragment.bluetoothGatt.writeCharacteristic(BluetoothFragment.characteristic); // 写入特征值
+                    Bluetooth_top1Fragment.characteristic.setValue("AT+" + jsonString + "\r\n"); // 设置要发送的值
+                    Bluetooth_top1Fragment.bluetoothGatt.writeCharacteristic(Bluetooth_top1Fragment.characteristic); // 写入特征值
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -731,8 +732,8 @@ public class NtripFragment extends Fragment {
                                 SettingCORSInformationFlag = false;
                             }
 
-                            BluetoothFragment.characteristic.setValue("AT+" + jsonString + "\r\n"); // 设置要发送的值
-                            BluetoothFragment.bluetoothGatt.writeCharacteristic(BluetoothFragment.characteristic); // 写入特征值
+                            Bluetooth_top1Fragment.characteristic.setValue("AT+" + jsonString + "\r\n"); // 设置要发送的值
+                            Bluetooth_top1Fragment.bluetoothGatt.writeCharacteristic(Bluetooth_top1Fragment.characteristic); // 写入特征值
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

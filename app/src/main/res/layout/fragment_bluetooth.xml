@@ -4,34 +4,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".main_fragment.BluetoothFragment"
-    android:background="@android:color/white">
+    tools:context=".main_fragment.BluetoothFragment">
 
-    <ListView
-        android:id="@+id/BtList"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_Scan"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/main_bluetooth_top_navigation_bar"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/main_bluetooth_top_child_fragment"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@android:color/white"
-        android:divider="@android:color/darker_gray"
-        android:padding="8dp"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-
-    <!-- 设置文本颜色以确保可见 -->
-    <Button
-        android:id="@+id/btn_Scan"
-        android:layout_width="48sp"
-        android:layout_height="48sp"
-        android:layout_marginBottom="32dp"
-        android:background="@drawable/probe"
-        android:padding="16dp"
-        android:rotation="0"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <FrameLayout
+        android:id="@+id/main_bluetooth_top_page_controller"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#EFEEEE"
+        app:layout_constraintTop_toBottomOf="@id/main_bluetooth_top_navigation_bar"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

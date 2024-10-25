@@ -22,6 +22,7 @@ import com.example.ec200a_um982_app.MainActivity;
 import com.example.ec200a_um982_app.R;
 import com.example.ec200a_um982_app.SharedViewModel;
 import com.example.ec200a_um982_app.SocketService;
+import com.example.ec200a_um982_app.main_fragment.bluetooth_topfragment.Bluetooth_top1Fragment;
 import com.example.ec200a_um982_app.main_fragment.um982_topfragment.Um982_top2Fragment;
 
 import java.io.BufferedReader;
@@ -411,8 +412,8 @@ public class SettingFragment extends Fragment {
         }
     }
     private void start4GDownload() {
-        BluetoothFragment.characteristic.setValue("AT+UPDATE=TRUE\r\n");
-        BluetoothFragment.bluetoothGatt.writeCharacteristic(BluetoothFragment.characteristic);
+        Bluetooth_top1Fragment.characteristic.setValue("AT+UPDATE=TRUE\r\n");
+        Bluetooth_top1Fragment.bluetoothGatt.writeCharacteristic(Bluetooth_top1Fragment.characteristic);
 
         MainActivity.showToast(getActivity(),"发送更新指令到EC200A");
     }

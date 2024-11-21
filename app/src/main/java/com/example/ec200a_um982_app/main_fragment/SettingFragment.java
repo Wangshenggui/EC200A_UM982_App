@@ -327,7 +327,7 @@ public class SettingFragment extends Fragment {
                 // 保存 APK 下载链接
                 String filename = "RTK_Positioning-" + serverVersion + APK_EXTENSION;
                 long currentTime = System.currentTimeMillis() / 1000;
-                String secretKey = "123456";
+                String secretKey = "|/|A|l)v7xSz?gvT";
                 String key = generateKey(filename, currentTime, secretKey);
                 mApkUrl = "http://47.109.46.41:3000/" + "ec200a_um982/" + filename + "?time=" + currentTime + "&key=" + key;
 

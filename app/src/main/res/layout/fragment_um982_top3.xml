@@ -48,14 +48,16 @@
                     android:weightSum="2">
                     <TextView
                         android:id="@+id/DTMselectText"
-                        android:text="GPDTM 坐标信息"
+                        android:text="GNDTM  1Hz"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.2"
                         android:padding="14dp"
                         android:textSize="18sp"
                         android:textColor="#FF333333"
-                        android:ems="18"/>
+                        android:ems="18"
+                        android:clickable="true"
+                        android:focusable="true"/>
                     <CheckBox
                         android:id="@+id/DTMselectCheck"
                         android:layout_width="match_parent"
@@ -81,14 +83,16 @@
                     android:weightSum="2">
                     <TextView
                         android:id="@+id/GBSselectText"
-                        android:text="GPGBS 卫星故障检测"
+                        android:text="GNGBS  1Hz"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.2"
                         android:padding="14dp"
                         android:textSize="18sp"
                         android:textColor="#FF333333"
-                        android:ems="18"/>
+                        android:ems="18"
+                        android:clickable="true"
+                        android:focusable="true"/>
 
                     <CheckBox
                         android:id="@+id/GBSselectCheck"
@@ -115,14 +119,16 @@
                     android:weightSum="2">
                     <TextView
                         android:id="@+id/GGAselectText"
-                        android:text="GPGGA 卫星定位信息"
+                        android:text="GNGGA  1Hz"
                         android:padding="14dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.2"
                         android:textSize="18sp"
                         android:textColor="#FF333333"
-                        android:ems="18"/>
+                        android:ems="18"
+                        android:clickable="true"
+                        android:focusable="true"/>
 
                     <CheckBox
                         android:id="@+id/GGAselectCheck"
@@ -149,14 +155,16 @@
                     android:weightSum="2">
                     <TextView
                         android:id="@+id/GGAHselectText"
-                        android:text="GPGGAH 从天线卫星定位信息"
+                        android:text="GNGGAH  1Hz"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.2"
                         android:padding="14dp"
                         android:textSize="18sp"
                         android:textColor="#FF333333"
-                        android:ems="18"/>
+                        android:ems="18"
+                        android:clickable="true"
+                        android:focusable="true"/>
 
                     <CheckBox
                         android:id="@+id/GGAHselectCheck"
@@ -183,14 +191,16 @@
                     android:weightSum="2">
                     <TextView
                         android:id="@+id/GLLselectText"
-                        android:text="GPGLL 地理位置信息"
+                        android:text="GNGLL  1Hz"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.2"
                         android:padding="14dp"
                         android:textSize="18sp"
                         android:textColor="#FF333333"
-                        android:ems="18"/>
+                        android:ems="18"
+                        android:clickable="true"
+                        android:focusable="true"/>
 
                     <CheckBox
                         android:id="@+id/GLLselectCheck"
@@ -217,14 +227,16 @@
                     android:weightSum="2">
                     <TextView
                         android:id="@+id/GLLHselectText"
-                        android:text="GPGLLH 从天线地理位置信息"
+                        android:text="GNGLLH  1Hz"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.2"
                         android:padding="14dp"
                         android:textSize="18sp"
                         android:textColor="#FF333333"
-                        android:ems="18"/>
+                        android:ems="18"
+                        android:clickable="true"
+                        android:focusable="true"/>
 
                     <CheckBox
                         android:id="@+id/GLLHselectCheck"
@@ -251,14 +263,16 @@
                     android:weightSum="2">
                     <TextView
                         android:id="@+id/GNSselectText"
-                        android:text="GPGNS 定位数据输出"
+                        android:text="GNGNS  1Hz"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.2"
                         android:padding="14dp"
                         android:textSize="18sp"
                         android:textColor="#FF333333"
-                        android:ems="18"/>
+                        android:ems="18"
+                        android:clickable="true"
+                        android:focusable="true"/>
 
                     <CheckBox
                         android:id="@+id/GNSselectCheck"
@@ -285,14 +299,16 @@
                     android:weightSum="2">
                     <TextView
                         android:id="@+id/GNSHselectText"
-                        android:text="GPGNSH 从天线定位数据输出"
+                        android:text="GNGNSH  1Hz"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.2"
                         android:padding="14dp"
                         android:textSize="18sp"
                         android:textColor="#FF333333"
-                        android:ems="18"/>
+                        android:ems="18"
+                        android:clickable="true"
+                        android:focusable="true"/>
 
                     <CheckBox
                         android:id="@+id/GNSHselectCheck"
@@ -319,14 +335,16 @@
                     android:weightSum="2">
                     <TextView
                         android:id="@+id/GSTselectText"
-                        android:text="GPGST 伪距观测误差"
+                        android:text="GNGST  1Hz"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.2"
                         android:padding="14dp"
                         android:textSize="18sp"
                         android:textColor="#FF333333"
-                        android:ems="18"/>
+                        android:ems="18"
+                        android:clickable="true"
+                        android:focusable="true"/>
 
                     <CheckBox
                         android:id="@+id/GSTselectCheck"
@@ -353,14 +371,16 @@
                     android:weightSum="2">
                     <TextView
                         android:id="@+id/GSTHselectText"
-                        android:text="GPGSTH 从天线伪距观测误差"
+                        android:text="GNGSTH  1Hz"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.2"
                         android:padding="14dp"
                         android:textSize="18sp"
                         android:textColor="#FF333333"
-                        android:ems="18"/>
+                        android:ems="18"
+                        android:clickable="true"
+                        android:focusable="true"/>
                     <CheckBox
                         android:id="@+id/GSTHselectCheck"
                         android:layout_width="match_parent"
@@ -386,14 +406,16 @@
                     android:weightSum="2">
                     <TextView
                         android:id="@+id/THSselectText"
-                        android:text="GPTHS 天线方位信息"
+                        android:text="GNTHS  1Hz"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.2"
                         android:padding="14dp"
                         android:textSize="18sp"
                         android:textColor="#FF333333"
-                        android:ems="18"/>
+                        android:ems="18"
+                        android:clickable="true"
+                        android:focusable="true"/>
 
                     <CheckBox
                         android:id="@+id/THSselectCheck"
@@ -420,14 +442,16 @@
                     android:weightSum="2">
                     <TextView
                         android:id="@+id/RMCselectText"
-                        android:text="GPRMC 卫星定位信息"
+                        android:text="GNRMC  1Hz"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.2"
                         android:padding="14dp"
                         android:textSize="18sp"
                         android:textColor="#FF333333"
-                        android:ems="18"/>
+                        android:ems="18"
+                        android:clickable="true"
+                        android:focusable="true"/>
 
                     <CheckBox
                         android:id="@+id/RMCselectCheck"
@@ -454,14 +478,16 @@
                     android:weightSum="2">
                     <TextView
                         android:id="@+id/RMCHselectText"
-                        android:text="GPRMCH 从天线卫星定位"
+                        android:text="GNRMCH  1Hz"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.2"
                         android:padding="14dp"
                         android:textSize="18sp"
                         android:textColor="#FF333333"
-                        android:ems="18"/>
+                        android:ems="18"
+                        android:clickable="true"
+                        android:focusable="true"/>
 
                     <CheckBox
                         android:id="@+id/RMCHselectCheck"
@@ -488,14 +514,16 @@
                     android:weightSum="2">
                     <TextView
                         android:id="@+id/ROTselectText"
-                        android:text="GPROT 旋转速度和方向"
+                        android:text="GNROT  1Hz"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.2"
                         android:padding="14dp"
                         android:textSize="18sp"
                         android:textColor="#FF333333"
-                        android:ems="18"/>
+                        android:ems="18"
+                        android:clickable="true"
+                        android:focusable="true"/>
 
                     <CheckBox
                         android:id="@+id/ROTselectCheck"
@@ -522,14 +550,16 @@
                     android:weightSum="2">
                     <TextView
                         android:id="@+id/VTGselectText"
-                        android:text="GPVTG 地面航向与速度"
+                        android:text="GNVTG  1Hz"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.2"
                         android:padding="14dp"
                         android:textSize="18sp"
                         android:textColor="#FF333333"
-                        android:ems="18"/>
+                        android:ems="18"
+                        android:clickable="true"
+                        android:focusable="true"/>
 
                     <CheckBox
                         android:id="@+id/VTGselectCheck"
@@ -556,14 +586,16 @@
                     android:weightSum="2">
                     <TextView
                         android:id="@+id/VTGHselectText"
-                        android:text="GPVTGH 从天线地面航向与速度"
+                        android:text="GNVTGH  1Hz"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.2"
                         android:padding="14dp"
                         android:textSize="18sp"
                         android:textColor="#FF333333"
-                        android:ems="18"/>
+                        android:ems="18"
+                        android:clickable="true"
+                        android:focusable="true"/>
 
                     <CheckBox
                         android:id="@+id/VTGHselectCheck"
@@ -590,14 +622,16 @@
                     android:weightSum="2">
                     <TextView
                         android:id="@+id/ZDAselectText"
-                        android:text="GPZDA 日期和时间"
+                        android:text="GNZDA  1Hz"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.2"
                         android:padding="14dp"
                         android:textSize="18sp"
                         android:textColor="#FF333333"
-                        android:ems="18"/>
+                        android:ems="18"
+                        android:clickable="true"
+                        android:focusable="true"/>
 
                     <CheckBox
                         android:id="@+id/ZDAselectCheck"
@@ -609,4 +643,14 @@
             </androidx.cardview.widget.CardView>
         </LinearLayout>
     </ScrollView>
+
+    <Button
+        android:id="@+id/SaveTheRTKSettingButtun"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="保存当前设置"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
+        style="@style/CustomMaterialButton_1"
+        android:ems="10"/>
 </LinearLayout>

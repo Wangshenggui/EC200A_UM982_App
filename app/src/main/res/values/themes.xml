@@ -25,6 +25,11 @@
         <item name="android:textColor">@android:color/white</item> <!-- 文字颜色 -->
         <item name="shapeAppearanceOverlay">@style/CustomShapeAppearance</item> <!-- 圆角 -->
     </style>
+    <style name="CustomMaterialButton_1" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">#FF1FF0FF</item> <!-- 背景色 -->
+        <item name="android:textColor">@android:color/white</item> <!-- 文字颜色 -->
+        <item name="shapeAppearanceOverlay">@style/CustomShapeAppearance</item> <!-- 圆角 -->
+    </style>
     <style name="CustomShapeAppearance">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">16dp</item>

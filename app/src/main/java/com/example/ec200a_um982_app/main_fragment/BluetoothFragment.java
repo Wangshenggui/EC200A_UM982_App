@@ -123,19 +123,21 @@ public class BluetoothFragment extends Fragment {
                         lastFragment = 0;
                     }
                     return true;
-                } else if (i == R.id.bluetooth_top2) {
-                    if (lastFragment != 1) {
-                        switchFragment(lastFragment, 1);
-                        lastFragment = 1;
-                    }
-                    return true;
-                } else if (i == R.id.bluetooth_top3) {
-                    if (lastFragment != 2) {
-                        switchFragment(lastFragment, 2);
-                        lastFragment = 2;
-                    }
-                    return true;
                 }
+//                else if (i == R.id.bluetooth_top2) {
+//                    if (lastFragment != 1) {
+//                        switchFragment(lastFragment, 1);
+//                        lastFragment = 1;
+//                    }
+//                    return true;
+//                }
+//                else if (i == R.id.bluetooth_top3) {
+//                    if (lastFragment != 2) {
+//                        switchFragment(lastFragment, 2);
+//                        lastFragment = 2;
+//                    }
+//                    return true;
+//                }
                 return false;
             }
         });

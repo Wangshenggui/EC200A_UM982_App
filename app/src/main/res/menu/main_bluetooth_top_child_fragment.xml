@@ -3,10 +3,10 @@
     <item
         android:id="@+id/bluetooth_top1"
         android:title="设备连接"/>
-    <item
-        android:id="@+id/bluetooth_top2"
-        android:title="参数修改"/>
-    <item
-        android:id="@+id/bluetooth_top3"
-        android:title="ttt"/>
+<!--    <item-->
+<!--        android:id="@+id/bluetooth_top2"-->
+<!--        android:title="参数修改"/>-->
+<!--    <item-->
+<!--        android:id="@+id/bluetooth_top3"-->
+<!--        android:title="ttt"/>-->
 </menu>

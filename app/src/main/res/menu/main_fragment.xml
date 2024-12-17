@@ -11,7 +11,7 @@
     <item
         android:id="@+id/Um982"
         android:icon="@drawable/rtknormal"
-        android:title="UM982_RTK"/>
+        android:title="定位数据"/>
     <item
         android:id="@+id/Set"
         android:icon="@drawable/settingicon"

@@ -82,22 +82,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); // 调用super方法在最前面
 
-        // 检查权限
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED ||
-                ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED ||
-                ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        // // 检查权限
+        // if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED ||
+        //         ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED ||
+        //         ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            ActivityCompat.requestPermissions(this,
-                    new String[]{
-                            android.Manifest.permission.BLUETOOTH_SCAN,
-                            android.Manifest.permission.BLUETOOTH_CONNECT,
-                            Manifest.permission.ACCESS_FINE_LOCATION
-                    },
-                    1);
-        } else {
+        //     ActivityCompat.requestPermissions(this,
+        //             new String[]{
+        //                     android.Manifest.permission.BLUETOOTH_SCAN,
+        //                     android.Manifest.permission.BLUETOOTH_CONNECT,
+        //                     Manifest.permission.ACCESS_FINE_LOCATION
+        //             },
+        //             1);
+        // } else {
             // 权限已授予，初始化应用
             initializeApp();
-        }
+        // }
     }
 
     private void initializeApp() {
@@ -116,26 +116,26 @@ public class MainActivity extends AppCompatActivity {
         registerReceiver(messageReceiver, filter);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 1) {
-            boolean allGranted = true;
-            for (int result : grantResults) {
-                if (result != PackageManager.PERMISSION_GRANTED) {
-                    allGranted = false;
-                    break;
-                }
-            }
-            if (allGranted) {
-                // 所有权限被授予，初始化应用
-                initializeApp();
-            } else {
-                // 有权限被拒绝，退出程序
-                finish(); // 退出程序
-            }
-        }
-    }
+    // @Override
+    // public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    //     super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    //     if (requestCode == 1) {
+    //         boolean allGranted = true;
+    //         for (int result : grantResults) {
+    //             if (result != PackageManager.PERMISSION_GRANTED) {
+    //                 allGranted = false;
+    //                 break;
+    //             }
+    //         }
+    //         if (allGranted) {
+    //             // 所有权限被授予，初始化应用
+    //             initializeApp();
+    //         } else {
+    //             // 有权限被拒绝，退出程序
+    //             finish(); // 退出程序
+    //         }
+    //     }
+    // }
 
 
 

@@ -1,5 +1,6 @@
 package com.example.ec200a_um982_app.main_fragment.um982_topfragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,12 +10,14 @@ import androidx.lifecycle.ViewModelProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.ec200a_um982_app.MainActivity;
 import com.example.ec200a_um982_app.R;
 import com.example.ec200a_um982_app.SharedViewModel;
 import com.example.ec200a_um982_app.SocketService;
+import com.example.ec200a_um982_app.main_fragment.Um982Fragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -90,6 +93,16 @@ public class Um982_top1Fragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_um982_top1, container, false);
 
+//        @SuppressLint({"MissingInflatedId", "LocalSuppress"})
+//        Button nimaButton = view.findViewById(R.id.nimaButton);
+//        nimaButton.setOnClickListener(v -> {
+//            // 点击按钮后，通过 Activity 切换到 Um982_top2Fragment
+//            Um982Fragment um982Fragment = (Um982Fragment) getParentFragment();
+//            if (um982Fragment != null) {
+//                um982Fragment.switchToFragment(1); // 切换到第二个 Fragment
+//            }
+//        });
+
         nmea_dtm = view.findViewById(R.id.nmea_dtm);
         nmea_gbs = view.findViewById(R.id.nmea_gbs);
         nmea_gga = view.findViewById(R.id.nmea_gga);
@@ -107,6 +120,44 @@ public class Um982_top1Fragment extends Fragment {
         nmea_vtg = view.findViewById(R.id.nmea_vtg);
         nmea_vtgh = view.findViewById(R.id.nmea_vtgh);
         nmea_zda = view.findViewById(R.id.nmea_zda);
+
+        // 设置每个TextView可点击
+        nmea_dtm.setClickable(true);
+        nmea_gbs.setClickable(true);
+        nmea_gga.setClickable(true);
+        nmea_ggah.setClickable(true);
+        nmea_gll.setClickable(true);
+        nmea_gllh.setClickable(true);
+        nmea_gns.setClickable(true);
+        nmea_gnsh.setClickable(true);
+        nmea_gst.setClickable(true);
+        nmea_gsth.setClickable(true);
+        nmea_ths.setClickable(true);
+        nmea_rmc.setClickable(true);
+        nmea_rmch.setClickable(true);
+        nmea_rot.setClickable(true);
+        nmea_vtg.setClickable(true);
+        nmea_vtgh.setClickable(true);
+        nmea_zda.setClickable(true);
+
+        // 为每个TextView设置相同的点击监听器
+        nmea_dtm.setOnClickListener(clickListenerCallbackHandler);
+        nmea_gbs.setOnClickListener(clickListenerCallbackHandler);
+        nmea_gga.setOnClickListener(clickListenerCallbackHandler);
+        nmea_ggah.setOnClickListener(clickListenerCallbackHandler);
+        nmea_gll.setOnClickListener(clickListenerCallbackHandler);
+        nmea_gllh.setOnClickListener(clickListenerCallbackHandler);
+        nmea_gns.setOnClickListener(clickListenerCallbackHandler);
+        nmea_gnsh.setOnClickListener(clickListenerCallbackHandler);
+        nmea_gst.setOnClickListener(clickListenerCallbackHandler);
+        nmea_gsth.setOnClickListener(clickListenerCallbackHandler);
+        nmea_ths.setOnClickListener(clickListenerCallbackHandler);
+        nmea_rmc.setOnClickListener(clickListenerCallbackHandler);
+        nmea_rmch.setOnClickListener(clickListenerCallbackHandler);
+        nmea_rot.setOnClickListener(clickListenerCallbackHandler);
+        nmea_vtg.setOnClickListener(clickListenerCallbackHandler);
+        nmea_vtgh.setOnClickListener(clickListenerCallbackHandler);
+        nmea_zda.setOnClickListener(clickListenerCallbackHandler);
 
         viewModel2 = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
 
@@ -134,7 +185,7 @@ public class Um982_top1Fragment extends Fragment {
                     for (String message : messageArray) {
                         // 处理接收到的数据
                         if (message != null && message.startsWith("$GNDTM,")) {
-                        nmea_dtm.setText(message);
+                            nmea_dtm.setText(message);
                         } else if (message != null && message.startsWith("$GNGBS,")) {
                             nmea_gbs.setText(message);
                         } else if (message != null && message.startsWith("$GNGGA,")) {
@@ -175,4 +226,137 @@ public class Um982_top1Fragment extends Fragment {
             }
         });
     }
+
+    // 创建统一的点击监听器
+    View.OnClickListener clickListenerCallbackHandler = new View.OnClickListener() {
+        @SuppressLint("SetTextI18n")
+        @Override
+        public void onClick(View v) {
+            TextView clickedTextView = (TextView) v;
+
+            Um982Fragment um982Fragment = (Um982Fragment) getParentFragment();
+
+            String message = "Hello";
+            if (v.getId() == R.id.nmea_dtm) {
+                // 点击 nmea_dtm 时切换到第 1 个 Fragment (index 1)
+                if (um982Fragment != null) {
+                    um982Fragment.switchToFragment(1); // 切换到第二个 Fragment
+                    message = "dtmContainer";
+                    Um982_top2Fragment.sendDataToWebView_1(message);
+                }
+            } else if (v.getId() == R.id.nmea_gbs) {
+                // 点击 nmea_gbs 时切换到第 2 个 Fragment (index 2)
+                if (um982Fragment != null) {
+                    um982Fragment.switchToFragment(1); // 切换到第三个 Fragment
+                    message = "gbsContainer";
+                    Um982_top2Fragment.sendDataToWebView_1(message);
+                }
+            } else if (v.getId() == R.id.nmea_gga) {
+                // 点击 nmea_gga 时切换到第 3 个 Fragment (index 3)
+                if (um982Fragment != null) {
+                    um982Fragment.switchToFragment(1); // 切换到第四个 Fragment
+                    message = "ggaContainer";
+                    Um982_top2Fragment.sendDataToWebView_1(message);
+                }
+            } else if (v.getId() == R.id.nmea_ggah) {
+                // 点击 nmea_ggah 时切换到第 4 个 Fragment (index 4)
+                if (um982Fragment != null) {
+                    um982Fragment.switchToFragment(1); // 切换到第五个 Fragment
+                    message = "ggahContainer";
+                    Um982_top2Fragment.sendDataToWebView_1(message);
+                }
+            } else if (v.getId() == R.id.nmea_gll) {
+                // 点击 nmea_gll 时切换到第 5 个 Fragment (index 5)
+                if (um982Fragment != null) {
+                    um982Fragment.switchToFragment(1); // 切换到第六个 Fragment
+                    message = "gllContainer";
+                    Um982_top2Fragment.sendDataToWebView_1(message);
+                }
+            } else if (v.getId() == R.id.nmea_gllh) {
+                // 点击 nmea_gllh 时切换到第 6 个 Fragment (index 6)
+                if (um982Fragment != null) {
+                    um982Fragment.switchToFragment(1); // 切换到第七个 Fragment
+                    message = "gllhContainer";
+                    Um982_top2Fragment.sendDataToWebView_1(message);
+                }
+            } else if (v.getId() == R.id.nmea_gns) {
+                // 点击 nmea_gns 时切换到第 7 个 Fragment (index 7)
+                if (um982Fragment != null) {
+                    um982Fragment.switchToFragment(1); // 切换到第八个 Fragment
+                    message = "gnsContainer";
+                    Um982_top2Fragment.sendDataToWebView_1(message);
+                }
+            } else if (v.getId() == R.id.nmea_gnsh) {
+                // 点击 nmea_gnsh 时切换到第 8 个 Fragment (index 8)
+                if (um982Fragment != null) {
+                    um982Fragment.switchToFragment(1); // 切换到第九个 Fragment
+                    message = "gnshContainer";
+                    Um982_top2Fragment.sendDataToWebView_1(message);
+                }
+            } else if (v.getId() == R.id.nmea_gst) {
+                // 点击 nmea_gst 时切换到第 9 个 Fragment (index 9)
+                if (um982Fragment != null) {
+                    um982Fragment.switchToFragment(1); // 切换到第十个 Fragment
+                    message = "gstContainer";
+                    Um982_top2Fragment.sendDataToWebView_1(message);
+                }
+            } else if (v.getId() == R.id.nmea_gsth) {
+                // 点击 nmea_gsth 时切换到第 10 个 Fragment (index 10)
+                if (um982Fragment != null) {
+                    um982Fragment.switchToFragment(1); // 切换到第十一个 Fragment
+                    message = "gsthContainer";
+                    Um982_top2Fragment.sendDataToWebView_1(message);
+                }
+            } else if (v.getId() == R.id.nmea_ths) {
+                // 点击 nmea_ths 时切换到第 11 个 Fragment (index 11)
+                if (um982Fragment != null) {
+                    um982Fragment.switchToFragment(1); // 切换到第十二个 Fragment
+                    message = "thsContainer";
+                    Um982_top2Fragment.sendDataToWebView_1(message);
+                }
+            } else if (v.getId() == R.id.nmea_rmc) {
+                // 点击 nmea_rmc 时切换到第 12 个 Fragment (index 12)
+                if (um982Fragment != null) {
+                    um982Fragment.switchToFragment(1); // 切换到第十三个 Fragment
+                    message = "rmcContainer";
+                    Um982_top2Fragment.sendDataToWebView_1(message);
+                }
+            } else if (v.getId() == R.id.nmea_rmch) {
+                // 点击 nmea_rmch 时切换到第 13 个 Fragment (index 13)
+                if (um982Fragment != null) {
+                    um982Fragment.switchToFragment(1); // 切换到第十四个 Fragment
+                    message = "rmchContainer";
+                    Um982_top2Fragment.sendDataToWebView_1(message);
+                }
+            } else if (v.getId() == R.id.nmea_rot) {
+                // 点击 nmea_rot 时切换到第 14 个 Fragment (index 14)
+                if (um982Fragment != null) {
+                    um982Fragment.switchToFragment(1); // 切换到第十五个 Fragment
+                    message = "rotContainer";
+                    Um982_top2Fragment.sendDataToWebView_1(message);
+                }
+            } else if (v.getId() == R.id.nmea_vtg) {
+                // 点击 nmea_vtg 时切换到第 15 个 Fragment (index 15)
+                if (um982Fragment != null) {
+                    um982Fragment.switchToFragment(1); // 切换到第十六个 Fragment
+                    message = "vtgContainer";
+                    Um982_top2Fragment.sendDataToWebView_1(message);
+                }
+            } else if (v.getId() == R.id.nmea_vtgh) {
+                // 点击 nmea_vtgh 时切换到第 16 个 Fragment (index 16)
+                if (um982Fragment != null) {
+                    um982Fragment.switchToFragment(1); // 切换到第十七个 Fragment
+                    message = "vtghContainer";
+                    Um982_top2Fragment.sendDataToWebView_1(message);
+                }
+            } else if (v.getId() == R.id.nmea_zda) {
+                // 点击 nmea_zda 时切换到第 17 个 Fragment (index 17)
+                if (um982Fragment != null) {
+                    um982Fragment.switchToFragment(1); // 切换到第十八个 Fragment
+                    message = "zdaContainer";
+                    Um982_top2Fragment.sendDataToWebView_1(message);
+                }
+            }
+        }
+    };
 }

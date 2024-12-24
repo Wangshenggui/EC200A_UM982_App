@@ -40,9 +40,7 @@
         <p><strong>使用中的卫星数:</strong> <span class="ggaNumberOfSatellites"></span></p>
         <p><strong>水平精度因子:</strong> <span class="ggaHDOP"></span></p>
         <p><strong>海拔高度:</strong> <span class="ggaAlt"></span></p>
-        <p><strong>海拔高度单位:</strong> <span class="ggaAltUnits"></span></p>
         <p><strong>地球椭球面相对大地水准面的高度:</strong> <span class="ggaUndulation"></span></p>
-        <p><strong>地球椭球面相对大地水准面的高度单位:</strong> <span class="ggaUndulationUnits"></span></p>
         <p><strong>差分数据龄期:</strong> <span class="ggaAge"></span></p>
         <p><strong>差分基站ID:</strong> <span class="ggaID"></span></p>
     </div>
@@ -58,12 +56,13 @@
         <p><strong>使用中的卫星数:</strong> <span class="ggahNumberOfSatellites"></span></p>
         <p><strong>水平精度因子:</strong> <span class="ggahHDOP"></span></p>
         <p><strong>海拔高度:</strong> <span class="ggahAlt"></span></p>
-        <p><strong>海拔高度单位:</strong> <span class="ggahAltUnits"></span></p>
         <p><strong>地球椭球面相对大地水准面的高度:</strong> <span class="ggahUndulation"></span></p>
-        <p><strong>地球椭球面相对大地水准面的高度单位:</strong> <span class="ggahUndulationUnits"></span></p>
         <p><strong>差分数据龄期:</strong> <span class="ggahAge"></span></p>
         <p><strong>差分基站ID:</strong> <span class="ggahID"></span></p>
     </div>
+
+
+    
     
     <div class="nmea-message-gll" id="gllContainer">
         <h3>GLL 数据</h3>
@@ -85,10 +84,146 @@
         <p><strong>UTC:</strong> <span class="gllhUTC"></span></p>
         <p><strong>状态:</strong> <span class="gllhStatus"></span></p>
         <p><strong>定位系统模式:</strong> <span class="gllhPositioningSystemMode"></span></p>
-    </div>    
+    </div>
+	
+	<div class="nmea-message-gns" id="gnsContainer">
+		<h3>GNS 数据</h3>
+		<p><strong>UTC 时间:</strong> <span class="gnsUTC"></span></p>
+        <p><strong>纬度:</strong> <span class="gnsLat"></span></p>
+        <p><strong>纬度方向:</strong> <span class="gnsLatDir"></span></p>
+        <p><strong>经度:</strong> <span class="gnsLon"></span></p>
+        <p><strong>经度方向:</strong> <span class="gnsLonDir"></span></p>
+        <p><strong>定位系统模式:</strong> <span class="gnsPositioningSystemMode"></span></p>
+        <p><strong>使用中的卫星数:</strong> <span class="gnsNumberOfSatellites"></span></p>
+        <p><strong>水平精度因子:</strong> <span class="gnsHDOP"></span></p>
+        <p><strong>天线高:</strong> <span class="gnsAntAlt"></span></p>
+        <p><strong>地球椭球面相对大地水准面的高度:</strong> <span class="gnsGeoSep"></span></p>
+        <p><strong>差分数据龄期:</strong> <span class="gnsAge"></span></p>
+        <p><strong>差分基站ID:</strong> <span class="gnsID"></span></p>
+        <p><strong>导航状态指示:</strong> <span class="gnsStatus"></span></p>
+	</div>
 
-<!-- 添加按钮以触发 JavaScript 方法 -->
-<!--<button onclick="sendData()">发送数据到 Android</button>-->
+    <div class="nmea-message-gnsh" id="gnshContainer">
+        <h3>GNSH 数据</h3>
+        <p><strong>UTC 时间:</strong> <span class="gnshUTC"></span></p>
+        <p><strong>纬度:</strong> <span class="gnshLat"></span></p>
+        <p><strong>纬度方向:</strong> <span class="gnshLatDir"></span></p>
+        <p><strong>经度:</strong> <span class="gnshLon"></span></p>
+        <p><strong>经度方向:</strong> <span class="gnshLonDir"></span></p>
+        <p><strong>定位系统模式:</strong> <span class="gnshPositioningSystemMode"></span></p>
+        <p><strong>使用中的卫星数:</strong> <span class="gnshNumberOfSatellites"></span></p>
+        <p><strong>水平精度因子:</strong> <span class="gnshHDOP"></span></p>
+        <p><strong>天线高:</strong> <span class="gnshAntAlt"></span></p>
+        <p><strong>地球椭球面相对大地水准面的高度:</strong> <span class="gnshGeoSep"></span></p>
+        <p><strong>差分数据龄期:</strong> <span class="gnshAge"></span></p>
+        <p><strong>差分基站ID:</strong> <span class="gnshID"></span></p>
+        <p><strong>导航状态指示:</strong> <span class="gnshStatus"></span></p>
+    </div>
+
+    <div class="nmea-message-gst" id="gstContainer">
+		<h3>GST 数据</h3>
+		<p><strong>UTC 时间:</strong> <span class="gstUTC"></span></p>
+        <p><strong>伪距、DGNSS改正数标准差(RMS 值):</strong> <span class="gstRMS"></span></p>
+        <p><strong>误差椭圆长半轴的标准差:</strong> <span class="gstSmjrStd"></span></p>
+        <p><strong>误差椭圆短半轴的标准差:</strong> <span class="gstSmnrStd"></span></p>
+        <p><strong>误差椭圆长半轴方向，与真北夹角:</strong> <span class="gstOrient"></span></p>
+        <p><strong>纬度误差标准差:</strong> <span class="gstLatStd"></span></p>
+        <p><strong>经度误差标准差:</strong> <span class="gstLonStd"></span></p>
+        <p><strong>高程误差标准差:</strong> <span class="gstAltStd"></span></p>
+	</div>
+
+    <div class="nmea-message-gsth" id="gsthContainer">
+        <h3>GSTH 数据</h3>
+        <p><strong>UTC 时间:</strong> <span class="gsthUTC"></span></p>
+        <p><strong>伪距、DGNSS改正数标准差(RMS 值):</strong> <span class="gsthRMS"></span></p>
+        <p><strong>误差椭圆长半轴的标准差:</strong> <span class="gsthSmjrStd"></span></p>
+        <p><strong>误差椭圆短半轴的标准差:</strong> <span class="gsthSmnrStd"></span></p>
+        <p><strong>误差椭圆长半轴方向，与真北夹角:</strong> <span class="gsthOrient"></span></p>
+        <p><strong>纬度误差标准差:</strong> <span class="gsthLatStd"></span></p>
+        <p><strong>经度误差标准差:</strong> <span class="gsthLonStd"></span></p>
+        <p><strong>高程误差标准差:</strong> <span class="gsthAltStd"></span></p>
+    </div>
+
+    <div class="nmea-message-ths" id="thsContainer">
+        <h3>THS 数据</h3>
+        <p><strong>航向:</strong> <span class="thsHeading"></span></p>
+        <p><strong>模式:</strong> <span class="thsMode"></span></p>
+    </div>
+    
+    <div class="nmea-message-rmc" id="rmcContainer">
+        <h3>RMC 数据</h3>
+        <p><strong>UTC 时间:</strong> <span class="rmcUTC"></span></p>
+        <p><strong>状态:</strong> <span class="rmcPosStatus"></span></p>
+        <p><strong>纬度:</strong> <span class="rmcLat"></span></p>
+        <p><strong>纬度方向:</strong> <span class="rmcLatDir"></span></p>
+        <p><strong>经度:</strong> <span class="rmcLon"></span></p>
+        <p><strong>经度方向:</strong> <span class="rmcLonDir"></span></p>
+        <p><strong>地面速率:</strong> <span class="rmcSpeed"></span></p>
+        <p><strong>地面航向:</strong> <span class="rmcTrack"></span></p>
+        <p><strong>日期:</strong> <span class="rmcDate"></span></p>
+        <p><strong>磁偏角:</strong> <span class="rmcMagVar"></span></p>
+        <p><strong>磁偏角方向:</strong> <span class="rmcMagVarDir"></span></p>
+        <p><strong>模式:</strong> <span class="rmcModeInd"></span></p>
+        <p><strong>定位状态:</strong> <span class="rmcModeStatus"></span></p>
+    </div>
+
+    <div class="nmea-message-rmch" id="rmchContainer">
+        <h3>RMCH 数据</h3>
+        <p><strong>UTC 时间:</strong> <span class="rmchUTC"></span></p>
+        <p><strong>状态:</strong> <span class="rmchPosStatus"></span></p>
+        <p><strong>纬度:</strong> <span class="rmchLat"></span></p>
+        <p><strong>纬度方向:</strong> <span class="rmchLatDir"></span></p>
+        <p><strong>经度:</strong> <span class="rmchLon"></span></p>
+        <p><strong>经度方向:</strong> <span class="rmchLonDir"></span></p>
+        <p><strong>地面速率:</strong> <span class="rmchSpeed"></span></p>
+        <p><strong>地面航向:</strong> <span class="rmchTrack"></span></p>
+        <p><strong>日期:</strong> <span class="rmchDate"></span></p>
+        <p><strong>磁偏角:</strong> <span class="rmchMagVar"></span></p>
+        <p><strong>磁偏角方向:</strong> <span class="rmchMagVarDir"></span></p>
+        <p><strong>模式:</strong> <span class="rmchModeInd"></span></p>
+        <p><strong>定位状态:</strong> <span class="rmchModeStatus"></span></p>
+    </div>
+
+    <div class="nmea-message-rot" id="rotContainer">
+        <h3>ROT 数据</h3>
+        <p><strong>旋转速率:</strong> <span class="rotRate"></span></p>
+    </div>
+
+    <div class="nmea-message-vtg" id="vtgContainer">
+        <h3>VTG 数据</h3>
+        <p><strong>地面航向(真北):</strong> <span class="vtgCourseTrue"></span></p>
+        <p><strong>航向标志:</strong> <span class="vtgCourseIndTrue"></span></p>
+        <p><strong>地面航向(磁北):</strong> <span class="vtgCourseMag"></span></p>
+        <p><strong>航向标志:</strong> <span class="vtgCourseIndMag"></span></p>
+        <p><strong>地面速率(节):</strong> <span class="vtgSpeedKn"></span></p>
+        <p><strong>速率单位:</strong> <span class="vtgN"></span></p>
+        <p><strong>地面速率(km/h):</strong> <span class="vtgSpeedKm"></span></p>
+        <p><strong>速率单位:</strong> <span class="vtgK"></span></p>
+        <p><strong>模式:</strong> <span class="vtgModeInd"></span></p>
+    </div>
+
+    <div class="nmea-message-vtgh" id="vtghContainer">
+        <h3>VTGH 数据</h3>
+        <p><strong>地面航向(真北):</strong> <span class="vtghCourseTrue"></span></p>
+        <p><strong>航向标志:</strong> <span class="vtghCourseIndTrue"></span></p>
+        <p><strong>地面航向(磁北):</strong> <span class="vtghCourseMag"></span></p>
+        <p><strong>航向标志:</strong> <span class="vtghCourseIndMag"></span></p>
+        <p><strong>地面速率(节):</strong> <span class="vtghSpeedKn"></span></p>
+        <p><strong>速率单位:</strong> <span class="vtghN"></span></p>
+        <p><strong>地面速率(km/h):</strong> <span class="vtghSpeedKm"></span></p>
+        <p><strong>速率单位:</strong> <span class="vtghK"></span></p>
+        <p><strong>模式:</strong> <span class="vtghModeInd"></span></p>
+    </div>
+
+    <div class="nmea-message-zda" id="zdaContainer">
+        <h3>ZDA 数据</h3>
+        <p><strong>UTC 时间:</strong> <span class="zdaUTC"></span></p>
+        <p><strong>UTC 日:</strong> <span class="zdaDay"></span></p>
+        <p><strong>UTC 月:</strong> <span class="zdaMonth"></span></p>
+        <p><strong>UTC 年:</strong> <span class="zdaYear"></span></p>
+        <p><strong>本地时区的小时:</strong> <span class="zdaLocalZoneHour"></span></p>
+        <p><strong>本地时区的分钟:</strong> <span class="zdaLocalZoneMinute"></span></p>
+    </div>
 
 </body>
 </html>

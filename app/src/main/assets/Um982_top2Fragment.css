@@ -37,22 +37,89 @@ h1 {
     background-color: #fff3e0; /* 浅米色 */
 }
 
+.nmea-message-gns {
+    background-color: #96b79f; /* 浅绿色 */
+}
+
+.nmea-message-gnsh {
+    background-color: #e0f7fa; /* 浅蓝色 */
+}
+
+.nmea-message-gst {
+    background-color: #ffe0b2; /* 浅橙色 */
+}
+
+.nmea-message-gsth {
+    background-color: #e1bee7; /* 浅紫色 */
+}
+
+.nmea-message-ths {
+    background-color: #c8e6c9; /* 浅绿色 */
+}
+
+.nmea-message-rmc {
+    background-color: #e0f7fa; /* 浅蓝色 */
+}
+
+.nmea-message-rmch {
+    background-color: #ffe0b2; /* 浅橙色 */
+}
+
+.nmea-message-rot {
+    background-color: #fff3e0; /* 浅米色 */
+}
+
+.nmea-message-vtg {
+    background-color: #96b79f; /* 浅绿色 */
+}
+
+.nmea-message-vtgh {
+    background-color: #e1bee7; /* 浅紫色 */
+}
+
+.nmea-message-zda {
+    background-color: #ffe0b2; /* 浅橙色 */
+}
+
 .nmea-message-dtm, .nmea-message-gga, 
 .nmea-message-gbs, .nmea-message-ggah, 
-.nmea-message-gll, .nmea-message-gllh {
+.nmea-message-gll, .nmea-message-gllh,
+.nmea-message-gns, .nmea-message-gnsh,
+.nmea-message-gst, .nmea-message-gsth,
+.nmea-message-ths, .nmea-message-rmc,
+.nmea-message-rmch, .nmea-message-rot,
+.nmea-message-vtg, .nmea-message-vtgh,
+.nmea-message-zda {
     border: 1px solid #ddd;
     padding: 20px; /* 增加内边距 */
-    margin-top: 2px;
+    margin-top: 5px;
     border-radius: 10px; /* 圆角更加明显 */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* 更强的阴影效果 */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* 更强的阴影效果 */
     transition: transform 0.2s, box-shadow 0.2s; /* 增加阴影动画效果 */
 }
 
 .nmea-message-dtm:hover, .nmea-message-gga:hover, 
 .nmea-message-gbs:hover, .nmea-message-ggah:hover, 
-.nmea-message-gll:hover, .nmea-message-gllh:hover {
-    transform: scale(1.03); /* 增加放大效果 */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* 悬停时更明显的阴影 */
+.nmea-message-gll:hover, .nmea-message-gllh:hover,
+.nmea-message-gns:hover, .nmea-message-gnsh:hover,
+.nmea-message-gst:hover, .nmea-message-gsth:hover,
+.nmea-message-ths:hover, .nmea-message-rmc:hover,
+.nmea-message-rmch:hover, .nmea-message-rot:hover,
+.nmea-message-vtg:hover, .nmea-message-vtgh:hover,
+.nmea-message-zda:hover {
+	color: red;
+	transform: scale(1.03) translateY(-10px); /* 放大并且浮动 */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* 悬停时更明显的阴影 */
+	animation: float 2s ease-in-out infinite; /* 定义动画 */
+}
+
+@keyframes float {
+    0%, 100% { 
+		transform: scale(1.03) translateY(0); 
+	}
+	50% { 
+		transform: scale(1.03) translateY(-10px); 
+	}
 }
 
 p {

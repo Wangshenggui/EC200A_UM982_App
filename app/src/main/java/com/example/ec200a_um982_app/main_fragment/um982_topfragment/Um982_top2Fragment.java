@@ -29,7 +29,7 @@ public class Um982_top2Fragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     private SharedViewModel viewModel1;
-    private WebView webView;
+    private static WebView webView;
     private Handler handler;
     private Runnable timerRunnable;
     private static final int TIMER_INTERVAL = 1000; // 1 second
@@ -102,6 +102,9 @@ public class Um982_top2Fragment extends Fragment {
 
     public void sendDataToWebView(String data) {
         webView.evaluateJavascript("javascript:receiveDataFromAndroid('" + data + "')", null);
+    }
+    public static void sendDataToWebView_1(String data) {
+        webView.evaluateJavascript("javascript:receiveDataFromAndroid_1('" + data + "')", null);
     }
 
     private StringBuilder dataBuffer = new StringBuilder();

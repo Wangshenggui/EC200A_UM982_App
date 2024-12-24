@@ -17,6 +17,8 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.core.app.NotificationCompat;
+
 import com.example.ec200a_um982_app.main_fragment.NtripFragment;
 import com.example.ec200a_um982_app.main_fragment.bluetooth_topfragment.Bluetooth_top1Fragment;
 
@@ -90,8 +92,8 @@ public class SocketService extends Service {
                     throw new RuntimeException(e);
                 }
 
-                MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.close_the_cors_connection);
-                mediaPlayer.start();
+                // MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.close_the_cors_connection);
+                // mediaPlayer.start();
                 showToast("连接已关闭");
             }
         }
@@ -113,11 +115,12 @@ public class SocketService extends Service {
 
     @SuppressLint("ForegroundServiceType")
     private void startForegroundService() {
+        // 为 Android 8.0及以上版本创建通知频道
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
-                    "socket_channel",
-                    "Socket Service",
-                    NotificationManager.IMPORTANCE_LOW
+                    "socket_channel",       // 通道ID
+                    "Socket Service",       // 通道名称
+                    NotificationManager.IMPORTANCE_LOW // 通知重要性
             );
             NotificationManager manager = getSystemService(NotificationManager.class);
             if (manager != null) {
@@ -125,17 +128,25 @@ public class SocketService extends Service {
             }
         }
 
+        // 创建通知对象
         Notification notification = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            notification = new Notification.Builder(this, "socket_channel")
-                    .setContentTitle("Socket Service")
-                    .setContentText("Service is running in the background")
-                    .setSmallIcon(R.drawable.ic_launcher_background)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notification = new NotificationCompat.Builder(this, "socket_channel")
+                    .setContentTitle("骞羽RTK")
+                    .setContentText("骞羽RTK在后台运行")
+                    .setSmallIcon(R.mipmap.rtk_icon)
                     .build();
         }
 
-        startForeground(1, notification);
+        // 确保通知对象非null
+        if (notification != null) {
+            startForeground(1, notification);
+        } else {
+            // 如果创建通知失败，可以在这里处理异常情况
+            Log.e("StartForegroundService", "Notification creation failed!");
+        }
     }
+
 
     public void connectToServer(String ipAddress, int port) {
         socketThread = new Thread(() -> {
@@ -270,8 +281,8 @@ public class SocketService extends Service {
 
                         // 比较接收到的消息与预期消息
                         if (receivedMessage.equals(expectedMessageOK)) {
-                            MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.cors_request_succeeded_rocedure);
-                            mediaPlayer.start();
+                            // MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.cors_request_succeeded_rocedure);
+                            // mediaPlayer.start();
 
                             if(CORSSSGString.length() > 50){
                                 if (validateNmeaChecksum(CORSSSGString)) {
@@ -279,8 +290,8 @@ public class SocketService extends Service {
                                 }
                             }
                         } else if (receivedMessage.equals(expectedMessageERROR)){
-                            MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.account_or_password_incorrec);
-                            mediaPlayer.start();
+                            // MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.account_or_password_incorrec);
+                            // mediaPlayer.start();
                         }
                     }
                 } catch (IOException e) {

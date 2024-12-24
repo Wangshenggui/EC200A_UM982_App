@@ -1,4 +1,40 @@
 
+
+window.onload = function() {
+    // 页面加载完毕后执行
+    console.log("页面加载完毕！");
+};
+
+
+// 获取所有的 NMEA 容器元素
+const containers = document.querySelectorAll([
+    '.nmea-message-dtm',
+    '.nmea-message-gbs',
+    '.nmea-message-gga',
+    '.nmea-message-ggah',
+    '.nmea-message-gll',
+    '.nmea-message-gllh',
+    '.nmea-message-gns',
+    '.nmea-message-gnsh',
+    '.nmea-message-gst',
+    '.nmea-message-gsth',
+    '.nmea-message-ths',
+    '.nmea-message-rmc',
+    '.nmea-message-rmch',
+    '.nmea-message-rot',
+    '.nmea-message-vtg',
+    '.nmea-message-vtgh',
+    '.nmea-message-zda'
+  ].join(', '));
+function scrollToContainer (index) {
+    // 获取当前要滚动的容器
+    const currentContainer = containers[index];
+    // 滚动到当前容器
+    if (currentContainer) {
+        currentContainer.scrollIntoView({ behavior: "smooth" });
+    }
+}
+
 function dmsToDecimal(dms) {
     // 提取度数部分
     let degrees = Math.floor(dms / 100);
@@ -89,53 +125,10 @@ function parseGBS(Sentence) {
 function isGGAData(Sentence) {
     return Sentence.startsWith('$GNGGA,') || Sentence.startsWith('$GPGGA,');
 }
-function parseGGA(Sentence) {
-    try {
-        // 去除 $ 符号
-        var Parts = Sentence.split('$')[1].split(',');
-        
-        UTC = Parts[1];
-        Lat = Parts[2];
-        LatDir = Parts[3];
-        Lon = Parts[4];
-        LonDir = Parts[5];
-        Qual = Parts[6];
-        NumberOfSatellites = Parts[7];
-        HDOP = Parts[8];
-        Alt = Parts[9];
-        AltUnits = Parts[10];
-        Undulation = Parts[11];
-        UndulationUnits = Parts[12];
-        Age = Parts[13];
-        ID = Parts[14];
-
-
-        return {
-            UTC: UTC,
-            Lat: Lat,
-            LatDir: LatDir,
-            Lon: Lon,
-            LonDir: LonDir,
-            Qual: Qual,
-            NumberOfSatellites: NumberOfSatellites,
-            HDOP: HDOP,
-            Alt: Alt,
-            AltUnits: AltUnits,
-            Undulation: Undulation,
-            UndulationUnits: UndulationUnits,
-            Age: Age,
-            ID: ID,
-        };
-    } catch (e) {
-        console.error("Failed to parse:", e);
-        return null;
-    }
-}
-
 function isGGAHData(Sentence) {
     return Sentence.startsWith('$GNGGAH,') || Sentence.startsWith('$GPGGAH,');
 }
-function parseGGAH(Sentence) {
+function parseGGA_H(Sentence) {
     try {
         // 去除 $ 符号
         var Parts = Sentence.split('$')[1].split(',');
@@ -149,11 +142,9 @@ function parseGGAH(Sentence) {
         NumberOfSatellites = Parts[7];
         HDOP = Parts[8];
         Alt = Parts[9];
-        AltUnits = Parts[10];
         Undulation = Parts[11];
-        UndulationUnits = Parts[12];
         Age = Parts[13];
-        ID = Parts[14];
+        ID = Parts[14].slice(0,-3);
 
 
         return {
@@ -166,9 +157,7 @@ function parseGGAH(Sentence) {
             NumberOfSatellites: NumberOfSatellites,
             HDOP: HDOP,
             Alt: Alt,
-            AltUnits: AltUnits,
             Undulation: Undulation,
-            UndulationUnits: UndulationUnits,
             Age: Age,
             ID: ID,
         };
@@ -181,7 +170,10 @@ function parseGGAH(Sentence) {
 function isGLLData(Sentence) {
     return Sentence.startsWith('$GNGLL,') || Sentence.startsWith('$GPGLL,');
 }
-function parseGLL(Sentence) {
+function isGLLHData(Sentence) {
+    return Sentence.startsWith('$GNGLLH,') || Sentence.startsWith('$GPGLLH,');
+}
+function parseGLL_H(Sentence) {
     try {
         // 去除 $ 符号
         var Parts = Sentence.split('$')[1].split(',');
@@ -192,7 +184,7 @@ function parseGLL(Sentence) {
         LonDir = Parts[4];
         UTC = Parts[5];
         Status = Parts[6];
-        PositioningSystemMode = Parts[7];
+        PositioningSystemMode = Parts[7][0];
 
 
         return {
@@ -210,32 +202,243 @@ function parseGLL(Sentence) {
     }
 }
 
-function isGLLHData(Sentence) {
-    return Sentence.startsWith('$GNGLLH,') || Sentence.startsWith('$GPGLLH,');
+function isGNSData(Sentence) {
+    return Sentence.startsWith('$GNGNS,') || Sentence.startsWith('$GPGNS,');
 }
-function parseGLLH(Sentence) {
+function isGNSHData(Sentence) {
+    return Sentence.startsWith('$GNGNSH,') || Sentence.startsWith('$GPGNSH,');
+}
+function parseGNS_H(Sentence) {
     try {
         // 去除 $ 符号
         var Parts = Sentence.split('$')[1].split(',');
         
-        Lat = Parts[1];
-        LatDir = Parts[2];
-        Lon = Parts[3];
-        LonDir = Parts[4];
-        UTC = Parts[5];
-        Status = Parts[6];
-        PositioningSystemMode = Parts[7];
+        UTC = Parts[1];
+		Lat = Parts[2];
+        LatDir = Parts[3];
+        Lon = Parts[4];
+        LonDir = Parts[5];
+        PositioningSystemMode = Parts[6];
+        NumberOfSatellites = Parts[7];
+        HDOP = Parts[8];
+        AntAlt = Parts[9];
+        GeoSep = Parts[10];
+        Age = Parts[11];
+        ID = Parts[12];
+        Status = Parts[13][0];
 
 
         return {
-            Lat: Lat,
+            UTC: UTC,
+			Lat: Lat,
             LatDir: LatDir,
             Lon: Lon,
             LonDir: LonDir,
+            PositioningSystemMode: PositioningSystemMode,
+            NumberOfSatellites: NumberOfSatellites,
+            HDOP: HDOP,
+            AntAlt: AntAlt,
+            GeoSep: GeoSep,
+            Age: Age,
+            ID: ID,
+            Status: Status
+        };
+    } catch (e) {
+        console.error("Failed to parse:", e);
+        return null;
+    }
+}
+
+function isGSTData(Sentence) {
+    return Sentence.startsWith('$GNGST,') || Sentence.startsWith('$GPGST,');
+}
+function isGSTHData(Sentence) {
+    return Sentence.startsWith('$GNGSTH,') || Sentence.startsWith('$GPGSTH,');
+}
+function parseGST_H(Sentence) {
+    try {
+        // 去除 $ 符号
+        var Parts = Sentence.split('$')[1].split(',');
+        
+        UTC = Parts[1];
+        RMS = Parts[2];
+        SmjrStd = Parts[3];
+        SmnrStd = Parts[4];
+        Orient = Parts[5];
+        LatStd = Parts[6];
+        LonStd = Parts[7];
+        AltStd = Parts[8].slice(0, -3);
+
+        return {
+            UTC: UTC,
+            RMS: RMS,
+            SmjrStd: SmjrStd,
+            SmnrStd: SmnrStd,
+            Orient: Orient,
+            LatStd: LatStd,
+            LonStd: LonStd,
+            AltStd: AltStd
+        };
+    } catch (e) {
+        console.error("Failed to parse:", e);
+        return null;
+    }
+}
+
+function isTHSData(Sentence) {
+    return Sentence.startsWith('$GNTHS,') || Sentence.startsWith('$GPTHS,');
+}
+function parseTHS(Sentence) {
+    try {
+        // 去除 $ 符号
+        var Parts = Sentence.split('$')[1].split(',');
+
+        Heading = Parts[1];
+        Mode = Parts[2][0];
+
+        return {
+            Heading: Heading,
+            Mode: Mode
+        };
+    } catch (e) {
+        console.error("Failed to parse:", e);
+        return null;
+    }
+}
+
+function isRMCData(Sentence) {
+    return Sentence.startsWith('$GNRMC,') || Sentence.startsWith('$GPRMC,');
+}
+function isRMCHData(Sentence) {
+    return Sentence.startsWith('$GNRMCH,') || Sentence.startsWith('$GPRMCH,');
+}
+function parseRMC_H(Sentence) {
+    try {
+        // 去除 $ 符号
+        var Parts = Sentence.split('$')[1].split(',');
+
+        UTC = Parts[1];                // UTC 时间
+        Status = Parts[2];             // 定位状态 (A = 有效, V = 无效)
+        Latitude = Parts[3];           // 纬度
+        LatitudeDirection = Parts[4];  // 纬度方向 (N/S)
+        Longitude = Parts[5];          // 经度
+        LongitudeDirection = Parts[6]; // 经度方向 (E/W)
+        Speed = Parts[7];              // 地面速率 (单位: knots)
+        CourseOverGround = Parts[8];   // 地面航向 (COG)
+        _Date = Parts[9];               // 日期 (ddmmyy 格式)
+        MagneticVariation = Parts[10]; // 磁偏角
+        MagneticVariationDirection = Parts[11]; // 磁偏角方向 (E/W)
+        Mode = Parts[12];            // 模式 (A = Autonomous, D = Differential, E = Estimated)
+        ModeStatus = Parts[13][0];
+
+
+        // 返回一个对象，包含所有解析的字段
+        return {
             UTC: UTC,
             Status: Status,
-            PositioningSystemMode: PositioningSystemMode,
+            Latitude: Latitude,
+            LatitudeDirection: LatitudeDirection,
+            Longitude: Longitude,
+            LongitudeDirection: LongitudeDirection,
+            Speed: Speed,
+            CourseOverGround: CourseOverGround,
+            _Date: _Date,
+            MagneticVariation: MagneticVariation,
+            MagneticVariationDirection: MagneticVariationDirection,
+            Mode: Mode,
+            ModeStatus: ModeStatus
         };
+    } catch (e) {
+        console.error("Failed to parse:", e);
+        return null;
+    }
+}
+
+function isROTData(Sentence) {
+    return Sentence.startsWith('$GNROT,') || Sentence.startsWith('$GPROT,');
+}
+function parseROT(Sentence) {
+    try {
+        // 去除 $ 符号
+        var Parts = Sentence.split('$')[1].split(',');
+
+        Rate = Parts[1];
+
+
+        // 返回一个对象，包含所有解析的字段
+        return {
+            Rate: Rate,
+        };
+    } catch (e) {
+        console.error("Failed to parse:", e);
+        return null;
+    }
+}
+
+function isVTGData(Sentence) {
+    return Sentence.startsWith('$GNVTG,') || Sentence.startsWith('$GPVTG,');
+}
+function isVTGHData(Sentence) {
+    return Sentence.startsWith('$GNVTGH,') || Sentence.startsWith('$GPVTGH,');
+}
+function parseVTG_H(Sentence) {
+    try {
+        // 去除 $ 符号
+        var Parts = Sentence.split('$')[1].split(',');
+
+        // 从 Parts 数组中提取各个数据字段
+        trueCourse = Parts[1];              // 地面航向（真北）
+        trueCourseInd = 'T';                // 航向标志（真北），固定为 T
+        magneticCourse = Parts[3];         // 地面航向（磁北）
+        magneticCourseInd = 'M';            // 航向标志（磁北），固定为 M
+        speedKnots = Parts[5];              // 速度（节）
+        speedUnitKn = 'N';                  // 速率单位（节），固定为 N
+        speedKmH = Parts[7];                // 速度（公里每小时）
+        speedUnitKm = 'K';                  // 速率单位（公里/小时），固定为 K
+        modeIndicator = Parts[9][0];           // 模式指示符（A = 自动, D = 差分, E = 估算）
+
+        // 返回解析结果
+        return {
+            trueCourse: trueCourse,
+            trueCourseInd: trueCourseInd,
+            magneticCourse: magneticCourse,
+            magneticCourseInd: magneticCourseInd,
+            speedKnots: speedKnots,
+            speedUnitKn: speedUnitKn,
+            speedKmH: speedKmH,
+            speedUnitKm: speedUnitKm,
+            modeIndicator: modeIndicator
+        };
+    } catch (e) {
+        console.error("Failed to parse:", e);
+        return null;
+    }
+}
+
+function isZDAData(Sentence) {
+    return Sentence.startsWith('$GNZDA,') || Sentence.startsWith('$GPZDA,');
+}
+function parseZDA(Sentence) {
+    try {
+        // 去除 $ 符号
+        var Parts = Sentence.split('$')[1].split(',');
+
+        utcTime = Parts[1];           // UTC 时间 (hhmmss.ss)
+        day = Parts[2];               // UTC 日 (dd)
+        month = Parts[3];             // UTC 月 (mm)
+        year = Parts[4];              // UTC 年 (yyyy)
+        localZoneHour = Parts[5];     // 本地时区的小时 (xx)
+        localZoneMinute = Parts[6].slice(0,-3);   // 本地时区的分钟 (yy)
+
+        // 返回解析结果
+        return {
+            utcTime: utcTime,
+            day: day,
+            month: month,
+            year: year,
+            localZoneHour: localZoneHour || 'N/A',  // 如果没有提供本地时区，设为 'N/A'
+            localZoneMinute: localZoneMinute || 'N/A' // 如果没有提供本地时区，设为 'N/A'
+        }
     } catch (e) {
         console.error("Failed to parse:", e);
         return null;
@@ -247,89 +450,366 @@ function receiveDataFromAndroid(data) {
         var Data = parseDTM(data);
         if (Data) {
             // 更新 HTML 显示
-            document.querySelector('.dtmlocalCoordinateCode').textContent = Data.DatumCode;
-            document.querySelector('.dtmlatitudeOffset').textContent = Data.LatOffset;
-            document.querySelector('.dtmlatitudeOffsetDir').textContent = Data.LatDir;
-            document.querySelector('.dtmlongitudeOffset').textContent = Data.LonOffset;
-            document.querySelector('.dtmlongitudeOffsetDir').textContent = Data.LonDir;
-            document.querySelector('.dtmAltitudeOffset').textContent = Data.AltOffset;
-            document.querySelector('.dtmRfDatumCode').textContent = Data.RfDatumCode;
+            const dtmFields = {
+                '.dtmlocalCoordinateCode': 'DatumCode',
+                '.dtmlatitudeOffset': 'LatOffset',
+                '.dtmlatitudeOffsetDir': 'LatDir',
+                '.dtmlongitudeOffset': 'LonOffset',
+                '.dtmlongitudeOffsetDir': 'LonDir',
+                '.dtmAltitudeOffset': 'AltOffset',
+                '.dtmRfDatumCode': 'RfDatumCode'
+            };
+            
+            Object.keys(dtmFields).forEach(selector => {
+                document.querySelector(selector).textContent = Data[dtmFields[selector]];
+            });
+            
         }
     } else if (isGBSData(data)) {
         var Data = parseGBS(data);
         if (Data) {
             // 更新 HTML 显示
-            document.querySelector('.gbsUTC').textContent = Data.UTC;
-            document.querySelector('.gbsLatExp').textContent = Data.LatExp;
-            document.querySelector('.gbsLonExp').textContent = Data.LonExp;
-            document.querySelector('.gbsAltExp').textContent = Data.AltExp;
-            document.querySelector('.gbsFaultySatelliteID').textContent = Data.FaultySatelliteID;
+            const gbsFields = {
+                '.gbsUTC': 'UTC',
+                '.gbsLatExp': 'LatExp',
+                '.gbsLonExp': 'LonExp',
+                '.gbsAltExp': 'AltExp',
+                '.gbsFaultySatelliteID': 'FaultySatelliteID'
+            };
+            
+            Object.keys(gbsFields).forEach(selector => {
+                document.querySelector(selector).textContent = Data[gbsFields[selector]];
+            });
+            
         }
     } else if (isGGAData(data)) {
-        var Data = parseGGA(data);
+        var Data = parseGGA_H(data);
         if (Data) {
             // 更新 HTML 显示
-            document.querySelector('.ggaUTC').textContent = Data.UTC;
-            document.querySelector('.ggaLat').textContent = Data.Lat;
-            document.querySelector('.ggaLatDir').textContent = Data.LatDir;
-            document.querySelector('.ggaLon').textContent = Data.Lon;
-            document.querySelector('.ggaLonDir').textContent = Data.LonDir;
-            document.querySelector('.ggaQual').textContent = Data.Qual;
-            document.querySelector('.ggaNumberOfSatellites').textContent = Data.NumberOfSatellites;
-            document.querySelector('.ggaHDOP').textContent = Data.HDOP;
-            document.querySelector('.ggaAlt').textContent = Data.Alt;
-            document.querySelector('.ggaAltUnits').textContent = Data.AltUnits;
-            document.querySelector('.ggaUndulation').textContent = Data.Undulation;
-            document.querySelector('.ggaUndulationUnits').textContent = Data.UndulationUnits;
-            document.querySelector('.ggaAge').textContent = Data.Age;
-            document.querySelector('.ggaID').textContent = Data.ID;
+            const ggaFields = {
+                '.ggaUTC': 'UTC',
+                '.ggaLat': 'Lat',
+                '.ggaLatDir': 'LatDir',
+                '.ggaLon': 'Lon',
+                '.ggaLonDir': 'LonDir',
+                '.ggaQual': 'Qual',
+                '.ggaNumberOfSatellites': 'NumberOfSatellites',
+                '.ggaHDOP': 'HDOP',
+                '.ggaAlt': 'Alt',
+                '.ggaUndulation': 'Undulation',
+                '.ggaAge': 'Age',
+                '.ggaID': 'ID'
+            };
+            
+            Object.keys(ggaFields).forEach(selector => {
+                document.querySelector(selector).textContent = Data[ggaFields[selector]];
+            });
+            
         }
     } else if (isGGAHData(data)) {
-        var Data = parseGGAH(data);
+        var Data = parseGGA_H(data);
         if (Data) {
             // 更新 HTML 显示
-            document.querySelector('.ggahUTC').textContent = Data.UTC;
-            document.querySelector('.ggahLat').textContent = Data.Lat;
-            document.querySelector('.ggahLatDir').textContent = Data.LatDir;
-            document.querySelector('.ggahLon').textContent = Data.Lon;
-            document.querySelector('.ggahLonDir').textContent = Data.LonDir;
-            document.querySelector('.ggahQual').textContent = Data.Qual;
-            document.querySelector('.ggahNumberOfSatellites').textContent = Data.NumberOfSatellites;
-            document.querySelector('.ggahHDOP').textContent = Data.HDOP;
-            document.querySelector('.ggahAlt').textContent = Data.Alt;
-            document.querySelector('.ggahAltUnits').textContent = Data.AltUnits;
-            document.querySelector('.ggahUndulation').textContent = Data.Undulation;
-            document.querySelector('.ggahUndulationUnits').textContent = Data.UndulationUnits;
-            document.querySelector('.ggahAge').textContent = Data.Age;
-            document.querySelector('.ggahID').textContent = Data.ID;
+            const ggahFields = {
+                '.ggahUTC': 'UTC',
+                '.ggahLat': 'Lat',
+                '.ggahLatDir': 'LatDir',
+                '.ggahLon': 'Lon',
+                '.ggahLonDir': 'LonDir',
+                '.ggahQual': 'Qual',
+                '.ggahNumberOfSatellites': 'NumberOfSatellites',
+                '.ggahHDOP': 'HDOP',
+                '.ggahAlt': 'Alt',
+                '.ggahUndulation': 'Undulation',
+                '.ggahAge': 'Age',
+                '.ggahID': 'ID'
+            };
+            
+            Object.keys(ggahFields).forEach(selector => {
+                document.querySelector(selector).textContent = Data[ggahFields[selector]];
+            });
+            
         }
     } else if (isGLLData(data)) {
-        var Data = parseGLL(data);
+        var Data = parseGLL_H(data);
         if (Data) {
             // 更新 HTML 显示
-            document.querySelector('.gllLat').textContent = Data.Lat;
-            document.querySelector('.gllLatDir').textContent = Data.LatDir;
-            document.querySelector('.gllLon').textContent = Data.Lon;
-            document.querySelector('.gllLonDir').textContent = Data.LonDir;
-            document.querySelector('.gllUTC').textContent = Data.UTC;
-            document.querySelector('.gllStatus').textContent = Data.Status;
-            document.querySelector('.gllPositioningSystemMode').textContent = Data.PositioningSystemMode;
+            const gllFields = {
+                '.gllLat': 'Lat',
+                '.gllLatDir': 'LatDir',
+                '.gllLon': 'Lon',
+                '.gllLonDir': 'LonDir',
+                '.gllUTC': 'UTC',
+                '.gllStatus': 'Status',
+                '.gllPositioningSystemMode': 'PositioningSystemMode'
+            };
+            
+            Object.keys(gllFields).forEach(selector => {
+                document.querySelector(selector).textContent = Data[gllFields[selector]];
+            });
+            
         }
     } else if (isGLLHData(data)) {
-        var Data = parseGLLH(data);
+        var Data = parseGLL_H(data);
         if (Data) {
             // 更新 HTML 显示
-            document.querySelector('.gllhLat').textContent = Data.Lat;
-            document.querySelector('.gllhLatDir').textContent = Data.LatDir;
-            document.querySelector('.gllhLon').textContent = Data.Lon;
-            document.querySelector('.gllhLonDir').textContent = Data.LonDir;
-            document.querySelector('.gllhUTC').textContent = Data.UTC;
-            document.querySelector('.gllhStatus').textContent = Data.Status;
-            document.querySelector('.gllhPositioningSystemMode').textContent = Data.PositioningSystemMode;
+            const gllhFields = {
+                '.gllhLat': 'Lat',
+                '.gllhLatDir': 'LatDir',
+                '.gllhLon': 'Lon',
+                '.gllhLonDir': 'LonDir',
+                '.gllhUTC': 'UTC',
+                '.gllhStatus': 'Status',
+                '.gllhPositioningSystemMode': 'PositioningSystemMode'
+            };
+            
+            Object.keys(gllhFields).forEach(selector => {
+                document.querySelector(selector).textContent = Data[gllhFields[selector]];
+            });
+            
+        }
+    } else if (isGNSData(data)) {
+        var Data = parseGNS_H(data);
+        if (Data) {
+            // 更新 HTML 显示
+            const gnsFields = {
+                '.gnsUTC': 'UTC',
+                '.gnsLat': 'Lat',
+                '.gnsLatDir': 'LatDir',
+                '.gnsLon': 'Lon',
+                '.gnsLonDir': 'LonDir',
+                '.gnsPositioningSystemMode': 'PositioningSystemMode',
+                '.gnsNumberOfSatellites': 'NumberOfSatellites',
+                '.gnsHDOP': 'HDOP',
+                '.gnsAntAlt': 'AntAlt',
+                '.gnsGeoSep': 'GeoSep',
+                '.gnsAge': 'Age',
+                '.gnsID': 'ID',
+                '.gnsStatus': 'Status'
+            };
+            
+            Object.keys(gnsFields).forEach(selector => {
+                document.querySelector(selector).textContent = Data[gnsFields[selector]];
+            });
+            
+        }
+    } else if (isGNSHData(data)) {
+        var Data = parseGNS_H(data);
+        if (Data) {
+            // 更新 HTML 显示
+            const gnshFields = {
+                '.gnshUTC': 'UTC',
+                '.gnshLat': 'Lat',
+                '.gnshLatDir': 'LatDir',
+                '.gnshLon': 'Lon',
+                '.gnshLonDir': 'LonDir',
+                '.gnshPositioningSystemMode': 'PositioningSystemMode',
+                '.gnshNumberOfSatellites': 'NumberOfSatellites',
+                '.gnshHDOP': 'HDOP',
+                '.gnshAntAlt': 'AntAlt',
+                '.gnshGeoSep': 'GeoSep',
+                '.gnshAge': 'Age',
+                '.gnshID': 'ID',
+                '.gnshStatus': 'Status'
+            };
+            
+            Object.keys(gnshFields).forEach(selector => {
+                document.querySelector(selector).textContent = Data[gnshFields[selector]];
+            });
+            
+        }
+    } else if (isGSTData(data)) {
+        var Data = parseGST_H(data);
+        if (Data) {
+            // 更新 HTML 显示
+            const gstFields = {
+                '.gstUTC': 'UTC',
+                '.gstRMS': 'RMS',
+                '.gstSmjrStd': 'SmjrStd',
+                '.gstSmnrStd': 'SmnrStd',
+                '.gstOrient': 'Orient',
+                '.gstLatStd': 'LatStd',
+                '.gstLonStd': 'LonStd',
+                '.gstAltStd': 'AltStd'
+            };
+            
+            Object.keys(gstFields).forEach(selector => {
+                document.querySelector(selector).textContent = Data[gstFields[selector]];
+            });
+            
+        }
+    } else if (isGSTHData(data)) {
+        var Data = parseGST_H(data);
+        if (Data) {
+            // 更新 HTML 显示
+            const gsthFields = {
+                '.gsthUTC': 'UTC',
+                '.gsthRMS': 'RMS',
+                '.gsthSmjrStd': 'SmjrStd',
+                '.gsthSmnrStd': 'SmnrStd',
+                '.gsthOrient': 'Orient',
+                '.gsthLatStd': 'LatStd',
+                '.gsthLonStd': 'LonStd',
+                '.gsthAltStd': 'AltStd'
+            };
+            
+            Object.keys(gsthFields).forEach(selector => {
+                document.querySelector(selector).textContent = Data[gsthFields[selector]];
+            });
+            
+        }
+    } else if (isTHSData(data)) {
+        var Data = parseTHS(data);
+        if (Data) {
+            // 更新 HTML 显示
+            document.querySelector('.thsHeading').textContent = Data.Heading;
+            document.querySelector('.thsMode').textContent = Data.Mode;
+        }
+    } else if (isRMCData(data)) {
+        var Data = parseRMC_H(data);
+        if (Data) {
+            // 更新 HTML 显示
+            const rmcFields = {
+                '.rmcUTC': 'UTC',
+                '.rmcPosStatus': 'Status',
+                '.rmcLat': 'Latitude',
+                '.rmcLatDir': 'LatitudeDirection',
+                '.rmcLon': 'Longitude',
+                '.rmcLonDir': 'LongitudeDirection',
+                '.rmcSpeed': 'Speed',
+                '.rmcTrack': 'CourseOverGround',
+                '.rmcDate': '_Date',
+                '.rmcMagVar': 'MagneticVariation',
+                '.rmcMagVarDir': 'MagneticVariationDirection',
+                '.rmcModeInd': 'Mode',
+                '.rmcModeStatus': 'ModeStatus'
+            };
+            
+            Object.keys(rmcFields).forEach(selector => {
+                document.querySelector(selector).textContent = Data[rmcFields[selector]];
+            });
+            
+        }
+    } else if (isRMCHData(data)) {
+        var Data = parseRMC_H(data);
+        if (Data) {
+            // 更新 HTML 显示
+            const rmchFields = {
+                '.rmchUTC': 'UTC',
+                '.rmchPosStatus': 'Status',
+                '.rmchLat': 'Latitude',
+                '.rmchLatDir': 'LatitudeDirection',
+                '.rmchLon': 'Longitude',
+                '.rmchLonDir': 'LongitudeDirection',
+                '.rmchSpeed': 'Speed',
+                '.rmchTrack': 'CourseOverGround',
+                '.rmchDate': '_Date',
+                '.rmchMagVar': 'MagneticVariation',
+                '.rmchMagVarDir': 'MagneticVariationDirection',
+                '.rmchModeInd': 'Mode',
+                '.rmchModeStatus': 'ModeStatus'
+            };
+            
+            Object.keys(rmchFields).forEach(selector => {
+                document.querySelector(selector).textContent = Data[rmchFields[selector]];
+            });
+            
+        }
+    } else if (isROTData(data)) {
+        var Data = parseROT(data);
+        if (Data) {
+            // 更新 HTML 显示
+            document.querySelector('.rotRate').textContent = Data.Rate;
+        }
+    } else if (isVTGData(data)) {
+        var Data = parseVTG_H(data);
+        if (Data) {
+            // 更新 HTML 显示
+            const vtgFields = {
+                '.vtgCourseTrue': 'trueCourse',
+                '.vtgCourseIndTrue': 'trueCourseInd',
+                '.vtgCourseMag': 'magneticCourse',
+                '.vtgCourseIndMag': 'magneticCourseInd',
+                '.vtgSpeedKn': 'speedKnots',
+                '.vtgN': 'speedUnitKn',
+                '.vtgSpeedKm': 'speedKmH',
+                '.vtgK': 'speedUnitKm',
+                '.vtgModeInd': 'modeIndicator'
+            };
+            
+            Object.keys(vtgFields).forEach(selector => {
+                document.querySelector(selector).textContent = Data[vtgFields[selector]];
+            });
+            
+        }
+    } else if (isVTGHData(data)) {
+        var Data = parseVTG_H(data);
+        if (Data) {
+            // 更新 HTML 显示
+            const vtghFields = {
+                '.vtghCourseTrue': 'trueCourse',
+                '.vtghCourseIndTrue': 'trueCourseInd',
+                '.vtghCourseMag': 'magneticCourse',
+                '.vtghCourseIndMag': 'magneticCourseInd',
+                '.vtghSpeedKn': 'speedKnots',
+                '.vtghN': 'speedUnitKn',
+                '.vtghSpeedKm': 'speedKmH',
+                '.vtghK': 'speedUnitKm',
+                '.vtghModeInd': 'modeIndicator'
+            };
+            
+            Object.keys(vtghFields).forEach(selector => {
+                document.querySelector(selector).textContent = Data[vtghFields[selector]];
+            });
+            
+        }
+    } else if (isZDAData(data)) {
+        var Data = parseZDA(data);
+        if (Data) {
+            // 更新 HTML 显示
+            const fields = {
+                '.zdaUTC': 'utcTime',
+                '.zdaDay': 'day',
+                '.zdaMonth': 'month',
+                '.zdaYear': 'year',
+                '.zdaLocalZoneHour': 'localZoneHour',
+                '.zdaLocalZoneMinute': 'localZoneMinute'
+            };
+            
+            Object.keys(fields).forEach(selector => {
+                document.querySelector(selector).textContent = Data[fields[selector]];
+            });
         }
     }
+}
+
+const nmeaMessages = {
+    'dtmContainer': 0,    // DTM: Datum Reference
+    'gbsContainer': 1,    // GBS: GNSS Satellite Fault Detection
+    'ggaContainer': 2,    // GGA: GPS Fix Data
+    'ggahContainer': 3,   // GGAH: GPS Fix Data with Heading
+    'gllContainer': 4,    // GLL: Geographic Position
+    'gllhContainer': 5,   // GLLH: Geographic Position with Heading
+    'gnsContainer': 6,    // GNS: GNSS Fix Data
+    'gnshContainer': 7,   // GNSH: GNSS Fix Data with Heading
+    'gstContainer': 8,    // GST: GNSS Pseudorange Noise Statistics
+    'gsthContainer': 9,   // GSTH: GNSS Pseudorange Noise Statistics with Heading
+    'thsContainer': 10,   // THS: Heading and Speed
+    'rmcContainer': 11,   // RMC: Recommended Minimum Navigation Information
+    'rmchContainer': 12,  // RMCH: Recommended Minimum Navigation Information with Heading
+    'rotContainer': 13,   // ROT: Rate of Turn
+    'vtgContainer': 14,   // VTG: Track and Ground Speed
+    'vtghContainer': 15,  // VTGH: Track and Ground Speed with Heading
+    'zdaContainer': 16    // ZDA: UTC Date and Time
+};
+function receiveDataFromAndroid_1(data) {
+    // 去除 data 两端的空白字符，包括换行符
+    const trimmedData = data.trim();
+    scrollToContainer(nmeaMessages[trimmedData]);
 }
 
 function sendData(data) {
     Android.sendDataToAndroid(data); // 调用 Android 方法
 }
+
+

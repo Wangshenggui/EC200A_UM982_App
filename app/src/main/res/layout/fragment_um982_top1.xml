@@ -28,7 +28,9 @@
                 android:textColor="@android:color/black"
                 android:background="#FFE0E0E0"
                 android:padding="10dp"
-                android:text="nmea_dtm" />
+                android:text="nmea_dtm"
+                android:clickable="true"
+                android:focusable="true"/>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -46,7 +48,9 @@
                 android:textColor="@android:color/black"
                 android:background="#FFE0FFE0"
                 android:padding="10dp"
-                android:text="nmea_gbs" />
+                android:text="nmea_gbs"
+                android:clickable="true"
+                android:focusable="true"/>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -64,7 +68,9 @@
                 android:textColor="@android:color/black"
                 android:background="#FFE0E0FF"
                 android:padding="10dp"
-                android:text="nmea_gga" />
+                android:text="nmea_gga"
+                android:clickable="true"
+                android:focusable="true"/>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -82,7 +88,9 @@
                 android:textColor="@android:color/black"
                 android:background="#FFFFE0E0"
                 android:padding="10dp"
-                android:text="nmea_ggah" />
+                android:text="nmea_ggah"
+                android:clickable="true"
+                android:focusable="true"/>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -100,7 +108,9 @@
                 android:textColor="@android:color/black"
                 android:background="#FFE0FFFF"
                 android:padding="10dp"
-                android:text="nmea_gll" />
+                android:text="nmea_gll"
+                android:clickable="true"
+                android:focusable="true"/>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -118,7 +128,9 @@
                 android:textColor="@android:color/black"
                 android:background="#FFFAE0E0"
                 android:padding="10dp"
-                android:text="nmea_gllh" />
+                android:text="nmea_gllh"
+                android:clickable="true"
+                android:focusable="true"/>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -136,7 +148,9 @@
                 android:textColor="@android:color/black"
                 android:background="#FFFFE0FF"
                 android:padding="10dp"
-                android:text="nmea_gns" />
+                android:text="nmea_gns"
+                android:clickable="true"
+                android:focusable="true"/>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -154,7 +168,9 @@
                 android:textColor="@android:color/black"
                 android:background="#FFFAE0FF"
                 android:padding="10dp"
-                android:text="nmea_gnsh" />
+                android:text="nmea_gnsh"
+                android:clickable="true"
+                android:focusable="true"/>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -172,7 +188,9 @@
                 android:textColor="@android:color/black"
                 android:background="#FFE0E0FF"
                 android:padding="10dp"
-                android:text="nmea_gst" />
+                android:text="nmea_gst"
+                android:clickable="true"
+                android:focusable="true"/>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -190,7 +208,9 @@
                 android:textColor="@android:color/black"
                 android:background="#FFF0E0FF"
                 android:padding="10dp"
-                android:text="nmea_gsth" />
+                android:text="nmea_gsth"
+                android:clickable="true"
+                android:focusable="true"/>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -208,7 +228,9 @@
                 android:textColor="@android:color/black"
                 android:background="#FFFFE0E0"
                 android:padding="10dp"
-                android:text="nmea_ths" />
+                android:text="nmea_ths"
+                android:clickable="true"
+                android:focusable="true"/>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -226,7 +248,9 @@
                 android:textColor="@android:color/black"
                 android:background="#FFE0E0F0"
                 android:padding="10dp"
-                android:text="nmea_rmc" />
+                android:text="nmea_rmc"
+                android:clickable="true"
+                android:focusable="true"/>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -244,7 +268,9 @@
                 android:textColor="@android:color/black"
                 android:background="#FFE0F0F0"
                 android:padding="10dp"
-                android:text="nmea_rmch" />
+                android:text="nmea_rmch"
+                android:clickable="true"
+                android:focusable="true"/>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -262,7 +288,9 @@
                 android:textColor="@android:color/black"
                 android:background="#FFFFE0F0"
                 android:padding="10dp"
-                android:text="nmea_rot" />
+                android:text="nmea_rot"
+                android:clickable="true"
+                android:focusable="true"/>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -280,7 +308,9 @@
                 android:textColor="@android:color/black"
                 android:background="#FFE0E0FF"
                 android:padding="10dp"
-                android:text="nmea_vtg" />
+                android:text="nmea_vtg"
+                android:clickable="true"
+                android:focusable="true"/>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -298,7 +328,9 @@
                 android:textColor="@android:color/black"
                 android:background="#FFF0E0FF"
                 android:padding="10dp"
-                android:text="nmea_vtgh" />
+                android:text="nmea_vtgh"
+                android:clickable="true"
+                android:focusable="true"/>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -315,7 +347,9 @@
                 android:textColor="@android:color/black"
                 android:background="#FFE0E0FF"
                 android:padding="10dp"
-                android:text="nmea_zda" />
+                android:text="nmea_zda"
+                android:clickable="true"
+                android:focusable="true"/>
         </androidx.cardview.widget.CardView>
 
     </LinearLayout>

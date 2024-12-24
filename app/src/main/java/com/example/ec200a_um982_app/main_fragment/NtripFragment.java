@@ -1,7 +1,13 @@
 package com.example.ec200a_um982_app.main_fragment;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -46,6 +52,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import android.util.Base64;
 
 /**
@@ -157,6 +166,28 @@ public class NtripFragment extends Fragment {
         SettingCORSInformationButton = view.findViewById(R.id.SettingCORSInformationButton);
 
         ConnectCORSserverButton = view.findViewById(R.id.ConnectCORSserverButton);
+
+        // 粘贴板处理(初次进入软件)
+        extractAccountAndPasswordFromClipboard();
+        // 监听 CORSip 的长按
+        CORSip.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                // 长按事件处理
+                extractAccountAndPasswordFromClipboard();
+                return true;  // 返回 true 表示事件已被处理
+            }
+        });
+
+        // 监听 RememberTheServerIP 的长按
+        CORSport.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                // 长按事件处理
+                extractAccountAndPasswordFromClipboard();
+                return true;  // 返回 true 表示事件已被处理
+            }
+        });
 
 
         // 设置发送按钮的点击事件
@@ -552,6 +583,83 @@ public class NtripFragment extends Fragment {
 
         return view;
     }
+
+    //从剪贴板中获取内容
+    private void extractAccountAndPasswordFromClipboard() {
+        ClipboardManager clipboard = (ClipboardManager) requireContext().getSystemService(Context.CLIPBOARD_SERVICE);
+        if (clipboard == null) {
+            return;
+        }
+
+        ClipData clip = clipboard.getPrimaryClip();
+        if (clip != null && clip.getItemCount() > 0) {
+            CharSequence pasteData = clip.getItemAt(0).getText();
+            if (pasteData != null) {
+                String clipboardContent = pasteData.toString();
+
+                // 提前检查剪贴板内容是否包含 "账号", "密码", "IP", "端口"
+                if (containsRequiredKeywords(clipboardContent)) {
+                    // 弹出提示框询问用户是否使用剪贴板内容
+                    new AlertDialog.Builder(requireContext())
+                            .setTitle("使用剪贴板内容？")
+                            .setMessage("剪贴板中有可用内容：\n" + clipboardContent + "\n是否使用？")
+                            .setPositiveButton("是", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // 用户选择 "是"，继续处理剪贴板内容
+                                    extractDataFromClipboard(clipboardContent);
+                                }
+                            })
+                            .setNegativeButton("否", null) // 用户选择 "否"，不做任何操作
+                            .setCancelable(false) // 设置为不可取消，点击外部区域无效
+                            .show();
+                } else {
+                    // 如果没有包含这些关键字，直接跳过提示框
+                    return;
+                }
+            }
+        }
+    }
+
+    // 检查剪贴板内容是否包含 "账号", "密码", "IP", "端口"
+    private boolean containsRequiredKeywords(String content) {
+        // 检查是否包含 "账号"、"密码"、"IP"、"端口"
+        return content.contains("账号") && content.contains("密码") && content.contains("IP") && content.contains("端口");
+    }
+
+    // 处理剪贴板内容的具体提取操作
+    private void extractDataFromClipboard(String clipboardContent) {
+        // 使用正则表达式提取IP和端口
+        Pattern IP = Pattern.compile("IP：(\\S+)");
+        Pattern port = Pattern.compile("端口：(\\S+)");
+        Matcher IPMatcher = IP.matcher(clipboardContent);
+        Matcher portMatcher = port.matcher(clipboardContent);
+
+        if (IPMatcher.find() && portMatcher.find()) {
+            String String_ip = IPMatcher.group(1);
+            String String_port = portMatcher.group(1);
+
+            CORSip.setText(String_ip);
+            // CORSport.setText(String_port);  // 可选，处理端口信息
+        }
+
+        // 使用正则表达式提取账号和密码
+        Pattern accountPattern = Pattern.compile("账号:(\\S+)");
+        Pattern passwordPattern = Pattern.compile("密码:(\\S+)");
+        Matcher accountMatcher = accountPattern.matcher(clipboardContent);
+        Matcher passwordMatcher = passwordPattern.matcher(clipboardContent);
+
+        if (accountMatcher.find() && passwordMatcher.find()) {
+            String String_account = accountMatcher.group(1);
+            String String_password = passwordMatcher.group(1);
+
+            CORSAccount.setText(String_account);
+            CORSPassword.setText(String_password);
+        }
+    }
+
+
+
     // 更新 Spinner 的选项内容方法
     private void updateSpinnerOptions() {
         // 根据 Port 的值选择合适的数据源
@@ -564,6 +672,8 @@ public class NtripFragment extends Fragment {
         currentCategories.add("RTCM30_GR");//8
         currentCategories.add("RTCM32_GGB");//10
         currentCategories.add("RTCM30_GG");//11
+        currentCategories.add("RTCM33");//12
+        currentCategories.add("RTCM411");//13
 
         // 更新适配器的数据源，并通知适配器数据已改变
         ArrayAdapter<String> adapter = (ArrayAdapter<String>) CORSmount.getAdapter();
@@ -672,7 +782,7 @@ public class NtripFragment extends Fragment {
             @Override
             public void onChanged(String data) {
                 // 处理接收到的数据
-                if (data != null && data.contains("OK")) {
+                if (data != null && (data.contains("CORS") || data.contains("AT+{\"ip\""))) {
                     SettingCORSInformationButton.setText("设置成功");
                     SettingCORSInformationFlag = false;
                 } else if(SettingCORSInformationFlag) {
@@ -692,7 +802,7 @@ public class NtripFragment extends Fragment {
                             // 使用 jsonString
 
                             json_num ++;
-                            if(json_num>5) {
+                            if(json_num>3) {
                                 json_num = 0;
                                 SettingCORSInformationFlag = false;
                             }

@@ -410,8 +410,8 @@ public class Bluetooth_top1Fragment extends Fragment {
                             gatt.writeDescriptor(descriptor);
                         }
                         MainActivity.setBluetoothConFlag(true);
-                        MediaPlayer mediaPlayer = MediaPlayer.create(getActivity(), R.raw.bluetooth_connected);
-                        mediaPlayer.start();
+                        // MediaPlayer mediaPlayer = MediaPlayer.create(getActivity(), R.raw.bluetooth_connected);
+                        // mediaPlayer.start();
                     }
                 }
             }

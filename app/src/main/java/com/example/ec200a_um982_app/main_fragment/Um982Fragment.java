@@ -2,13 +2,13 @@ package com.example.ec200a_um982_app.main_fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,46 +21,31 @@ import com.example.ec200a_um982_app.main_fragment.um982_topfragment.Um982_top3Fr
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link Um982Fragment#newInstance} factory method to
- * create an instance of this fragment.
+ * 一个简单的 {@link Fragment} 子类。
+ * 使用 {@link Um982Fragment#newInstance} 工厂方法来创建该 Fragment 的实例。
  */
 public class Um982Fragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-
-    private BottomNavigationView mNavigationView;
-    private FragmentManager mFragmentManager;
-    private int lastFragment;
-    private Fragment[] fragments;
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private BottomNavigationView mNavigationView;  // 底部导航栏
+    private FragmentManager mFragmentManager;      // 管理 Fragment 的 FragmentManager
+    private int lastFragment;                      // 记录上一个显示的 Fragment
+    private Fragment[] fragments;                  // 存储所有的 Fragment
+    private Handler mHandler;                      // 用于处理定时任务
+    private Runnable mFragmentSwitchRunnable;      // 用于自动切换 Fragment 的 Runnable
 
     public Um982Fragment() {
-        // Required empty public constructor
+        // 空的构造函数，Fragment 必须要有这个构造函数
     }
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Um982Fragment.
+     * 创建该 Fragment 的新实例，带有传入的参数。
      */
-    // TODO: Rename and change types and number of parameters
     public static Um982Fragment newInstance(String param1, String param2) {
         Um982Fragment fragment = new Um982Fragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+        args.putString("param1", param1);  // 将 param1 放入 Bundle 中
+        args.putString("param2", param2);  // 将 param2 放入 Bundle 中
+        fragment.setArguments(args);        // 设置参数
         return fragment;
     }
 
@@ -68,70 +53,93 @@ public class Um982Fragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            // 获取传入的参数
+            String mParam1 = getArguments().getString("param1");
+            String mParam2 = getArguments().getString("param2");
         }
+
+        mHandler = new Handler();  // 初始化 Handler
     }
 
     @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // 填充布局并返回视图
         View view = inflater.inflate(R.layout.fragment_um982, container, false);
 
-        // Initialize BottomNavigationView
+        // 初始化 BottomNavigationView
         mNavigationView = view.findViewById(R.id.main_um982_top_navigation_bar);
 
-        // Initialize fragments and listeners
+        // 初始化 Fragments 和监听器
         initFragment();
         initListener();
 
-        // Delay loading other fragments to avoid crash
-        new Handler().postDelayed(this::loadOtherFragments, 500);
+        // 启动自动切换 Fragment 的功能
+        startFragmentSwitching();
 
         return view;
     }
 
-    // Initialize and add the fragments to the FragmentManager
+    // 初始化并添加 Fragments
     private void initFragment() {
         Um982_top1Fragment mUm982_top1Fragment = new Um982_top1Fragment();
         Um982_top2Fragment mUm982_top2Fragment = new Um982_top2Fragment();
         Um982_top3Fragment mUm982_top3Fragment = new Um982_top3Fragment();
 
-        // Store fragments in an array
+        // 将所有 Fragment 存储在数组中
         fragments = new Fragment[]{mUm982_top1Fragment, mUm982_top2Fragment, mUm982_top3Fragment};
 
-        // Get the FragmentManager
+        // 获取 FragmentManager
         mFragmentManager = getChildFragmentManager();
 
-        // Show the first fragment by default
-        lastFragment = 0;
-        mFragmentManager.beginTransaction()
-                .replace(R.id.main_um982_top_page_controller, mUm982_top1Fragment)
-                .show(mUm982_top1Fragment)
+        // 开始 FragmentTransaction，添加所有的 Fragment
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+
+        // 确保所有 Fragment 被提前添加
+        if (!mUm982_top1Fragment.isAdded()) {
+            transaction.add(R.id.main_um982_top_page_controller, mUm982_top1Fragment);
+        }
+        if (!mUm982_top2Fragment.isAdded()) {
+            transaction.add(R.id.main_um982_top_page_controller, mUm982_top2Fragment);
+        }
+        if (!mUm982_top3Fragment.isAdded()) {
+            transaction.add(R.id.main_um982_top_page_controller, mUm982_top3Fragment);
+        }
+
+        // 隐藏其他 Fragment，只有第一个 Fragment 会显示
+        transaction.hide(mUm982_top2Fragment)
+                .hide(mUm982_top3Fragment)
+                .show(mUm982_top1Fragment) // 默认显示第一个 Fragment
                 .commit();
+
+        // 设置 lastFragment 为第一个 Fragment
+        lastFragment = 0;
     }
 
-    // Initialize the BottomNavigationView listener
+
+    // 初始化 BottomNavigationView 的监听器
     private void initListener() {
         mNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int i = item.getItemId();
                 if (i == R.id.um982_top1) {
+                    // 如果点击的是第一个菜单项，且当前不是第一个 Fragment，则切换到第一个 Fragment
                     if (lastFragment != 0) {
                         switchFragment(lastFragment, 0);
                         lastFragment = 0;
                     }
                     return true;
                 } else if (i == R.id.um982_top2) {
+                    // 如果点击的是第二个菜单项，且当前不是第二个 Fragment，则切换到第二个 Fragment
                     if (lastFragment != 1) {
                         switchFragment(lastFragment, 1);
                         lastFragment = 1;
                     }
                     return true;
                 } else if (i == R.id.um982_top3) {
+                    // 如果点击的是第三个菜单项，且当前不是第三个 Fragment，则切换到第三个 Fragment
                     if (lastFragment != 2) {
                         switchFragment(lastFragment, 2);
                         lastFragment = 2;
@@ -143,25 +151,59 @@ public class Um982Fragment extends Fragment {
         });
     }
 
-    // Switch between fragments
+    // 切换 Fragment
     private void switchFragment(int lastFragment, int index) {
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
-        transaction.hide(fragments[lastFragment]);
+        transaction.hide(fragments[lastFragment]); // 隐藏当前显示的 Fragment
         if (!fragments[index].isAdded()) {
-            transaction.add(R.id.main_um982_top_page_controller, fragments[index]);
+            transaction.add(R.id.main_um982_top_page_controller, fragments[index]); // 如果 Fragment 还没有添加，则添加它
         }
-        transaction.show(fragments[index]).commitAllowingStateLoss();
+        transaction.show(fragments[index]).commitAllowingStateLoss(); // 显示目标 Fragment
     }
 
-    // Load other fragments and hide them
-    private void loadOtherFragments() {
-        FragmentTransaction transaction = mFragmentManager.beginTransaction();
-        for (int i = 1; i < fragments.length; i++) {
-            if (!fragments[i].isAdded()) {
-                transaction.add(R.id.main_um982_top_page_controller, fragments[i]);
-                transaction.hide(fragments[i]);
-            }
+    public void switchToFragment(int index) {
+        // 检查 index 是否有效
+        if (index < 0 || index >= fragments.length) {
+            return;  // 如果 index 不在有效范围内，则不做任何操作
         }
-        transaction.commitAllowingStateLoss();
+
+        // 切换 Fragment
+        switchFragment(lastFragment, index); // 切换 Fragment
+        lastFragment = index; // 更新 lastFragment 为当前显示的 Fragment 索引
+
+        // 更新 BottomNavigationView 的选中项
+        if (index == 0) {
+            mNavigationView.setSelectedItemId(R.id.um982_top1); // 更新为第一个菜单项
+        } else if (index == 1) {
+            mNavigationView.setSelectedItemId(R.id.um982_top2); // 更新为第二个菜单项
+        } else if (index == 2) {
+            mNavigationView.setSelectedItemId(R.id.um982_top3); // 更新为第三个菜单项
+        }
+    }
+
+    // 启动自动切换 Fragment 的功能，每 5 秒切换一次
+    private void startFragmentSwitching() {
+        // 创建 Runnable，每 5 秒切换一次 Fragment
+        mFragmentSwitchRunnable = new Runnable() {
+            @Override
+            public void run() {
+                // 计算下一个要显示的 Fragment
+                int nextFragment = (lastFragment + 1) % fragments.length;
+//                switchToFragment(nextFragment);
+
+                // 3 秒后再次执行该任务，确保循环执行
+                mHandler.postDelayed(this, 3000);
+            }
+        };
+
+        // 启动第一次切换任务，延迟 3 秒后执行
+        mHandler.postDelayed(mFragmentSwitchRunnable, 3000);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // 在视图销毁时移除延迟任务，避免内存泄漏
+        mHandler.removeCallbacks(mFragmentSwitchRunnable);
     }
 }

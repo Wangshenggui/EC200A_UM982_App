@@ -14,7 +14,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.example.ec200a_um982_app"
+        applicationId "com.qianyu.rtk"
         minSdk 24
         targetSdk 34
         versionCode 1

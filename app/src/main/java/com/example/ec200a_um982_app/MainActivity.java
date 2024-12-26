@@ -83,9 +83,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); // 调用super方法在最前面
 
+//        Toast.makeText(getApplicationContext(), "1", Toast.LENGTH_SHORT).show();
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
         }
+//        Toast.makeText(getApplicationContext(), "2", Toast.LENGTH_SHORT).show();
 
 
         // // 检查权限
@@ -107,19 +110,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initializeApp() {
+//        Toast.makeText(getApplicationContext(), "3", Toast.LENGTH_SHORT).show();
+
         setContentView(R.layout.activity_main);
+
+//        Toast.makeText(getApplicationContext(), "4", Toast.LENGTH_SHORT).show();
 
         // 启动Socket服务
         Intent socketServiceIntent = new Intent(this, SocketService.class);
         startService(socketServiceIntent);
 
-        setupNavigationView();
-        // 延迟加载其他Fragment以避免崩溃
-        new Handler().postDelayed(this::loadOtherFragments, 500);
+//        Toast.makeText(getApplicationContext(), "5", Toast.LENGTH_SHORT).show();
 
-        // 注册广播接收器
-        IntentFilter filter = new IntentFilter("MY_CUSTOM_ACTION");
-        registerReceiver(messageReceiver, filter);
+        setupNavigationView();
+//        // 延迟加载其他Fragment以避免崩溃
+//        new Handler().postDelayed(this::loadOtherFragments, 500);
+//
+//        // 注册广播接收器
+//        IntentFilter filter = new IntentFilter("MY_CUSTOM_ACTION");
+//        registerReceiver(messageReceiver, filter);
     }
 
     // @Override
@@ -146,28 +155,36 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void setupNavigationView() {
+//        Toast.makeText(getApplicationContext(), "6", Toast.LENGTH_SHORT).show();
+
         mNavigationView = findViewById(R.id.main_navigation_bar);
+
+//        Toast.makeText(getApplicationContext(), "7", Toast.LENGTH_SHORT).show();
+
         initFragment();
+
+//        Toast.makeText(getApplicationContext(), "16", Toast.LENGTH_SHORT).show();
+
         initListener();
-
-        // 设置徽章
-        Menu menu = mNavigationView.getMenu();
-        MenuItem setItem = menu.findItem(R.id.Set);
-
-        // 创建徽章并配置
-        badgeDrawable = BadgeDrawable.create(this);
-        badgeDrawable.setNumber(1); // 设置徽章上的数字
-        badgeDrawable.setBackgroundColor(Color.RED); // 设置徽章背景颜色
-        badgeDrawable.setBadgeTextColor(Color.WHITE); // 设置徽章文字颜色
-
-        // 使用 BottomNavigationView 的 BadgeDrawable API
-        bottomNavigationView = findViewById(R.id.main_navigation_bar);
-        bottomNavigationView.getOrCreateBadge(R.id.Set).setNumber(1);
-        bottomNavigationView.getOrCreateBadge(R.id.Set).setBackgroundColor(Color.RED);
-        bottomNavigationView.getOrCreateBadge(R.id.Set).setBadgeTextColor(Color.WHITE);
-
-        //默认情况下不显示
-        bottomNavigationView.removeBadge(R.id.Set);
+//
+//        // 设置徽章
+//        Menu menu = mNavigationView.getMenu();
+//        MenuItem setItem = menu.findItem(R.id.Set);
+//
+//        // 创建徽章并配置
+//        badgeDrawable = BadgeDrawable.create(this);
+//        badgeDrawable.setNumber(1); // 设置徽章上的数字
+//        badgeDrawable.setBackgroundColor(Color.RED); // 设置徽章背景颜色
+//        badgeDrawable.setBadgeTextColor(Color.WHITE); // 设置徽章文字颜色
+//
+//        // 使用 BottomNavigationView 的 BadgeDrawable API
+//        bottomNavigationView = findViewById(R.id.main_navigation_bar);
+//        bottomNavigationView.getOrCreateBadge(R.id.Set).setNumber(1);
+//        bottomNavigationView.getOrCreateBadge(R.id.Set).setBackgroundColor(Color.RED);
+//        bottomNavigationView.getOrCreateBadge(R.id.Set).setBadgeTextColor(Color.WHITE);
+//
+//        //默认情况下不显示
+//        bottomNavigationView.removeBadge(R.id.Set);
     }
     private void loadOtherFragments() {
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
@@ -180,17 +197,39 @@ public class MainActivity extends AppCompatActivity {
         transaction.commitAllowingStateLoss();
     }
     private void initFragment() {
+//        Toast.makeText(getApplicationContext(), "8", Toast.LENGTH_SHORT).show();
+
         BluetoothFragment mBluetoothFragment = new BluetoothFragment();
+
+//        Toast.makeText(getApplicationContext(), "9", Toast.LENGTH_SHORT).show();
+
         NtripFragment mNtripFragment = new NtripFragment();
+
+//        Toast.makeText(getApplicationContext(), "10", Toast.LENGTH_SHORT).show();
+
         Um982Fragment mWebFragment = new Um982Fragment();
+
+//        Toast.makeText(getApplicationContext(), "11", Toast.LENGTH_SHORT).show();
+
         SettingFragment mSettingFragment = new SettingFragment();
+
+//        Toast.makeText(getApplicationContext(), "12", Toast.LENGTH_SHORT).show();
+
         fragments = new Fragment[]{mBluetoothFragment, mNtripFragment, mWebFragment, mSettingFragment};
+
+//        Toast.makeText(getApplicationContext(), "13", Toast.LENGTH_SHORT).show();
+
         mFragmentManager = getSupportFragmentManager();
+
+//        Toast.makeText(getApplicationContext(), "14", Toast.LENGTH_SHORT).show();
+
         lastFragment = 0;
         mFragmentManager.beginTransaction()
                 .replace(R.id.main_page_controller, mBluetoothFragment)
                 .show(mBluetoothFragment)
                 .commit();
+
+//        Toast.makeText(getApplicationContext(), "15", Toast.LENGTH_SHORT).show();
     }
 
     private void initListener() {

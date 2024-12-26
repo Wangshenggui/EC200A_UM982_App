@@ -83,10 +83,10 @@ public class BluetoothFragment extends Fragment {
 
         // Initialize fragments and listeners
         initFragment();
-        initListener();
-
-        // Delay loading other fragments to avoid crash
-        new Handler().postDelayed(this::loadOtherFragments, 500);
+//        initListener();
+//
+//        // Delay loading other fragments to avoid crash
+//        new Handler().postDelayed(this::loadOtherFragments, 500);
 
         return view;
     }

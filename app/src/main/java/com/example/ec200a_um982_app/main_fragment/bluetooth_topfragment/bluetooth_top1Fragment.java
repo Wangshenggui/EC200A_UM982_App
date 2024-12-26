@@ -110,19 +110,50 @@ public class Bluetooth_top1Fragment extends Fragment {
         BtList = view.findViewById(R.id.BtList);
         btn_Scan = view.findViewById(R.id.btn_Scan);
 
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        bluetoothLeScanner = bluetoothAdapter.getBluetoothLeScanner();
-        deviceNamesSet = new HashSet<>();
+//        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+//        bluetoothLeScanner = bluetoothAdapter.getBluetoothLeScanner();
+//        deviceNamesSet = new HashSet<>();
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-        devicesNames = new ArrayList<>();
-        readyDevices = new ArrayList<>();
-        btNames = new BluetoothListCustomAdapter(getActivity(), devicesNames,ConDisDevices);
-        BtList.setAdapter(btNames);
-
-        if (!bluetoothAdapter.isEnabled()) {
-            intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(intent, 1);
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{
+                            Manifest.permission.BLUETOOTH_SCAN,
+                            Manifest.permission.BLUETOOTH_CONNECT,
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                    },
+                    1);
         }
+
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (bluetoothAdapter == null) {
+            // 蓝牙不支持设备
+            MainActivity.showToast(getActivity(), "设备不支持蓝牙");
+            btn_Scan.setEnabled(false);
+        } else {
+            // 检查设备是否支持 BLE（低功耗蓝牙）
+            if (bluetoothAdapter.isMultipleAdvertisementSupported()) {
+                bluetoothLeScanner = bluetoothAdapter.getBluetoothLeScanner();
+            } else {
+                MainActivity.showToast(getActivity(), "设备不支持低功耗蓝牙");
+            }
+
+            // 设备支持蓝牙，继续处理
+            if (!bluetoothAdapter.isEnabled()) {
+                // 如果蓝牙没有启用，要求用户启用蓝牙
+                Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivityForResult(intent, 1);
+            }
+
+            // 继续设置和初始化设备列表
+            deviceNamesSet = new HashSet<>();
+            devicesNames = new ArrayList<>();
+            readyDevices = new ArrayList<>();
+            btNames = new BluetoothListCustomAdapter(getActivity(), devicesNames, ConDisDevices);
+            BtList.setAdapter(btNames);
+        }
+
 
         btn_Scan.setOnClickListener(v -> {
             if (isScanning) {

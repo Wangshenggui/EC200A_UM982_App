@@ -15,9 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.ec200a_um982_app.R;
-import com.example.ec200a_um982_app.main_fragment.bluetooth_topfragment.Bluetooth_top1Fragment;
-import com.example.ec200a_um982_app.main_fragment.bluetooth_topfragment.Bluetooth_top2Fragment;
-import com.example.ec200a_um982_app.main_fragment.bluetooth_topfragment.Bluetooth_top3Fragment;
 import com.example.ec200a_um982_app.main_fragment.um982_topfragment.Um982_top1Fragment;
 import com.example.ec200a_um982_app.main_fragment.um982_topfragment.Um982_top2Fragment;
 import com.example.ec200a_um982_app.main_fragment.um982_topfragment.Um982_top3Fragment;
@@ -76,10 +73,10 @@ public class Um982Fragment extends Fragment {
 
         // 初始化 Fragments 和监听器
         initFragment();
-//        initListener();
-//
-//        // 启动自动切换 Fragment 的功能
-//        startFragmentSwitching();
+        initListener();
+
+        // 启动自动切换 Fragment 的功能
+        startFragmentSwitching();
 
         return view;
     }
@@ -90,54 +87,31 @@ public class Um982Fragment extends Fragment {
         Um982_top2Fragment mUm982_top2Fragment = new Um982_top2Fragment();
         Um982_top3Fragment mUm982_top3Fragment = new Um982_top3Fragment();
 
-        // Store fragments in an array
+        // 将所有 Fragment 存储在数组中
         fragments = new Fragment[]{mUm982_top1Fragment, mUm982_top2Fragment, mUm982_top3Fragment};
 
-        // Get the FragmentManager
+        // 获取 FragmentManager
         mFragmentManager = getChildFragmentManager();
 
-        // Show the first fragment by default
-        lastFragment = 0;
-        mFragmentManager.beginTransaction()
-                .replace(R.id.main_um982_top_page_controller, mUm982_top1Fragment)
-                .show(mUm982_top1Fragment)
+        // 开始 FragmentTransaction，添加所有的 Fragment
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+
+        // 确保所有 Fragment 被提前添加
+        if (!mUm982_top1Fragment.isAdded()) {
+            transaction.add(R.id.main_um982_top_page_controller, mUm982_top1Fragment);
+        }
+        if (!mUm982_top2Fragment.isAdded()) {
+            transaction.add(R.id.main_um982_top_page_controller, mUm982_top2Fragment);
+        }
+        if (!mUm982_top3Fragment.isAdded()) {
+            transaction.add(R.id.main_um982_top_page_controller, mUm982_top3Fragment);
+        }
+
+        // 隐藏其他 Fragment，只有第一个 Fragment 会显示
+        transaction.hide(mUm982_top2Fragment)
+                .hide(mUm982_top3Fragment)
+                .show(mUm982_top1Fragment) // 默认显示第一个 Fragment
                 .commit();
-
-
-
-
-
-
-
-//        Um982_top1Fragment mUm982_top1Fragment = new Um982_top1Fragment();
-//        Um982_top2Fragment mUm982_top2Fragment = new Um982_top2Fragment();
-//        Um982_top3Fragment mUm982_top3Fragment = new Um982_top3Fragment();
-
-//        // 将所有 Fragment 存储在数组中
-//        fragments = new Fragment[]{mUm982_top1Fragment, mUm982_top2Fragment, mUm982_top3Fragment};
-
-//        // 获取 FragmentManager
-//        mFragmentManager = getChildFragmentManager();
-
-//        // 开始 FragmentTransaction，添加所有的 Fragment
-//        FragmentTransaction transaction = mFragmentManager.beginTransaction();
-//
-//        // 确保所有 Fragment 被提前添加
-//        if (!mUm982_top1Fragment.isAdded()) {
-//            transaction.add(R.id.main_um982_top_page_controller, mUm982_top1Fragment);
-//        }
-//        if (!mUm982_top2Fragment.isAdded()) {
-//            transaction.add(R.id.main_um982_top_page_controller, mUm982_top2Fragment);
-//        }
-//        if (!mUm982_top3Fragment.isAdded()) {
-//            transaction.add(R.id.main_um982_top_page_controller, mUm982_top3Fragment);
-//        }
-
-//        // 隐藏其他 Fragment，只有第一个 Fragment 会显示
-//        transaction.hide(mUm982_top2Fragment)
-//                .hide(mUm982_top3Fragment)
-//                .show(mUm982_top1Fragment) // 默认显示第一个 Fragment
-//                .commit();
 
         // 设置 lastFragment 为第一个 Fragment
         lastFragment = 0;

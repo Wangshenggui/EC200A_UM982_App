@@ -17,10 +17,9 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/main_navigation_bar"
         android:layout_width="match_parent"
-        android:layout_height="90px"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:labelVisibilityMode="labeled"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/main_page_controller"
         app:menu="@menu/main_fragment" />
 

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import android.content.ServiceConnection;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -79,60 +81,59 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    @RequiresApi(api = Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); // 调用super方法在最前面
 
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.FOREGROUND_SERVICE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.FOREGROUND_SERVICE_LOCATION}, 1);
-        }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.FOREGROUND_SERVICE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.FOREGROUND_SERVICE_LOCATION}, 1);
+//        }
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+//                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(this,
+//                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+//                    1);
+//        }
+//
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
+//        }
+
+
+
+
+
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.FOREGROUND_SERVICE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    new String[]{
+                            Manifest.permission.FOREGROUND_SERVICE_LOCATION,
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.POST_NOTIFICATIONS,
+                            Manifest.permission.BLUETOOTH_SCAN,
+                            Manifest.permission.BLUETOOTH_CONNECT
+                    },
                     1);
         }
 
-
-//        Toast.makeText(getApplicationContext(), "1", Toast.LENGTH_SHORT).show();
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
-        }
-//        Toast.makeText(getApplicationContext(), "2", Toast.LENGTH_SHORT).show();
-
-
-        // // 检查权限
-        // if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED ||
-        //         ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED ||
-        //         ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-        //     ActivityCompat.requestPermissions(this,
-        //             new String[]{
-        //                     android.Manifest.permission.BLUETOOTH_SCAN,
-        //                     android.Manifest.permission.BLUETOOTH_CONNECT,
-        //                     Manifest.permission.ACCESS_FINE_LOCATION
-        //             },
-        //             1);
-        // } else {
-            // 权限已授予，初始化应用
-            initializeApp();
-        // }
+        // 权限已授予，初始化应用
+        initializeApp();
     }
 
     private void initializeApp() {
-//        Toast.makeText(getApplicationContext(), "3", Toast.LENGTH_SHORT).show();
-
         setContentView(R.layout.activity_main);
-
-//        Toast.makeText(getApplicationContext(), "4", Toast.LENGTH_SHORT).show();
 
         // 启动Socket服务
         Intent socketServiceIntent = new Intent(this, SocketService.class);
         startService(socketServiceIntent);
-
-//        Toast.makeText(getApplicationContext(), "5", Toast.LENGTH_SHORT).show();
 
         setupNavigationView();
 //        // 延迟加载其他Fragment以避免崩溃
@@ -143,26 +144,37 @@ public class MainActivity extends AppCompatActivity {
 //        registerReceiver(messageReceiver, filter);
     }
 
-    // @Override
-    // public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-    //     super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    //     if (requestCode == 1) {
-    //         boolean allGranted = true;
-    //         for (int result : grantResults) {
-    //             if (result != PackageManager.PERMISSION_GRANTED) {
-    //                 allGranted = false;
-    //                 break;
-    //             }
-    //         }
-    //         if (allGranted) {
-    //             // 所有权限被授予，初始化应用
-    //             initializeApp();
-    //         } else {
-    //             // 有权限被拒绝，退出程序
-    //             finish(); // 退出程序
-    //         }
-    //     }
-    // }
+     @Override
+     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+         if (requestCode == 1) {  // 如果请求码为 1
+             boolean allGranted = true;
+
+             for (int result : grantResults) {
+                 if (result != PackageManager.PERMISSION_GRANTED) {
+                     allGranted = false;
+                     break;
+                 }
+             }
+
+             if (allGranted) {
+                 // 所有权限被授予，初始化应用
+                 initializeApp();
+             } else {
+                 // 如果权限被拒绝
+                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                     // 用户曾经拒绝了权限，显示解释说明
+                     Toast.makeText(this, "需要位置权限来提供更好的体验", Toast.LENGTH_SHORT).show();
+                 } else {
+                     // 用户不再显示请求权限的对话框，直接退出或显示说明
+                     Toast.makeText(this, "权限未授予，应用无法继续运行", Toast.LENGTH_SHORT).show();
+                 }
+                 finish();  // 退出程序
+             }
+         }
+     }
+
 
 
 

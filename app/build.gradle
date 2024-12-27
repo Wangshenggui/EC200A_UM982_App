@@ -13,6 +13,22 @@ android {
         abortOnError false
     }
 
+    signingConfigs {
+        debug {
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+        release {
+            v1SigningEnabled true
+            v2SigningEnabled true
+
+            storeFile file("D:/Android/jks/qianyurtk.jks")
+            storePassword "123456"
+            keyAlias "qianyurtk"
+            keyPassword "123456"
+        }
+    }
+
     defaultConfig {
         applicationId "com.qianyu.rtk"
         minSdk 24
@@ -34,6 +50,8 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
